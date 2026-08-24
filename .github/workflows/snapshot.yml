@@ -1,0 +1,50 @@
+name: 시세 스냅샷 수집
+
+on:
+  schedule:
+    # KST 09:00 / 15:00 / 03:00 = UTC 00:00 / 06:00 / 18:00
+    - cron: "0 0,6,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 셋업
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 의존성 설치
+        run: pip install requests
+
+      - name: 스냅샷 수집
+        env:
+          NEOPLE_API_KEY: ${{ secrets.NEOPLE_API_KEY }}
+        run: python pipeline/collect.py
+
+      - name: 시계열 집계
+        run: python pipeline/aggregate.py
+
+      - name: 데이터 커밋 (data/ 경로 한정)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "변경 없음 — 커밋 생략"
+          else
+            git commit -m "[data] 스냅샷 수집 $(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M KST')"
+            git push
+          fi

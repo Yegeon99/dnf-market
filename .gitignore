@@ -1,0 +1,17 @@
+# 환경변수 (API 키 — 절대 커밋 금지)
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+dashboard/dist/
+
+# 로컬 임시
+dev/
+*.log
+.DS_Store

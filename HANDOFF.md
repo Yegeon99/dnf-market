@@ -13,8 +13,7 @@
 
 ## 남은 것
 
-- [ ] gh 토큰에 **workflow 스코프 추가** — 디바이스 코드 인증이 3회 만료됨 (사용자 브라우저 입력 필요)
-- [ ] 푸시 (workflow 스코프 없으면 snapshot.yml 포함 푸시가 거부됨)
+- [x] 푸시 완료 (2026-08-25 마무리 시점에 성공 — snapshot.yml 원격 반영 확인됨)
 - [ ] `gh secret set`으로 NEOPLE_API_KEY 등록 (.env에서 읽기, 로그 노출 금지)
 - [ ] ANTHROPIC_API_KEY — **.env에 아직 값 없음**. 사용자에게 받은 후 Secrets 등록 (빈 값 등록 금지)
 - [ ] workflow_dispatch 수동 실행 1회 → Actions 환경에서 스냅샷 생성·data/ 한정 커밋 검증
@@ -22,12 +21,10 @@
 
 ## 내일 첫 작업 순서
 
-1. 사용자가 브라우저 대기 상태인지 확인 후 `gh auth refresh --hostname github.com --scopes workflow`
-   백그라운드 실행 → 코드 안내 → 즉시 입력받기 (코드 유효 약 15분, 만료 3회 전적 있음)
-2. `git push -u origin master`
-3. Secrets 등록·확인 (`gh secret list`)
-4. Actions 수동 실행: `gh workflow run snapshot.yml` → 결과 확인 (`gh run watch`)
-5. 게이트 1 보고 후 대기
+1. Secrets 등록·확인: NEOPLE_API_KEY를 .env에서 읽어 `gh secret set` → `gh secret list`
+2. Actions 수동 실행: `gh workflow run snapshot.yml` → 결과 확인 (`gh run watch`)
+   — data/ 경로 한정 커밋인지 확인
+3. 게이트 1 보고 후 대기 (스냅샷 3회 연속 정상 확인이 게이트 통과 조건)
 
 ## 주의사항
 

@@ -1,0 +1,20 @@
+{
+  "_comment": "이상 탐지 임계치 (detect.py). 퍼센트 단위. 데이터 축적 후 재조정 가능.",
+  "dayOverDay": {
+    "_comment": "전일 대비 변동률 절대값 기준. severity 구간: |pct| >= high > mid > low",
+    "avgPrice": { "high": 30, "mid": 15, "low": 8 },
+    "listingCount": { "high": 100, "mid": 50, "low": 30 }
+  },
+  "movingAverage": {
+    "_comment": "7일 이동평균 이탈. 품목별 데이터 7일 이상 축적 시 자동 활성화 (detect.py가 판단)",
+    "windowDays": 7,
+    "minDaysRequired": 7,
+    "avgPrice": { "high": 25, "mid": 12 },
+    "listingCount": { "high": 80, "mid": 40 }
+  },
+  "guards": {
+    "_comment": "노이즈 방지: 매물 수가 이 값 미만인 품목은 가격 신호를 신뢰하지 않음",
+    "minListingCountForPriceSignal": 5,
+    "maxAnomaliesPerDay": 10
+  }
+}

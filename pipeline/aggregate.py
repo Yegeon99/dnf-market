@@ -8,6 +8,7 @@ data/snapshots/*.json 을 data/timeseries.json 으로 병합한다.
 
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -33,7 +34,15 @@ def main() -> int:
         except (json.JSONDecodeError, OSError) as err:
             print(f"스냅샷 읽기 실패(건너뜀): {path.name} — {type(err).__name__}")
             continue
-        date, slot = snap.get("date"), snap.get("slot")
+        date = snap.get("date")
+        # 슬롯은 collectedAt에서 재산출 (구 3슬롯 체계 스냅샷도 6슬롯 라벨로 일관 병합)
+        slot = snap.get("slot")
+        try:
+            h = datetime.strptime(snap["collectedAt"], "%Y-%m-%d %H:%M:%S").hour
+            slot = ("h03" if h < 5 else "h07" if h < 9 else "h11" if h < 13
+                    else "h15" if h < 17 else "h19" if h < 21 else "h23")
+        except (KeyError, ValueError):
+            pass  # collectedAt 없으면 저장된 슬롯 유지
         if not date or not slot:
             continue
         for it in snap.get("items", []):

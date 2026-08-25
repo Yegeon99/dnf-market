@@ -2,7 +2,7 @@
 // 요건: 등록가·실거래가 병기 / 이벤트 마커 오버레이(--warn 세로 점선, 호버 시 공지 제목·링크)
 //       결손 슬롯 공백 표기(선 미연결) / 등락 색+부호 병기
 import { useMemo, useRef, useState, useEffect } from "react";
-import { SLOT_LABEL, fmtGold } from "../lib/data";
+import { slotLabel, fmtGold } from "../lib/data";
 
 const M = { top: 14, right: 12, bottom: 22, left: 52 };
 
@@ -53,11 +53,15 @@ export default function PriceChart({ series, events = [], height = 260 }) {
     const pad = (hi - lo) * 0.12 || hi * 0.05 || 1;
     const y0 = lo - pad, y1 = hi + pad;
     const yAt = (v) => M.top + ih - ((v - y0) / (y1 - y0)) * ih;
-    // 날짜 경계 틱
-    const ticks = [];
+    // 날짜 경계 틱 (날짜가 많으면 솎아냄)
+    let ticks = [];
     series.forEach((s, i) => {
       if (i === 0 || s.date !== series[i - 1].date) ticks.push({ i, date: s.date });
     });
+    if (ticks.length > 10) {
+      const step = Math.ceil(ticks.length / 8);
+      ticks = ticks.filter((_, k) => k % step === 0 || k === ticks.length - 1);
+    }
     // 이벤트 → 해당 날짜의 첫 슬롯 위치
     const evMarks = events
       .map((ev) => {
@@ -166,13 +170,17 @@ export default function PriceChart({ series, events = [], height = 260 }) {
       {h && evHover == null && (
         <div className="card absolute z-10 px-3 py-2 text-xs pointer-events-none"
              style={{ left: Math.min(hover.x + 10, width - 190), top: 10, width: 180 }}>
-          <div className="font-semibold num">{h.date} {SLOT_LABEL[h.slot]}</div>
+          <div className="font-semibold num">{h.date} {slotLabel(h.slot)}</div>
           <div className="mt-1 space-y-0.5">
             <div className="flex justify-between"><span style={{ color: "var(--accent)" }}>등록 평균</span><span className="num">{fmtGold(h.avgPrice)}</span></div>
-            <div className="flex justify-between"><span style={{ color: "#3B8A6E" }}>실거래(24h)</span><span className="num">{fmtGold(h.soldAvg)}</span></div>
+            <div className="flex justify-between"><span style={{ color: "#3B8A6E" }}>{h.backfill ? "실거래(일 평균)" : "실거래(24h)"}</span><span className="num">{fmtGold(h.soldAvg)}</span></div>
             <div className="flex justify-between"><span style={{ color: "var(--text-secondary)" }}>매물 수</span><span className="num">{h.listing ?? "—"}</span></div>
           </div>
-          {h.avgPrice == null && <div className="mt-1" style={{ color: "var(--text-muted)" }}>결손 슬롯 (수집 실패·미수집)</div>}
+          {h.backfill ? (
+            <div className="mt-1" style={{ color: "var(--text-muted)" }}>소급 백필 — 등록가·매물수는 소급 불가</div>
+          ) : h.avgPrice == null && (
+            <div className="mt-1" style={{ color: "var(--text-muted)" }}>결손 슬롯 (수집 실패·미수집)</div>
+          )}
         </div>
       )}
 
@@ -189,6 +197,9 @@ export default function PriceChart({ series, events = [], height = 260 }) {
           이벤트·패치
         </span>
         {capped && <span style={{ color: "var(--text-muted)" }}>* 실거래는 API 상한(최근 100건) 내 집계</span>}
+        {series.some((s) => s.backfill) && (
+          <span style={{ color: "var(--text-muted)" }}>* 수집 시작 전 실거래는 판매완료 내역 소급 백필(일 평균) — 등록가·매물수는 소급 불가로 공백</span>
+        )}
       </div>
     </div>
   );

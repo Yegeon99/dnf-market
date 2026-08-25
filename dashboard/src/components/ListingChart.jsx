@@ -1,6 +1,6 @@
 // 매물 수 바 차트 (결손 슬롯은 빈 칸으로 정직 표기)
 import { useRef, useState, useEffect } from "react";
-import { SLOT_LABEL } from "../lib/data";
+import { slotLabel } from "../lib/data";
 
 const M = { top: 8, right: 12, bottom: 20, left: 52 };
 
@@ -39,18 +39,26 @@ export default function ListingChart({ series, height = 110 }) {
                 opacity="0.55"
                 rx="2"
               >
-                <title>{`${s.date} ${SLOT_LABEL[s.slot]} — 매물 ${s.listing}`}</title>
+                <title>{`${s.date} ${slotLabel(s.slot)} — 매물 ${s.listing}`}</title>
               </rect>
             </g>
           )
         )}
-        {series.map((s, i) =>
-          i === 0 || s.date !== series[i - 1].date ? (
-            <text key={i} x={xAt(i)} y={height - 5} textAnchor="middle" fontSize="10" fill="var(--text-muted)" className="num">
-              {s.date.slice(5)}
+        {(() => {
+          let ticks = [];
+          series.forEach((s, i) => {
+            if (i === 0 || s.date !== series[i - 1].date) ticks.push({ i, date: s.date });
+          });
+          if (ticks.length > 10) {
+            const step = Math.ceil(ticks.length / 8);
+            ticks = ticks.filter((_, k) => k % step === 0 || k === ticks.length - 1);
+          }
+          return ticks.map((t) => (
+            <text key={t.i} x={xAt(t.i)} y={height - 5} textAnchor="middle" fontSize="10" fill="var(--text-muted)" className="num">
+              {t.date.slice(5)}
             </text>
-          ) : null
-        )}
+          ));
+        })()}
       </svg>
       <div className="px-2 text-xs" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 슬롯은 빈 칸)</div>
     </div>

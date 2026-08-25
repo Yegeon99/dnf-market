@@ -49,13 +49,22 @@ def load_api_key() -> str:
 
 
 def slot_for(now_kst: datetime) -> str:
-    """수집 시각 → 슬롯. KST 09시(am)/15시(pm)/03시(night) 기준의 넓은 구간 매핑."""
+    """수집 시각 → 슬롯 라벨. 하루 6회 스케줄(KST 03/07/11/15/19/23) 구간 매핑.
+
+    구간: [0,5)→h03, [5,9)→h07, [9,13)→h11, [13,17)→h15, [17,21)→h19, [21,24)→h23
+    """
     h = now_kst.hour
-    if 6 <= h < 12:
-        return "am"
-    if 12 <= h < 21:
-        return "pm"
-    return "night"
+    if h < 5:
+        return "h03"
+    if h < 9:
+        return "h07"
+    if h < 13:
+        return "h11"
+    if h < 17:
+        return "h15"
+    if h < 21:
+        return "h19"
+    return "h23"
 
 
 def api_get(session: requests.Session, path: str, params: dict, key: str):

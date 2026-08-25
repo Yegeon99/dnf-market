@@ -1,0 +1,2985 @@
+{
+ "generatedAt": "2026-08-25 13:31:09",
+ "method": "auction-sold 최근 100건 소급, 일 단위 수량가중 평균. 상한 걸린 품목은 최고(最古) 날짜 제외.",
+ "cutoffDate": "2026-08-25",
+ "apiCalls": 31,
+ "rows": [
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 81.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 65000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3099999.5
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 6830657.6
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2389999.5
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 3468143.67
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 7539031.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 5031666.67
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 500000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 3236110.67
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 8201521.33
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2000000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2200000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-07-26",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6494443.5
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-07-27",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4897222.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-07-27",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7399999.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-07-27",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4962500.0
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-07-27",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 544444.5
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-07-27",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5000000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-07-27",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4490278.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4000000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7500000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6399994.5
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2374000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2274000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6500000.0
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 525000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2400000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2199999.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-07-28",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2675000.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3000000.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 120.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 33629.33
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 8000000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4518518.33
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5500000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 5724444.6
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 543998.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4777777.5
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 4592500.0
+  },
+  {
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 700000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5000000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3500000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-07-29",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4989444.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-07-30",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3574997.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-07-30",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3750000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-07-30",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2179800.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-07-30",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3950000.0
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-07-30",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 541999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-07-30",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 3800000.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4475000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3894444.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1000000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5049999.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 4937501.25
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4777777.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 5839972.2
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6150000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-07-31",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 2801666.67
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2990000.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 30000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4544444.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 6372205.25
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2222222.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4300000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 4527777.5
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2000000.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4383333.33
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4400000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2200000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2700000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-01",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2249999.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 81.0
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 10000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3170000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7199999.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2433333.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2645000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 5091666.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4498333.0
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 543999.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2249999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6166666.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 5196250.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 1933333.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2899493.5
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-02",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2250000.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 100.0
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 10000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6194440.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 2996281.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2277773.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4800000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2198944.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5400000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5000031.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2263885.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-03",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5249999.5
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 33000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6899949.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2750000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6333333.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5786666.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4800000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5989999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5200000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5949999.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-04",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3300000.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2979999.5
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 87000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 9555555.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2345000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 2999999.67
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5745000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4298000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2000000.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 4561249.75
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5950000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1980000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-05",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2892323.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2979888.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 34400.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2999999.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 7148886.2
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2883333.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2266665.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6749999.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 6861111.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3722222.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 6074999.5
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5799777.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2722222.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2699999.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-06",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2145000.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2698999.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 58333.0
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 10000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4888880.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2358364.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2133374.5
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 7472221.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 6880555.5
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2894444.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 7624999.5
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5688888.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2250000.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6000000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-07",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6288194.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6933333.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 114.37
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 9304074.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 13222222.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4500000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2349999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 4707499.75
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 10944444.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-08",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6944444.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 122.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 1374758.67
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4040404.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 6879332.67
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2180000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2010101.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 7003110.4
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 5380536.83
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 699999.67
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2120000.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 5441364.6
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 8862962.67
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2020202.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-09",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1899999.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2843943.5
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 159.99
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 54000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 8350000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 8018518.33
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 8124999.5
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2676642.5
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 7351851.67
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 8961111.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-10",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2444444.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2000000.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 159.94
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 48500.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3500000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 7381333.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2288888.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1999999.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 6818055.5
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 543999.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2188888.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4200000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 6376666.67
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2138888.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2499999.5
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-11",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2204999.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2661136.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 141.49
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 48099.0
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 30000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4191666.5
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 8750000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 5510416.12
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 5581249.75
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 699999.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 2451777.4
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 9,
+   "soldAvgUnitPriceDay": 4814814.44
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 5749721.88
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1777777.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2395000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-12",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2149999.5
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7777777.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 65666.67
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3788888.5
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 8533333.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1888888.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1788888.5
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 7075000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 5633333.0
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 700000.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 2155555.5
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 4527777.33
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 7344444.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2611110.5
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 35.54
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-13",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5987999.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2800000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3000000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 8600000.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 1622222.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 1862962.67
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 5364073.67
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 5539999.6
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1600000.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 12,
+   "soldAvgUnitPriceDay": 29.72
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-14",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2988888.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6789999.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 135000.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7500000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6025000.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1996099.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1700000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4949999.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 5998472.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2197777.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4395000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 5199999.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 7,
+   "soldAvgUnitPriceDay": 35.45
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2097777.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-15",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2199999.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2400000.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 150.0
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7500000.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1800000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1888888.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 4918872.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4162962.67
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1987999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4380000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 5039443.75
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3000000.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 17,
+   "soldAvgUnitPriceDay": 30.72
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-16",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2088888.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2300000.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 147.56
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2849999.5
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 9633999.5
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2238888.5
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 7,
+   "soldAvgUnitPriceDay": 2430158.57
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4551851.33
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4792592.0
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 2774444.2
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4333333.33
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4980000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2022222.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 14,
+   "soldAvgUnitPriceDay": 29.0
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2200000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-17",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 2026296.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2896161.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5144440.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4540000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4022500.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 5091666.5
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 5789600.5
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4525000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 2561111.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 25.4
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2347500.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-18",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 1800000.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5911111.0
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 149.26
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 50000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 8500000.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2199999.5
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2100000.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6394444.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 12000000.0
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 1087.9
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 2274999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4109999.5
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6675000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2050039.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 23.99
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5625000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-19",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2099999.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 8445000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3433333.0
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4475000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4111111.0
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 14,
+   "soldAvgUnitPriceDay": 1329.57
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4100000.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5025000.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 5,
+   "soldAvgUnitPriceDay": 22.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-20",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2000000.0
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 6650000.0
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 62994.5
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2733333.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6024999.5
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 2186295.67
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2061110.5
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 10000000.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4099999.0
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 18,
+   "soldAvgUnitPriceDay": 1321.81
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2150152.5
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4069295.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 7525000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 1959655.33
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 9,
+   "soldAvgUnitPriceDay": 20.86
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 7000000.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-21",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 3499999.67
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 68962.67
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2598000.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4876666.67
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2866666.5
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4175000.0
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 19,
+   "soldAvgUnitPriceDay": 1295.75
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2199999.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 3516666.33
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6165000.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 33.0
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-22",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6095000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 9066629.33
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4500000.0
+  },
+  {
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 42,
+   "soldAvgUnitPriceDay": 1509779.45
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 3,
+   "soldAvgUnitPriceDay": 4777785.67
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 13,
+   "soldAvgUnitPriceDay": 1314.12
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2000000.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 6,
+   "soldAvgUnitPriceDay": 3768953.0
+  },
+  {
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 722222.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5275000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2089999.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 30.42
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-23",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 2400000.0
+  },
+  {
+   "itemId": "04a1c3b13441800e275ebed957adcc8e",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 23,
+   "soldAvgUnitPriceDay": 12137322.85
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 3700000.0
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 6425000.0
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3000000.0
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 3044444.0
+  },
+  {
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 50,
+   "soldAvgUnitPriceDay": 49.06
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 4199999.0
+  },
+  {
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 35,
+   "soldAvgUnitPriceDay": 2555336.0
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4222234.0
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 19,
+   "soldAvgUnitPriceDay": 1184.74
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 1,
+   "soldAvgUnitPriceDay": 699999.0
+  },
+  {
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 42,
+   "soldAvgUnitPriceDay": 53.65
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 2500000.0
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 4,
+   "soldAvgUnitPriceDay": 3581859.0
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 4875000.0
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 1900000.0
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 8,
+   "soldAvgUnitPriceDay": 40.22
+  },
+  {
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 50,
+   "soldAvgUnitPriceDay": 19.51
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "date": "2026-08-24",
+   "slot": "day",
+   "source": "backfill",
+   "soldCountDay": 2,
+   "soldAvgUnitPriceDay": 5425000.0
+  }
+ ],
+ "failures": []
+}

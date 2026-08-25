@@ -9,7 +9,7 @@ const repo = join(here, "..", "..");
 const out = join(here, "..", "public", "data");
 mkdirSync(out, { recursive: true });
 
-for (const f of ["timeseries.json", "anomalies.json", "briefings.json", "llm_costs.json"]) {
+for (const f of ["timeseries.json", "anomalies.json", "briefings.json", "llm_costs.json", "backfill.json"]) {
   const src = join(repo, "data", f);
   if (existsSync(src)) cpSync(src, join(out, f));
 }

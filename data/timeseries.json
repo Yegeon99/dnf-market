@@ -4,7 +4,7 @@
   {
    "itemId": "04a1c3b13441800e275ebed957adcc8e",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 12050000,
    "avgUnitPrice": 12178856.26,
    "listingCount": 6,
@@ -15,7 +15,7 @@
   {
    "itemId": "0756f89fac0518d4390f3e371adf7479",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 2798000,
    "avgUnitPrice": 4832140.86,
    "listingCount": 7,
@@ -26,7 +26,7 @@
   {
    "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 180,
    "avgUnitPrice": 180.0,
    "listingCount": 1,
@@ -37,7 +37,7 @@
   {
    "itemId": "12972068f1423ceb4991d42e3719f214",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 1000000,
    "avgUnitPrice": 3830555.5,
    "listingCount": 4,
@@ -48,7 +48,7 @@
   {
    "itemId": "18c129fd3182476ec5e8110e0034672c",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 29000,
    "avgUnitPrice": 29333.33,
    "listingCount": 2,
@@ -59,7 +59,7 @@
   {
    "itemId": "20d6374d6ab02076f7c32153568431c9",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 3000000,
    "avgUnitPrice": 5851555.4,
    "listingCount": 5,
@@ -70,7 +70,7 @@
   {
    "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 8511101,
    "avgUnitPrice": 8961901.71,
    "listingCount": 6,
@@ -81,7 +81,7 @@
   {
    "itemId": "30b8500c4447878005d9d1f433dac030",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 2000000,
    "avgUnitPrice": 2031666.67,
    "listingCount": 3,
@@ -92,7 +92,7 @@
   {
    "itemId": "324c85d935a5e9358825380bf2065845",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 2999999,
    "avgUnitPrice": 3643638.62,
    "listingCount": 8,
@@ -103,7 +103,7 @@
   {
    "itemId": "3738d8271ec853e926cd146623adf952",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 261,
    "avgUnitPrice": 285.81,
    "listingCount": 27,
@@ -114,7 +114,7 @@
   {
    "itemId": "4390b9e236193bc39855cc8964d23faa",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 49,
    "avgUnitPrice": 63.99,
    "listingCount": 12,
@@ -125,7 +125,7 @@
   {
    "itemId": "488c3191c2afd5b4762f978edb61f5a4",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 4500000,
    "avgUnitPrice": 8449000.0,
    "listingCount": 10,
@@ -136,7 +136,7 @@
   {
    "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 460999,
    "avgUnitPrice": 485784.21,
    "listingCount": 126,
@@ -147,7 +147,7 @@
   {
    "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 1277777,
    "avgUnitPrice": 1545698.38,
    "listingCount": 4,
@@ -158,7 +158,7 @@
   {
    "itemId": "785e56a0ed4e3efd573da1f56a45217d",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 24,
    "avgUnitPrice": 25.33,
    "listingCount": 194,
@@ -169,7 +169,7 @@
   {
    "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 4095000,
    "avgUnitPrice": 8144698.54,
    "listingCount": 26,
@@ -180,7 +180,7 @@
   {
    "itemId": "897cab594bbd04dda00619abfe885674",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 21400,
    "avgUnitPrice": 21752.4,
    "listingCount": 156,
@@ -191,7 +191,7 @@
   {
    "itemId": "8b998230ab012e695e9a53d67187cc3f",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 1150,
    "avgUnitPrice": 1531.58,
    "listingCount": 12,
@@ -202,7 +202,7 @@
   {
    "itemId": "8e132da6f012fc61191ca68df4663b44",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 699999,
    "avgUnitPrice": 699999.0,
    "listingCount": 1,
@@ -213,7 +213,7 @@
   {
    "itemId": "a072ded7b41743a22cccb74cd73bc24d",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 55,
    "avgUnitPrice": 69.51,
    "listingCount": 4,
@@ -224,7 +224,7 @@
   {
    "itemId": "b5ccbf772a3883e3171f682679e2b421",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 4250000,
    "avgUnitPrice": 4435555.5,
    "listingCount": 8,
@@ -235,7 +235,7 @@
   {
    "itemId": "b682af8902d22554c7b90386abd18762",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 1448,
    "avgUnitPrice": 1557.48,
    "listingCount": 77,
@@ -246,7 +246,7 @@
   {
    "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 3500000,
    "avgUnitPrice": 8251956.31,
    "listingCount": 16,
@@ -257,7 +257,7 @@
   {
    "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 1480000,
    "avgUnitPrice": 1490000.0,
    "listingCount": 2,
@@ -268,7 +268,7 @@
   {
    "itemId": "c37bf84cf16964557b577497404268c8",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 5450000,
    "avgUnitPrice": 6682136.69,
    "listingCount": 13,
@@ -279,7 +279,7 @@
   {
    "itemId": "c81e24d23286a4897987547c5236edf1",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 3888888,
    "avgUnitPrice": 3944444.0,
    "listingCount": 2,
@@ -290,7 +290,7 @@
   {
    "itemId": "d584d612f09215ef0c42498e6990b61d",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 43,
    "avgUnitPrice": 43.04,
    "listingCount": 2,
@@ -301,7 +301,7 @@
   {
    "itemId": "d9bc96637286b4f5449d21d36e44675d",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 19,
    "avgUnitPrice": 20.47,
    "listingCount": 9,
@@ -312,7 +312,7 @@
   {
    "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 4000000,
    "avgUnitPrice": 5595428.29,
    "listingCount": 7,
@@ -323,7 +323,7 @@
   {
    "itemId": "f11f806769afaae8b05be488e20b6109",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 2098000,
    "avgUnitPrice": 3806444.25,
    "listingCount": 8,
@@ -334,7 +334,7 @@
   {
    "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
    "date": "2026-08-25",
-   "slot": "night",
+   "slot": "h03",
    "minUnitPrice": 508,
    "avgUnitPrice": 716.07,
    "listingCount": 25,
@@ -345,7 +345,7 @@
   {
    "itemId": "04a1c3b13441800e275ebed957adcc8e",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 12109999,
    "avgUnitPrice": 12449469.44,
    "listingCount": 6,
@@ -356,7 +356,7 @@
   {
    "itemId": "0756f89fac0518d4390f3e371adf7479",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 2600000,
    "avgUnitPrice": 4307498.6,
    "listingCount": 10,
@@ -367,7 +367,7 @@
   {
    "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 180,
    "avgUnitPrice": 180.0,
    "listingCount": 1,
@@ -378,7 +378,7 @@
   {
    "itemId": "12972068f1423ceb4991d42e3719f214",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 500000,
    "avgUnitPrice": 3004444.4,
    "listingCount": 4,
@@ -389,7 +389,7 @@
   {
    "itemId": "18c129fd3182476ec5e8110e0034672c",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 29000,
    "avgUnitPrice": 29333.33,
    "listingCount": 2,
@@ -400,7 +400,7 @@
   {
    "itemId": "20d6374d6ab02076f7c32153568431c9",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 2999999,
    "avgUnitPrice": 4214999.83,
    "listingCount": 6,
@@ -411,7 +411,7 @@
   {
    "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 3500000,
    "avgUnitPrice": 8087017.0,
    "listingCount": 5,
@@ -422,7 +422,7 @@
   {
    "itemId": "30b8500c4447878005d9d1f433dac030",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 2000000,
    "avgUnitPrice": 2500000.0,
    "listingCount": 4,
@@ -433,7 +433,7 @@
   {
    "itemId": "324c85d935a5e9358825380bf2065845",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 2977777,
    "avgUnitPrice": 4233240.42,
    "listingCount": 12,
@@ -444,7 +444,7 @@
   {
    "itemId": "3738d8271ec853e926cd146623adf952",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 258,
    "avgUnitPrice": 270.89,
    "listingCount": 31,
@@ -455,7 +455,7 @@
   {
    "itemId": "4390b9e236193bc39855cc8964d23faa",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 54,
    "avgUnitPrice": 62.83,
    "listingCount": 7,
@@ -466,7 +466,7 @@
   {
    "itemId": "488c3191c2afd5b4762f978edb61f5a4",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 4300000,
    "avgUnitPrice": 7411250.0,
    "listingCount": 8,
@@ -477,7 +477,7 @@
   {
    "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 459800,
    "avgUnitPrice": 487935.45,
    "listingCount": 110,
@@ -488,7 +488,7 @@
   {
    "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 1266000,
    "avgUnitPrice": 1483544.03,
    "listingCount": 4,
@@ -499,7 +499,7 @@
   {
    "itemId": "785e56a0ed4e3efd573da1f56a45217d",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 24,
    "avgUnitPrice": 25.13,
    "listingCount": 230,
@@ -510,7 +510,7 @@
   {
    "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 4095000,
    "avgUnitPrice": 8602826.83,
    "listingCount": 23,
@@ -521,7 +521,7 @@
   {
    "itemId": "897cab594bbd04dda00619abfe885674",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 21259,
    "avgUnitPrice": 21660.76,
    "listingCount": 176,
@@ -532,7 +532,7 @@
   {
    "itemId": "8b998230ab012e695e9a53d67187cc3f",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 800,
    "avgUnitPrice": 1724.0,
    "listingCount": 13,
@@ -543,7 +543,7 @@
   {
    "itemId": "8e132da6f012fc61191ca68df4663b44",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 699999,
    "avgUnitPrice": 699999.5,
    "listingCount": 2,
@@ -554,7 +554,7 @@
   {
    "itemId": "a072ded7b41743a22cccb74cd73bc24d",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 68,
    "avgUnitPrice": 69.09,
    "listingCount": 3,
@@ -565,7 +565,7 @@
   {
    "itemId": "b5ccbf772a3883e3171f682679e2b421",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 4200000,
    "avgUnitPrice": 5161825.21,
    "listingCount": 14,
@@ -576,7 +576,7 @@
   {
    "itemId": "b682af8902d22554c7b90386abd18762",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 1380,
    "avgUnitPrice": 1502.76,
    "listingCount": 87,
@@ -587,7 +587,7 @@
   {
    "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 3500000,
    "avgUnitPrice": 9369893.75,
    "listingCount": 12,
@@ -598,7 +598,7 @@
   {
    "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 1480000,
    "avgUnitPrice": 1490000.0,
    "listingCount": 2,
@@ -609,7 +609,7 @@
   {
    "itemId": "c37bf84cf16964557b577497404268c8",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 5000000,
    "avgUnitPrice": 6647521.31,
    "listingCount": 13,
@@ -620,7 +620,7 @@
   {
    "itemId": "c81e24d23286a4897987547c5236edf1",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 3888888,
    "avgUnitPrice": 3944444.0,
    "listingCount": 2,
@@ -631,7 +631,7 @@
   {
    "itemId": "d584d612f09215ef0c42498e6990b61d",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 43,
    "avgUnitPrice": 43.0,
    "listingCount": 1,
@@ -642,7 +642,7 @@
   {
    "itemId": "d9bc96637286b4f5449d21d36e44675d",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 20,
    "avgUnitPrice": 20.0,
    "listingCount": 2,
@@ -653,7 +653,7 @@
   {
    "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 3800000,
    "avgUnitPrice": 5290888.67,
    "listingCount": 9,
@@ -664,7 +664,7 @@
   {
    "itemId": "f11f806769afaae8b05be488e20b6109",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 2098000,
    "avgUnitPrice": 2899333.17,
    "listingCount": 6,
@@ -675,7 +675,7 @@
   {
    "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
    "date": "2026-08-25",
-   "slot": "pm",
+   "slot": "h11",
    "minUnitPrice": 505,
    "avgUnitPrice": 708.01,
    "listingCount": 35,

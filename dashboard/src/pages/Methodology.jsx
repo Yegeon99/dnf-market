@@ -29,19 +29,25 @@ export default function Methodology({ data }) {
           이 시스템은 시세 "조회 도구"가 아니라, 수집→탐지→해석→브리핑을 무인 자동화한 <b>분석 시스템</b>입니다.
           기준과 한계를 아래에 그대로 공개합니다.
         </p>
+        <p className="mt-2 rounded px-3 py-2 text-xs" style={{ background: "#E9F0FA", color: "var(--accent)" }}>
+          본 대시보드는 매일 자동으로 데이터가 추가되는 <b>운영 중 시스템</b>입니다.
+          수집 시작일 2026-08-25, 하루 6회(KST 03·07·11·15·19·23시) 자동 수집, 심야 자동 분석·브리핑 발행.
+        </p>
       </div>
 
       {/* 수집 구조 다이어그램 */}
       <section className="card p-4">
         <h2 className="text-sm font-bold">수집·분석 구조</h2>
         <p className="mt-1 text-xs" style={{ color: "var(--text-secondary)" }}>
-          Neople 오픈 API는 시세 히스토리를 제공하지 않습니다. GitHub Actions cron이 하루 3회(KST 09·15·03시)
+          Neople 오픈 API는 시세 히스토리를 제공하지 않습니다. GitHub Actions cron이 하루 6회(KST 03·07·11·15·19·23시)
           스냅샷을 수집해 저장소에 시계열을 직접 축적합니다. 심야 슬롯에서 탐지·해석·브리핑을 통합 실행합니다.
+          수집 시작(2026-08-25) 이전 구간은 판매완료 내역 API(최근 100건)를 소급해 <b>실거래만 일 단위로 백필</b>했으며
+          — 등록가·매물수는 소급이 불가능해 백필하지 않았습니다 — 차트에서 백필 구간임을 구분 표기합니다.
         </p>
         <div className="mx-auto mt-3 max-w-sm space-y-1">
           <Box>Neople 오픈 API (경매장 등록가·판매 완료)</Box>
           <Arrow />
-          <Box>GitHub Actions cron — 하루 3회 스냅샷 (31품목, 호출 62회/회)</Box>
+          <Box>GitHub Actions cron — 하루 6회 스냅샷 (31품목, 호출 62회/회)</Box>
           <Arrow />
           <Box>시계열 병합 (data/timeseries.json, 슬롯 중복 방지)</Box>
           <Arrow />

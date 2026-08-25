@@ -11,7 +11,7 @@ export default function ItemDetail({ data }) {
   const item = items.find((it) => it.itemId === id);
   if (!item) return <Empty>품목을 찾을 수 없습니다. <Link to="/">오버뷰로</Link></Empty>;
 
-  const series = itemSeries(rows, id);
+  const series = itemSeries(rows, id, data.backfill);
   const myAnomalies = anomalies.filter((a) => a.itemId === id).sort((a, b) => (a.date < b.date ? 1 : -1));
   const last = [...series].reverse().find((s) => s.avgPrice != null);
   const llBelow = thresholds?.lowLiquidity?.listingCountBelow ?? 0;
@@ -58,7 +58,7 @@ export default function ItemDetail({ data }) {
 
       {/* 차트 */}
       <div className="card p-3">
-        <h2 className="mb-1 px-2 text-sm font-bold">시세 추이 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(슬롯 단위 KST 03·09·15시, 결손 슬롯은 공백)</span></h2>
+        <h2 className="mb-1 px-2 text-sm font-bold">시세 추이 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(하루 6회 수집 KST 03·07·11·15·19·23시, 결손 슬롯은 공백{series.some((s) => s.backfill) ? ", 과거 실거래는 일 단위 소급 백필" : ""})</span></h2>
         <PriceChart series={series} events={inRange} />
         <div className="mt-3 border-t pt-2" style={{ borderColor: "var(--border)" }}>
           <ListingChart series={series} />

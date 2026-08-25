@@ -2,9 +2,9 @@ name: 시세 스냅샷 수집
 
 on:
   schedule:
-    # KST 09:00 / 15:00 = UTC 00:00 / 06:00
+    # 하루 6회 수집 중 5회: KST 07/11/15/19/23 = UTC 22/02/06/10/14
     # 심야(KST 03:00) 슬롯은 daily.yml이 수집+분석+브리핑을 통합 수행한다
-    - cron: "0 0,6 * * *"
+    - cron: "0 2,6,10,14,22 * * *"
   workflow_dispatch:
 
 permissions:

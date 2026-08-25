@@ -32,7 +32,14 @@ def load_json(path: Path, default):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
-SLOT_ORDER = {"night": 0, "am": 1, "pm": 2}  # KST 03:00 → 09:00 → 15:00 시간순
+def slot_order(slot: str) -> int:
+    """슬롯 라벨 → 시간순 정렬 키. 6슬롯 'hNN' 체계 + 구 3슬롯 호환."""
+    legacy = {"night": 3, "am": 9, "pm": 15}
+    if slot in legacy:
+        return legacy[slot]
+    if slot.startswith("h") and slot[1:].isdigit():
+        return int(slot[1:])
+    return 99
 
 
 def slot_series(rows: list) -> dict:
@@ -43,7 +50,7 @@ def slot_series(rows: list) -> dict:
             (r["slot"], r.get("avgUnitPrice"), r.get("listingCount"))
         )
     for key in out:
-        out[key].sort(key=lambda t: SLOT_ORDER.get(t[0], 9))
+        out[key].sort(key=lambda t: slot_order(t[0]))
     return out
 
 

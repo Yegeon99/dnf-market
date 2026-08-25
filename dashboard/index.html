@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <!-- 폰트는 비차단 로드: 시스템 폰트로 먼저 그리고 로드 후 교체 (FCP 개선) -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+      media="print"
+      onload="this.media='all'"
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>DNF Market Analyst — 던파 시세 분석·브리핑</title>

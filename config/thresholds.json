@@ -12,6 +12,11 @@
     "avgPrice": { "high": 25, "mid": 12 },
     "listingCount": { "high": 80, "mid": 40 }
   },
+  "lowLiquidity": {
+    "_comment": "저유동 품목 보정: 매물 수가 listingCountBelow 미만이면 저유동으로 분류. 저유동 품목은 당일 연속 minConsecutiveSlots 슬롯에서 low 임계치 이상 같은 방향 변동이 지속돼야 mid/high 유지, 아니면 low로 강등. 대시보드에 저유동 뱃지 표기.",
+    "listingCountBelow": 30,
+    "minConsecutiveSlots": 2
+  },
   "guards": {
     "_comment": "노이즈 방지: 매물 수가 이 값 미만인 품목은 가격 신호를 신뢰하지 않음",
     "minListingCountForPriceSignal": 5,

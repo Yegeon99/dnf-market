@@ -15,3 +15,4 @@ dashboard/dist/
 dev/
 *.log
 .DS_Store
+dashboard/public/data/

@@ -32,6 +32,21 @@ def load_json(path: Path, default):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
+SLOT_ORDER = {"night": 0, "am": 1, "pm": 2}  # KST 03:00 → 09:00 → 15:00 시간순
+
+
+def slot_series(rows: list) -> dict:
+    """{(itemId, date): [(slot, avgPrice, listingCount)] 시간순} — 저유동 지속성 검사용."""
+    out = {}
+    for r in rows:
+        out.setdefault((r["itemId"], r["date"]), []).append(
+            (r["slot"], r.get("avgUnitPrice"), r.get("listingCount"))
+        )
+    for key in out:
+        out[key].sort(key=lambda t: SLOT_ORDER.get(t[0], 9))
+    return out
+
+
 def daily_series(rows: list) -> dict:
     """timeseries rows → {itemId: [(date, avgPrice, listingCount)] 날짜 오름차순}.
 
@@ -73,11 +88,33 @@ def severity_for(abs_pct: float, tiers: dict):
     return None
 
 
-def detect_for_date(series: dict, names: dict, th: dict, target_date: str) -> list:
+def sustained_slots(slots: list, base, metric: str, low_threshold: float, direction: str) -> int:
+    """당일 슬롯들 중 '연속으로' low 임계치 이상·같은 방향 변동이 지속된 마지막 구간 길이.
+
+    저유동 품목 보정용: 스냅샷 1회 급변(오등록·단일 거래)과 지속 변동을 구분한다.
+    """
+    idx = 1 if metric == "avgPrice" else 2
+    streak = 0
+    for slot in slots:
+        val = slot[idx]
+        chg = pct_change(base, val)
+        ok = (
+            chg is not None
+            and abs(chg) >= low_threshold
+            and (chg > 0 if direction == "up" else chg < 0)
+        )
+        streak = streak + 1 if ok else 0
+    return streak
+
+
+def detect_for_date(series: dict, names: dict, th: dict, target_date: str,
+                    slots_map: dict | None = None) -> list:
     """target_date 기준 이상 탐지."""
     found = []
     guards = th["guards"]
     ma_cfg = th["movingAverage"]
+    ll_cfg = th.get("lowLiquidity", {})
+    slots_map = slots_map or {}
 
     for item_id, points in series.items():
         idx = next((i for i, p in enumerate(points) if p[0] == target_date), None)
@@ -109,6 +146,13 @@ def detect_for_date(series: dict, names: dict, th: dict, target_date: str) -> li
                 ma_count = sum(ma_count_vals) / len(ma_count_vals)
                 checks.append(("listingCount", round(ma_count, 1), count, ma_cfg["listingCount"], "ma7"))
 
+        # 저유동 분류: 당일·전일 매물 수 모두 기준 미만
+        ll_below = ll_cfg.get("listingCountBelow", 0)
+        low_liq = bool(ll_below) and all(
+            c is not None and c < ll_below for c in (count, prev_count)
+        )
+        today_slots = slots_map.get((item_id, target_date), [])
+
         for metric, base, cur, tiers, basis in checks:
             chg = pct_change(base, cur)
             if chg is None:
@@ -116,6 +160,13 @@ def detect_for_date(series: dict, names: dict, th: dict, target_date: str) -> li
             sev = severity_for(abs(chg), tiers)
             if sev is None:
                 continue
+            direction = "up" if chg > 0 else "down"
+            # 저유동 보정: 연속 슬롯 지속 없으면 mid/high → low 강등
+            if low_liq and sev in ("high", "mid"):
+                need = ll_cfg.get("minConsecutiveSlots", 2)
+                low_tier = tiers.get("low", tiers.get("mid", 0))
+                if sustained_slots(today_slots, base, metric, low_tier, direction) < need:
+                    sev = "low"
             found.append({
                 "id": f"{date}_{item_id}_{metric}_{basis}",
                 "date": date,
@@ -126,8 +177,9 @@ def detect_for_date(series: dict, names: dict, th: dict, target_date: str) -> li
                 "baseValue": base,
                 "currentValue": cur,
                 "change_pct": chg,
-                "direction": "up" if chg > 0 else "down",
+                "direction": direction,
                 "severity": sev,
+                "lowLiquidity": low_liq,  # 대시보드 저유동 뱃지·해석 주의 안내용
             })
 
     # 같은 (품목, 지표)에 dod·ma7 둘 다 걸리면 변동률 큰 쪽만 남긴다
@@ -163,7 +215,7 @@ def main() -> int:
         return 1
 
     series = daily_series(ts["rows"])
-    new_anomalies = detect_for_date(series, names, th, target_date)
+    new_anomalies = detect_for_date(series, names, th, target_date, slot_series(ts["rows"]))
 
     existing = load_json(OUT_PATH, {"anomalies": []})["anomalies"]
     merged = {a["id"]: a for a in existing}

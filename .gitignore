@@ -16,3 +16,6 @@ dev/
 *.log
 .DS_Store
 dashboard/public/data/
+
+.vercel
+.env*

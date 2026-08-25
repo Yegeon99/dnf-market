@@ -22,7 +22,7 @@ export default function Methodology({ data }) {
   for (const it of items) (byCategory[it.category] ??= []).push(it);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4">
       <div>
         <h1 className="text-lg font-bold">방법론·데이터 정책</h1>
         <p className="mt-1 text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -36,7 +36,7 @@ export default function Methodology({ data }) {
       </div>
 
       {/* 수집 구조 다이어그램 */}
-      <section className="card p-4">
+      <section className="card p-3">
         <h2 className="text-sm font-bold">수집·분석 구조</h2>
         <p className="mt-1 text-xs" style={{ color: "var(--text-secondary)" }}>
           Neople 오픈 API는 시세 히스토리를 제공하지 않습니다. GitHub Actions cron이 하루 6회(KST 03·07·11·15·19·23시)
@@ -58,7 +58,7 @@ export default function Methodology({ data }) {
       </section>
 
       {/* 이상 탐지 기준 공개 */}
-      <section className="card p-4">
+      <section className="card p-3">
         <h2 className="text-sm font-bold">이상 탐지 기준 (전체 공개)</h2>
         <div className="mt-2 overflow-x-auto">
           <table className="w-full text-xs" style={{ color: "var(--text-primary)" }}>
@@ -84,7 +84,7 @@ export default function Methodology({ data }) {
       </section>
 
       {/* AI 해석 정책 */}
-      <section className="card p-4">
+      <section className="card p-3">
         <h2 className="text-sm font-bold">AI 해석·정직성 정책</h2>
         <ul className="mt-2 space-y-1 text-xs" style={{ color: "var(--text-secondary)" }}>
           <li>· LLM 호출은 <b>이상 탐지된 항목에만</b> 수행합니다 (전 품목 호출 금지, 이상 0건인 날은 무비용 규칙 기반 브리핑).</li>
@@ -96,11 +96,11 @@ export default function Methodology({ data }) {
       </section>
 
       {/* 품목 선정 근거 */}
-      <section className="card p-4">
+      <section className="card p-3">
         <h2 className="text-sm font-bold">추적 품목 선정 근거 ({items.length}종)</h2>
         <p className="mt-1 text-xs" style={{ color: "var(--text-secondary)" }}>
           전 품목이 아니라 시장 대표성이 있는 품목을 카테고리별로 선정하고 근거를 문서화했습니다.
-          API 호출 절제(품목 수 상한·호출 간 대기·하루 3회)도 설계 원칙입니다.
+          API 호출 절제(품목 수 상한·호출 간 대기·하루 6회)도 설계 원칙입니다.
         </p>
         <div className="mt-3 space-y-3">
           {Object.entries(byCategory).map(([cat, list]) => (
@@ -119,7 +119,7 @@ export default function Methodology({ data }) {
       </section>
 
       {/* 출처·한계 */}
-      <section className="card p-4">
+      <section className="card p-3">
         <h2 className="text-sm font-bold">데이터 출처·한계 고지</h2>
         <ul className="mt-2 space-y-1 text-xs" style={{ color: "var(--text-secondary)" }}>
           <li>· 시세 데이터: <a href="https://developers.neople.co.kr" target="_blank" rel="noreferrer">Neople 오픈 API</a> (경매장 등록·판매 완료). 원본 응답을 저장하지 않고 집계 수치만 축적합니다.</li>

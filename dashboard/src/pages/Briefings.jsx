@@ -10,16 +10,16 @@ export default function Briefings({ data }) {
   const linked = cur ? anomalies.filter((a) => cur.anomaly_ids.includes(a.id)) : [];
 
   if (!briefings.length) return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <h1 className="text-lg font-bold">브리핑 아카이브</h1>
       <Empty>발행된 브리핑이 아직 없습니다. 심야(KST 03:00) 자동 발행됩니다.</Empty>
     </div>
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <h1 className="text-lg font-bold">브리핑 아카이브</h1>
-      <div className="grid gap-4 sm:grid-cols-[200px_1fr]">
+      <div className="grid gap-4 sm:grid-cols-[180px_1fr]">
         {/* 날짜 목록 */}
         <div className="space-y-1.5">
           {briefings.map((b) => (
@@ -36,7 +36,7 @@ export default function Briefings({ data }) {
 
         {/* 상세 */}
         {cur && (
-          <div className="card p-4">
+          <div className="card p-3">
             <div className="text-xs num" style={{ color: "var(--text-secondary)" }}>
               {cur.date} · 생성 {cur.generatedBy === "template" ? "규칙 기반(무비용)" : cur.generatedBy}
               {cur.costUsd > 0 && <span> · LLM 비용 ${cur.costUsd.toFixed(4)}</span>}

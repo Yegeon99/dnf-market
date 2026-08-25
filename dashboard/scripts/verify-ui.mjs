@@ -76,6 +76,16 @@ try {
     // 수치 정합성 (데스크톱 1회만)
     if (vp.name === "desktop-1440") {
       await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
+      await page.waitForTimeout(400);
+      // 히트맵: 전 품목 타일 수 + 한 화면(뷰포트) 수납 여부
+      const tiles = await page.$$eval("[data-heat] button", (els) => els.length);
+      checks.push([`오버뷰: 히트맵 타일 ${data.items.length}개`, tiles === data.items.length]);
+      const fits = await page.evaluate(() => {
+        const heat = document.querySelector("[data-heat]");
+        return heat ? heat.getBoundingClientRect().bottom <= window.innerHeight : false;
+      });
+      checks.push(["오버뷰: 전 품목 한 화면(1440×900) 수납", fits]);
+      await page.screenshot({ path: join(shotDir, "overview_viewport-1440x900.png") });
       const body = await page.innerText("body");
       checks.push(["오버뷰: 추적 품목 수", body.includes(`${data.items.length}종`)]);
       const todayCnt = data.anomalies.filter((a) => a.date === latestDate).length;

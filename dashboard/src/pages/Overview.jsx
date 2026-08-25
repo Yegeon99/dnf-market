@@ -1,81 +1,190 @@
-// 화면 1 — 마켓 오버뷰: KPI, 카테고리 등락 히트맵, 최신 브리핑
-import { Link } from "react-router-dom";
-import { dodChanges, latestDate, fmtGold } from "../lib/data";
-import { Change, Empty, LowLiquidityBadge } from "../components/ui";
+// 화면 1 — 마켓 오버뷰: KPI, 카테고리 히트맵(촘촘한 타일 그리드), 최신 브리핑
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { dodChanges, latestDate, fmtGold, fmtPct, pctColor } from "../lib/data";
+import { Change, Empty } from "../components/ui";
 
 function Kpi({ label, children }) {
   return (
-    <div className="card p-4">
+    <div className="card px-3 py-2.5">
       <div className="text-xs" style={{ color: "var(--text-secondary)" }}>{label}</div>
-      <div className="mt-1 text-xl font-bold num">{children}</div>
+      <div className="mt-0.5 text-lg font-bold num leading-tight">{children}</div>
     </div>
   );
 }
 
-/** 등락 히트맵 셀 배경: 상승 레드·하락 블루, 변동폭에 따라 투명도 */
+/** 등락 5단계 배경: 방향(레드/블루) × 강도(|pct| 구간별 투명도) */
 function cellStyle(pct) {
-  if (pct == null) return { background: "#F0F2F5", color: "var(--text-muted)" };
-  const a = Math.min(Math.abs(pct) / 20, 1) * 0.85 + 0.08;
-  return pct >= 0
-    ? { background: `rgba(214,69,69,${a.toFixed(2)})`, color: Math.abs(pct) > 6 ? "#fff" : "var(--text-primary)" }
-    : { background: `rgba(46,107,214,${a.toFixed(2)})`, color: Math.abs(pct) > 6 ? "#fff" : "var(--text-primary)" };
+  if (pct == null) return { background: "#EFF1F5", color: "var(--text-secondary)" };
+  const a = Math.abs(pct) < 2 ? 0.10 : Math.abs(pct) < 5 ? 0.25 : Math.abs(pct) < 10 ? 0.45
+    : Math.abs(pct) < 20 ? 0.65 : 0.85;
+  const rgb = pct >= 0 ? "214,69,69" : "46,107,214";
+  return { background: `rgba(${rgb},${a})`, color: a > 0.45 ? "#fff" : "var(--text-primary)" };
+}
+
+function Heatmap({ changes, items, llBelow, backfillDays }) {
+  const navigate = useNavigate();
+  const [tip, setTip] = useState(null); // {x, y, c}
+  const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
+
+  const groups = [];
+  for (const c of changes) {
+    const g = byId[c.itemId]?.displayGroup ?? c.category;
+    const last = groups[groups.length - 1];
+    if (last?.name === g) last.cells.push(c);
+    else groups.push({ name: g, cells: [c] });
+  }
+
+  const onEnter = (e, c) => {
+    const wrap = e.currentTarget.closest("[data-heat]").getBoundingClientRect();
+    const r = e.currentTarget.getBoundingClientRect();
+    setTip({ x: r.left - wrap.left + r.width / 2, y: r.top - wrap.top, c });
+  };
+
+  return (
+    <div className="relative" data-heat>
+      <div className="space-y-1.5">
+        {groups.map((g) => (
+          <div key={g.name}>
+            <div className="mb-0.5 text-[11px] font-semibold" style={{ color: "var(--text-muted)" }}>{g.name}</div>
+            <div className="flex flex-wrap gap-1 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:pb-1">
+              {g.cells.map((c) => {
+                const it = byId[c.itemId];
+                const noCompare = c.changePct == null;
+                return (
+                  <button
+                    key={c.itemId}
+                    onClick={() => navigate(`/item/${c.itemId}`)}
+                    onMouseEnter={(e) => onEnter(e, c)}
+                    onMouseLeave={() => setTip(null)}
+                    className="relative w-[104px] shrink-0 cursor-pointer rounded px-1.5 py-1 text-left"
+                    style={cellStyle(c.changePct)}
+                  >
+                    <div className="truncate text-[11px] leading-tight">{it?.shortName ?? c.name}</div>
+                    <div className="num text-xs font-bold leading-tight">
+                      {noCompare
+                        ? fmtGold(c.avgPrice)
+                        : `${c.changePct > 0 ? "▲" : c.changePct < 0 ? "▼" : ""}${Math.abs(c.changePct).toFixed(1)}%`}
+                    </div>
+                    {noCompare && (
+                      <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full"
+                            style={{ background: "var(--text-muted)" }} title="전일 비교 대기" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {tip && (
+        <div className="card pointer-events-none absolute z-10 px-2.5 py-1.5 text-xs"
+             style={{ left: Math.max(0, Math.min(tip.x - 90, 1160)), top: tip.y - 86, width: 200 }}>
+          <div className="font-semibold">{tip.c.name}</div>
+          <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)}</span></div>
+          <div className="flex justify-between">
+            <span style={{ color: "var(--text-secondary)" }}>전일 대비</span>
+            {tip.c.changePct == null
+              ? <span style={{ color: "var(--text-muted)" }}>비교 대기{backfillDays ? "" : ""}</span>
+              : <span className="num font-semibold" style={{ color: pctColor(tip.c.changePct) }}>{fmtPct(tip.c.changePct)}</span>}
+          </div>
+          <div className="flex justify-between">
+            <span style={{ color: "var(--text-secondary)" }}>매물 수</span>
+            <span className="num">{tip.c.listing ?? "—"}{llBelow > 0 && tip.c.listing != null && tip.c.listing < llBelow ? " (저유동)" : ""}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function Overview({ data }) {
-  const { rows, anomalies, briefings, items, thresholds } = data;
+  const { rows, anomalies, briefings, items, thresholds, backfill } = data;
   const date = latestDate(rows);
   const changes = dodChanges(rows, items, date);
   const todayAnomalies = anomalies.filter((a) => a.date === date);
   const withChange = changes.filter((c) => c.changePct != null);
-  const ups = [...withChange].sort((a, b) => b.changePct - a.changePct).filter((c) => c.changePct > 0).slice(0, 3);
-  const downs = [...withChange].sort((a, b) => a.changePct - b.changePct).filter((c) => c.changePct < 0).slice(0, 3);
+  const ups = [...withChange].sort((a, b) => b.changePct - a.changePct).filter((c) => c.changePct > 0);
+  const downs = [...withChange].sort((a, b) => a.changePct - b.changePct).filter((c) => c.changePct < 0);
   const latestBriefing = briefings[0];
   const llBelow = thresholds?.lowLiquidity?.listingCountBelow ?? 0;
+  const hasCompare = withChange.length > 0;
 
-  const byCategory = {};
-  for (const c of changes) (byCategory[c.category] ??= []).push(c);
+  // 비교 불가 구간 대체 KPI: 오늘 실거래 최다 / 백필 확보 기간 (데이터 생기면 자동 전환)
+  const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
+  let topSold = null;
+  if (!hasCompare && date) {
+    const best = {};
+    for (const r of rows) {
+      if (r.date !== date || r.soldCount24h == null) continue;
+      if (!best[r.itemId] || r.soldCount24h > best[r.itemId]) best[r.itemId] = r.soldCount24h;
+    }
+    const top = Object.entries(best).sort((a, b) => b[1] - a[1])[0];
+    if (top) topSold = { name: byId[top[0]]?.shortName ?? top[0], count: top[1] };
+  }
+  const bfDates = backfill.map((r) => r.date);
+  const bfRange = bfDates.length
+    ? { min: bfDates.reduce((a, b) => (a < b ? a : b)), max: bfDates.reduce((a, b) => (a > b ? a : b)) }
+    : null;
+  const bfDays = bfRange
+    ? Math.round((new Date(bfRange.max) - new Date(bfRange.min)) / 86400000) + 1
+    : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex items-baseline justify-between flex-wrap gap-2">
         <h1 className="text-lg font-bold">마켓 오버뷰</h1>
-        <span className="text-xs num" style={{ color: "var(--text-muted)" }}>기준일 {date ?? "—"} (KST, 하루 3회 수집)</span>
+        <span className="text-xs num" style={{ color: "var(--text-muted)" }}>기준일 {date ?? "—"} · KST 하루 6회 수집 · 운영 중</span>
       </div>
 
       {/* KPI */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         <Kpi label="추적 품목">{items.length}종</Kpi>
         <Kpi label="오늘 이상 변동">
           <span style={{ color: todayAnomalies.length ? "var(--warn)" : "var(--text-primary)" }}>
             {todayAnomalies.length}건
           </span>
         </Kpi>
-        <Kpi label="상승 1위 (전일 대비)">
-          {ups[0] ? (
-            <span className="text-sm">{ups[0].name} <Change value={ups[0].changePct} /></span>
-          ) : (
-            <span className="text-sm" style={{ color: "var(--text-muted)" }}>{withChange.length ? "상승 없음" : "비교 데이터 축적 중"}</span>
-          )}
-        </Kpi>
-        <Kpi label="하락 1위 (전일 대비)">
-          {downs[0] ? (
-            <span className="text-sm">{downs[0].name} <Change value={downs[0].changePct} /></span>
-          ) : (
-            <span className="text-sm" style={{ color: "var(--text-muted)" }}>{withChange.length ? "하락 없음" : "비교 데이터 축적 중"}</span>
-          )}
-        </Kpi>
+        {hasCompare ? (
+          <>
+            <Kpi label="상승 1위 (전일 대비)">
+              {ups[0]
+                ? <span className="text-sm">{byId[ups[0].itemId]?.shortName} <Change value={ups[0].changePct} /></span>
+                : <span className="text-sm" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
+            </Kpi>
+            <Kpi label="하락 1위 (전일 대비)">
+              {downs[0]
+                ? <span className="text-sm">{byId[downs[0].itemId]?.shortName} <Change value={downs[0].changePct} /></span>
+                : <span className="text-sm" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
+            </Kpi>
+          </>
+        ) : (
+          <>
+            <Kpi label="오늘 실거래 최다 (24h)">
+              {topSold
+                ? <span className="text-sm">{topSold.name} <span className="num">{topSold.count}건</span></span>
+                : <span className="text-sm" style={{ color: "var(--text-muted)" }}>집계 중</span>}
+            </Kpi>
+            <Kpi label="백필 확보 기간 (실거래 소급)">
+              {bfRange
+                ? <span className="text-sm num">{bfDays}일 <span style={{ color: "var(--text-muted)" }}>({bfRange.min.slice(5)}~{bfRange.max.slice(5)})</span></span>
+                : <span className="text-sm" style={{ color: "var(--text-muted)" }}>없음</span>}
+            </Kpi>
+          </>
+        )}
       </div>
 
       {/* 최신 브리핑 */}
       {latestBriefing ? (
-        <Link to="/briefings" className="card block p-4 no-underline" style={{ color: "inherit" }}>
+        <Link to="/briefings" className="card block px-3 py-2.5 no-underline" style={{ color: "inherit" }}>
           <div className="flex items-center gap-2 text-xs" style={{ color: "var(--text-secondary)" }}>
             <span className="num">{latestBriefing.date}</span>
             <span>데일리 브리핑</span>
             <span className="ml-auto" style={{ color: "var(--accent)" }}>아카이브 →</span>
           </div>
-          <div className="mt-1 font-bold">{latestBriefing.headline}</div>
-          <ul className="mt-2 space-y-1 text-sm" style={{ color: "var(--text-secondary)" }}>
+          <div className="mt-0.5 text-sm font-bold">{latestBriefing.headline}</div>
+          <ul className="mt-1 space-y-0.5 text-xs" style={{ color: "var(--text-secondary)" }}>
             {latestBriefing.summary_3lines.map((l, i) => <li key={i}>· {l}</li>)}
           </ul>
         </Link>
@@ -83,35 +192,15 @@ export default function Overview({ data }) {
         <Empty>브리핑이 아직 발행되지 않았습니다.</Empty>
       )}
 
-      {/* 카테고리 히트맵 */}
-      <div>
-        <div className="mb-2 flex items-baseline justify-between flex-wrap gap-1">
-          <h2 className="text-sm font-bold">카테고리별 등락 (전일 대비 평균 등록가)</h2>
-          <span className="text-xs" style={{ color: "var(--text-muted)" }}>
-            <span style={{ color: "var(--up)" }}>■ 상승</span> · <span style={{ color: "var(--down)" }}>■ 하락</span> · 회색 = 비교 불가
+      {/* 히트맵 */}
+      <div className="card px-3 py-2.5">
+        <div className="mb-1.5 flex items-baseline justify-between flex-wrap gap-1">
+          <h2 className="text-sm font-bold">카테고리별 등락 히트맵 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(전일 대비 평균 등록가)</span></h2>
+          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+            <span style={{ color: "var(--up)" }}>■ 상승</span> · <span style={{ color: "var(--down)" }}>■ 하락</span> · 회색+우상단 점 = 전일 비교 대기(현재가 표시) · 클릭 시 상세
           </span>
         </div>
-        <div className="space-y-3">
-          {Object.entries(byCategory).map(([cat, list]) => (
-            <div key={cat} className="card p-3">
-              <div className="mb-2 text-xs font-semibold" style={{ color: "var(--text-secondary)" }}>{cat}</div>
-              <div className="grid gap-1.5" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))" }}>
-                {list.map((c) => (
-                  <Link key={c.itemId} to={`/item/${c.itemId}`}
-                        className="rounded px-2 py-1.5 text-xs no-underline"
-                        style={cellStyle(c.changePct)}
-                        title={`${c.name} — 평균가 ${fmtGold(c.avgPrice)}`}>
-                    <div className="truncate font-medium">{c.name}</div>
-                    <div className="num flex items-center gap-1">
-                      {c.changePct == null ? "축적 중" : `${c.changePct > 0 ? "▲" : c.changePct < 0 ? "▼" : ""}${Math.abs(c.changePct).toFixed(1)}%`}
-                      {llBelow > 0 && c.listing != null && c.listing < llBelow && <LowLiquidityBadge />}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <Heatmap changes={changes} items={items} llBelow={llBelow} backfillDays={bfDays} />
       </div>
     </div>
   );

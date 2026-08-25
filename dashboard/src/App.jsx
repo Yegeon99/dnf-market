@@ -37,7 +37,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <header style={{ background: "var(--bg-surface)", borderBottom: "1px solid var(--border)" }}>
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-3">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-center gap-x-5 gap-y-1 px-4 py-3">
           <NavLink to="/" className="no-underline">
             <span className="text-base font-extrabold" style={{ color: "var(--text-primary)" }}>
               DNF <span style={{ color: "var(--accent)" }}>Market Analyst</span>
@@ -58,7 +58,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
+      <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-4">
         {error ? (
           <Empty>데이터 로드 실패: {error}</Empty>
         ) : !data ? (
@@ -75,7 +75,7 @@ export default function App() {
       </main>
 
       <footer style={{ background: "var(--bg-surface)", borderTop: "1px solid var(--border)" }}>
-        <div className="mx-auto max-w-5xl px-4 py-4 text-xs" style={{ color: "var(--text-muted)" }}>
+        <div className="mx-auto max-w-[1400px] px-4 py-4 text-xs" style={{ color: "var(--text-muted)" }}>
           <p>본 서비스는 Neople 오픈 API에서 제공받은 데이터를 일부 가공하여 활용하고 있습니다.</p>
           <p className="mt-0.5">비공식 팬메이드 포트폴리오 — ㈜네오플·넥슨과 무관합니다. 게임 IP 아트워크를 사용하지 않습니다.</p>
         </div>

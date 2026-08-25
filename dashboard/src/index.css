@@ -13,6 +13,19 @@
   --down: #2E6BD6;         /* 하락 (블루) */
   --neutral: #8A93A6;
   --warn: #C8891A;         /* 이상 변동 하이라이트 */
+
+  /* 히트맵 등락 스케일 (보합 ±0.5% 미만 + 방향별 5단계) — 방법론·범례와 공유 */
+  --heat-flat: #ECEFF3;
+  --heat-up-1: #FBE3E3;    /* 0.5~2% 연분홍 */
+  --heat-up-2: #F5BDBD;    /* 2~5% */
+  --heat-up-3: #E98989;    /* 5~10% */
+  --heat-up-4: #DC5A5A;    /* 10~20% */
+  --heat-up-5: #B93030;    /* 20%+ 딥레드 (흰 텍스트) */
+  --heat-down-1: #E1EAF8;
+  --heat-down-2: #BDD3F1;
+  --heat-down-3: #8FB4E6;
+  --heat-down-4: #5E8ED8;
+  --heat-down-5: #2C5FB8;  /* 20%+ 딥블루 (흰 텍스트) */
 }
 
 html {

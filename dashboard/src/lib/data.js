@@ -160,3 +160,30 @@ export function pctColor(v) {
   if (v == null || v === 0) return "var(--neutral)";
   return v > 0 ? "var(--up)" : "var(--down)";
 }
+
+/** 히트맵 색상 스케일: 보합(±0.5% 미만) + 방향별 5단계.
+ *  흰 텍스트는 최심 단계(5)에서만 — 1~4단계는 딥 네이비 텍스트로 WCAG AA 유지. */
+export const HEAT_BOUNDS = [0.5, 2, 5, 10, 20];
+export function heatColor(pct) {
+  if (pct == null) return { bg: "#EFF1F5", fg: "var(--text-secondary)" };
+  const a = Math.abs(pct);
+  if (a < HEAT_BOUNDS[0]) return { bg: "var(--heat-flat)", fg: "var(--text-primary)" };
+  const lv = a < 2 ? 1 : a < 5 ? 2 : a < 10 ? 3 : a < 20 ? 4 : 5;
+  const dir = pct > 0 ? "up" : "down";
+  return { bg: `var(--heat-${dir}-${lv})`, fg: lv >= 5 ? "#FFFFFF" : "var(--text-primary)" };
+}
+
+/** 부호 항상 표기 등락률: +4.2% / -3.1% (색만으로 전달 금지) */
+export function fmtSignedPct(v) {
+  if (v == null) return "—";
+  return `${v > 0 ? "+" : v < 0 ? "-" : "±"}${Math.abs(v).toFixed(1)}%`;
+}
+
+/** 최근 수집 라벨: 최신 (date, slot) → "08-25 15시" */
+export function lastCollectedLabel(rows) {
+  if (!rows.length) return null;
+  const hour = (s) => (s.startsWith("h") ? parseInt(s.slice(1), 10) : { night: 3, am: 9, pm: 15 }[s] ?? 0);
+  const last = rows.reduce((a, b) =>
+    a.date !== b.date ? (a.date > b.date ? a : b) : hour(a.slot) >= hour(b.slot) ? a : b);
+  return `${last.date.slice(5)} ${slotLabel(last.slot)}`;
+}

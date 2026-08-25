@@ -1,5 +1,6 @@
 // 화면 4 — 방법론·데이터 정책: 수집 구조, 이상 탐지 기준 공개, 품목 선정 근거, 출처 고지
 import { Link } from "react-router-dom";
+import HeatLegend from "../components/HeatLegend";
 
 function Box({ children, accent }) {
   return (
@@ -81,6 +82,10 @@ export default function Methodology({ data }) {
           <li>· 저유동 보정: 매물 {ll.listingCountBelow}건 미만 품목은 당일 연속 {ll.minConsecutiveSlots}슬롯 지속 변동일 때만 "중간" 이상으로 분류하고, 화면에 <b>저유동</b> 뱃지로 해석 주의를 안내합니다.</li>
           <li>· 매물 {thresholds.guards.minListingCountForPriceSignal}건 미만이 이틀 연속이면 가격 신호 자체를 채택하지 않습니다. 이상 항목은 하루 최대 {thresholds.guards.maxAnomaliesPerDay}건.</li>
         </ul>
+        <div className="mt-3">
+          <div className="mb-1 text-xs font-semibold" style={{ color: "var(--text-secondary)" }}>오버뷰 히트맵 색상 스케일 (전일 대비, 보합 ±0.5% 미만)</div>
+          <HeatLegend width={300} />
+        </div>
       </section>
 
       {/* AI 해석 정책 */}

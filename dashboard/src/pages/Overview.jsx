@@ -1,28 +1,49 @@
-// 화면 1 — 마켓 오버뷰: KPI, 카테고리 히트맵(촘촘한 타일 그리드), 최신 브리핑
+// 화면 1 — 마켓 오버뷰: KPI, 카테고리 히트맵(2컬럼 그룹 배치), 최신 브리핑
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { dodChanges, latestDate, fmtGold, fmtPct, pctColor } from "../lib/data";
+import {
+  dodChanges, latestDate, fmtGold, fmtPct, fmtSignedPct, heatColor,
+  lastCollectedLabel, pctColor,
+} from "../lib/data";
 import { Change, Empty } from "../components/ui";
+import HeatLegend from "../components/HeatLegend";
 
-function Kpi({ label, children }) {
+function Kpi({ label, caption, children }) {
   return (
     <div className="card px-3 py-2.5">
       <div className="text-xs" style={{ color: "var(--text-secondary)" }}>{label}</div>
       <div className="mt-0.5 text-lg font-bold num leading-tight">{children}</div>
+      {caption && <div className="mt-0.5 text-[10px] leading-tight" style={{ color: "var(--text-muted)" }}>{caption}</div>}
     </div>
   );
 }
 
-/** 등락 5단계 배경: 방향(레드/블루) × 강도(|pct| 구간별 투명도) */
-function cellStyle(pct) {
-  if (pct == null) return { background: "#EFF1F5", color: "var(--text-secondary)" };
-  const a = Math.abs(pct) < 2 ? 0.10 : Math.abs(pct) < 5 ? 0.25 : Math.abs(pct) < 10 ? 0.45
-    : Math.abs(pct) < 20 ? 0.65 : 0.85;
-  const rgb = pct >= 0 ? "214,69,69" : "46,107,214";
-  return { background: `rgba(${rgb},${a})`, color: a > 0.45 ? "#fff" : "var(--text-primary)" };
+// 2컬럼 그룹 배치: 좌(강화·스킬/성장/레어 1세대), 우(증폭/마법부여/레어 2세대/일반)
+const LEFT_GROUPS = ["강화·스킬 재료", "성장 재료", "레어 클론 아바타 1세대"];
+
+function Tile({ c, it, onEnter, onLeave, onClick }) {
+  const noCompare = c.changePct == null;
+  const { bg, fg } = heatColor(c.changePct);
+  return (
+    <button
+      onClick={onClick} onMouseEnter={onEnter} onMouseLeave={onLeave}
+      className="relative w-[118px] shrink-0 cursor-pointer rounded px-1.5 py-1 text-left"
+      style={{ background: bg, color: fg }}
+    >
+      <div className="truncate text-[13px] leading-snug">{it?.shortName ?? c.name}</div>
+      <div className="num text-xs leading-snug" style={{ opacity: 0.85 }}>{fmtGold(c.avgPrice)}</div>
+      <div className="num text-[15px] font-bold leading-snug">
+        {noCompare ? <span className="text-[11px] font-medium" style={{ opacity: 0.8 }}>비교 대기</span> : fmtSignedPct(c.changePct)}
+      </div>
+      {noCompare && (
+        <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--text-muted)" }} title="전일 비교 대기" />
+      )}
+    </button>
+  );
 }
 
-function Heatmap({ changes, items, llBelow, backfillDays }) {
+function Heatmap({ changes, items, llBelow }) {
   const navigate = useNavigate();
   const [tip, setTip] = useState(null); // {x, y, c}
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
@@ -34,6 +55,8 @@ function Heatmap({ changes, items, llBelow, backfillDays }) {
     if (last?.name === g) last.cells.push(c);
     else groups.push({ name: g, cells: [c] });
   }
+  const left = groups.filter((g) => LEFT_GROUPS.includes(g.name));
+  const right = groups.filter((g) => !LEFT_GROUPS.includes(g.name));
 
   const onEnter = (e, c) => {
     const wrap = e.currentTarget.closest("[data-heat]").getBoundingClientRect();
@@ -41,52 +64,39 @@ function Heatmap({ changes, items, llBelow, backfillDays }) {
     setTip({ x: r.left - wrap.left + r.width / 2, y: r.top - wrap.top, c });
   };
 
+  const renderGroups = (list) => (
+    <div className="space-y-2">
+      {list.map((g) => (
+        <div key={g.name}>
+          <div className="mb-0.5 text-[11px] font-semibold" style={{ color: "var(--text-muted)" }}>{g.name}</div>
+          <div className="flex flex-wrap gap-1 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:pb-1">
+            {g.cells.map((c) => (
+              <Tile key={c.itemId} c={c} it={byId[c.itemId]}
+                    onClick={() => navigate(`/item/${c.itemId}`)}
+                    onEnter={(e) => onEnter(e, c)} onLeave={() => setTip(null)} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className="relative" data-heat>
-      <div className="space-y-1.5">
-        {groups.map((g) => (
-          <div key={g.name}>
-            <div className="mb-0.5 text-[11px] font-semibold" style={{ color: "var(--text-muted)" }}>{g.name}</div>
-            <div className="flex flex-wrap gap-1 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:pb-1">
-              {g.cells.map((c) => {
-                const it = byId[c.itemId];
-                const noCompare = c.changePct == null;
-                return (
-                  <button
-                    key={c.itemId}
-                    onClick={() => navigate(`/item/${c.itemId}`)}
-                    onMouseEnter={(e) => onEnter(e, c)}
-                    onMouseLeave={() => setTip(null)}
-                    className="relative w-[104px] shrink-0 cursor-pointer rounded px-1.5 py-1 text-left"
-                    style={cellStyle(c.changePct)}
-                  >
-                    <div className="truncate text-[11px] leading-tight">{it?.shortName ?? c.name}</div>
-                    <div className="num text-xs font-bold leading-tight">
-                      {noCompare
-                        ? fmtGold(c.avgPrice)
-                        : `${c.changePct > 0 ? "▲" : c.changePct < 0 ? "▼" : ""}${Math.abs(c.changePct).toFixed(1)}%`}
-                    </div>
-                    {noCompare && (
-                      <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full"
-                            style={{ background: "var(--text-muted)" }} title="전일 비교 대기" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+      <div className="grid gap-x-4 gap-y-2 sm:grid-cols-2">
+        {renderGroups(left)}
+        {renderGroups(right)}
       </div>
 
       {tip && (
         <div className="card pointer-events-none absolute z-10 px-2.5 py-1.5 text-xs"
-             style={{ left: Math.max(0, Math.min(tip.x - 90, 1160)), top: tip.y - 86, width: 200 }}>
+             style={{ left: Math.max(0, Math.min(tip.x - 90, 1160)), top: Math.max(0, tip.y - 92), width: 200 }}>
           <div className="font-semibold">{tip.c.name}</div>
           <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)}</span></div>
           <div className="flex justify-between">
             <span style={{ color: "var(--text-secondary)" }}>전일 대비</span>
             {tip.c.changePct == null
-              ? <span style={{ color: "var(--text-muted)" }}>비교 대기{backfillDays ? "" : ""}</span>
+              ? <span style={{ color: "var(--text-muted)" }}>비교 대기</span>
               : <span className="num font-semibold" style={{ color: pctColor(tip.c.changePct) }}>{fmtPct(tip.c.changePct)}</span>}
           </div>
           <div className="flex justify-between">
@@ -110,6 +120,7 @@ export default function Overview({ data }) {
   const latestBriefing = briefings[0];
   const llBelow = thresholds?.lowLiquidity?.listingCountBelow ?? 0;
   const hasCompare = withChange.length > 0;
+  const lastCollected = lastCollectedLabel(rows);
 
   // 비교 불가 구간 대체 KPI: 오늘 실거래 최다 / 백필 확보 기간 (데이터 생기면 자동 전환)
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
@@ -135,13 +146,17 @@ export default function Overview({ data }) {
     <div className="space-y-4">
       <div className="flex items-baseline justify-between flex-wrap gap-2">
         <h1 className="text-lg font-bold">마켓 오버뷰</h1>
-        <span className="text-xs num" style={{ color: "var(--text-muted)" }}>기준일 {date ?? "—"} · KST 하루 6회 수집 · 운영 중</span>
+        <span className="text-xs num" style={{ color: "var(--text-muted)" }}>
+          기준일 {date ?? "—"} · KST 하루 6회 수집 · <span style={{ color: "var(--accent)" }}>● 운영 중</span>
+          {lastCollected && <> · 최근 수집 {lastCollected}</>}
+        </span>
       </div>
 
       {/* KPI */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         <Kpi label="추적 품목">{items.length}종</Kpi>
-        <Kpi label="오늘 이상 변동">
+        <Kpi label="오늘 이상 변동"
+             caption={todayAnomalies.length === 0 ? "탐지 기준: 전일 대비 — 데이터 2일차부터 적용" : null}>
           <span style={{ color: todayAnomalies.length ? "var(--warn)" : "var(--text-primary)" }}>
             {todayAnomalies.length}건
           </span>
@@ -194,13 +209,14 @@ export default function Overview({ data }) {
 
       {/* 히트맵 */}
       <div className="card px-3 py-2.5">
-        <div className="mb-1.5 flex items-baseline justify-between flex-wrap gap-1">
-          <h2 className="text-sm font-bold">카테고리별 등락 히트맵 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(전일 대비 평균 등록가)</span></h2>
-          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
-            <span style={{ color: "var(--up)" }}>■ 상승</span> · <span style={{ color: "var(--down)" }}>■ 하락</span> · 회색+우상단 점 = 전일 비교 대기(현재가 표시) · 클릭 시 상세
-          </span>
+        <div className="mb-2 flex items-end justify-between flex-wrap gap-2">
+          <div>
+            <h2 className="text-sm font-bold">카테고리별 등락 히트맵 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(전일 대비 평균 등록가 · 클릭 시 상세)</span></h2>
+            <div className="text-[11px]" style={{ color: "var(--text-muted)" }}>회색+우상단 점 = 전일 비교 대기(현재가 표시)</div>
+          </div>
+          <HeatLegend />
         </div>
-        <Heatmap changes={changes} items={items} llBelow={llBelow} backfillDays={bfDays} />
+        <Heatmap changes={changes} items={items} llBelow={llBelow} />
       </div>
     </div>
   );

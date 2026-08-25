@@ -1,0 +1,16 @@
+{
+ "days": {
+  "2026-08-26": {
+   "calls": 1,
+   "inputTokens": 1837,
+   "outputTokens": 628,
+   "costUsd": 0.024885,
+   "byCaller": {
+    "briefing": {
+     "calls": 1,
+     "costUsd": 0.024885
+    }
+   }
+  }
+ }
+}

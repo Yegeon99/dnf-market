@@ -1,3 +1,194 @@
 {
- "anomalies": []
+ "anomalies": [
+  {
+   "id": "2026-08-26_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "itemName": "시간의 결정",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.6,
+   "currentValue": 3.0,
+   "change_pct": 87.5,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_20d6374d6ab02076f7c32153568431c9_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "itemName": "레어 모자 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 7.2,
+   "currentValue": 10.0,
+   "change_pct": 38.89,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_4390b9e236193bc39855cc8964d23faa_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "itemName": "흰색 큐브 조각",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 7.6,
+   "currentValue": 4.0,
+   "change_pct": -47.37,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_5f5d0a2e9dd8050b6e3c4655a09cf296_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "itemName": "기억의 도서관지기 카드",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 4.6,
+   "currentValue": 7.0,
+   "change_pct": 52.17,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_8e132da6f012fc61191ca68df4663b44_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "itemName": "얼굴 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.2,
+   "currentValue": 2.0,
+   "change_pct": 66.67,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "itemName": "무결점 골든 베릴",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 7.6,
+   "currentValue": 12.0,
+   "change_pct": 57.89,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_b9f2f716a09d0ed96d115ed5776aa5db_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "itemName": "레어 상의 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 13.4,
+   "currentValue": 21.0,
+   "change_pct": 56.72,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_c37bf84cf16964557b577497404268c8_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "itemName": "레어 하의 클론 아바타(2종)",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 11.0,
+   "currentValue": 5.0,
+   "change_pct": -54.55,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_d584d612f09215ef0c42498e6990b61d_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "itemName": "봉인된 자물쇠",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 2.2,
+   "currentValue": 4.0,
+   "change_pct": 81.82,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-26_d9bc96637286b4f5449d21d36e44675d_listingCount_dod",
+   "date": "2026-08-26",
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "itemName": "흑색 큐브 조각",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 3.6,
+   "currentValue": 2.0,
+   "change_pct": -44.44,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": "추정"
+   }
+  }
+ ]
 }

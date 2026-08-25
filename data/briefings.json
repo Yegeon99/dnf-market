@@ -12,6 +12,51 @@
    "anomaly_ids": [],
    "generatedBy": "template",
    "costUsd": 0.0
+  },
+  {
+   "date": "2026-08-26",
+   "headline": "클론 아바타 최대 +26.9%, 보주 -29.8%",
+   "summary_3lines": [
+    "추적 31종 중 레어 머리 클론 아바타가 +26.92%로 상승 폭 1위, 레어 신발(+25.25%)·레어 머리 2종(+23.58%)이 뒤를 이었다.",
+    "하락은 기억의 도서관지기 보주 -29.8%가 가장 컸고 시간의 결정 -13.99%, 피터 더 파이퍼 카드 -13.67% 순이다.",
+    "이상 변동 10건은 모두 등록 수량(listingCount) 지표의 낮은 심각도이며, 봉인된 자물쇠 +81.82%부터 레어 하의 클론 아바타(2종) -54.55%까지 분포한다."
+   ],
+   "notable": [
+    {
+     "itemName": "레어 머리 클론 아바타",
+     "comment": "전일 대비 +26.92%로 상승 상위 1위."
+    },
+    {
+     "itemName": "기억의 도서관지기 보주",
+     "comment": "-29.8%로 하락 폭 최대."
+    },
+    {
+     "itemName": "시간의 결정",
+     "comment": "가격 -13.99%와 등록 수량 +87.5%가 동반, 원인 미상으로 관찰 지속(추정)."
+    },
+    {
+     "itemName": "봉인된 자물쇠",
+     "comment": "등록 수량 +81.82%, 원인 미상 관찰 지속(추정)."
+    },
+    {
+     "itemName": "레어 하의 클론 아바타(2종)",
+     "comment": "등록 수량 -54.55%로 감소 폭 최대, 원인 미상(추정)."
+    }
+   ],
+   "anomaly_ids": [
+    "2026-08-26_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
+    "2026-08-26_20d6374d6ab02076f7c32153568431c9_listingCount_dod",
+    "2026-08-26_4390b9e236193bc39855cc8964d23faa_listingCount_dod",
+    "2026-08-26_5f5d0a2e9dd8050b6e3c4655a09cf296_listingCount_dod",
+    "2026-08-26_8e132da6f012fc61191ca68df4663b44_listingCount_dod",
+    "2026-08-26_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+    "2026-08-26_b9f2f716a09d0ed96d115ed5776aa5db_listingCount_dod",
+    "2026-08-26_c37bf84cf16964557b577497404268c8_listingCount_dod",
+    "2026-08-26_d584d612f09215ef0c42498e6990b61d_listingCount_dod",
+    "2026-08-26_d9bc96637286b4f5449d21d36e44675d_listingCount_dod"
+   ],
+   "generatedBy": "claude-opus-5",
+   "costUsd": 0.024885
   }
  ]
 }

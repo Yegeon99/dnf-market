@@ -14,9 +14,9 @@
 ## 남은 것
 
 - [x] 푸시 완료 (2026-08-25 마무리 시점에 성공 — snapshot.yml 원격 반영 확인됨)
-- [ ] `gh secret set`으로 NEOPLE_API_KEY 등록 (.env에서 읽기, 로그 노출 금지)
+- [x] NEOPLE_API_KEY Secrets 등록 완료 (2026-08-25, .env 재생성 후)
 - [ ] ANTHROPIC_API_KEY — **.env에 아직 값 없음**. 사용자에게 받은 후 Secrets 등록 (빈 값 등록 금지)
-- [ ] workflow_dispatch 수동 실행 1회 → Actions 환경에서 스냅샷 생성·data/ 한정 커밋 검증
+- [x] workflow_dispatch 수동 실행 성공 — 스냅샷 생성, data/ 한정 커밋 확인 (run 32805882806)
 - [ ] 게이트 1 보고 (저장소 URL, Secrets 확인, 수동 실행 결과, cron 등록 상태, 문제·해결)
 
 ## 내일 첫 작업 순서

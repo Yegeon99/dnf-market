@@ -1,37 +1,35 @@
-# HANDOFF — 2026-08-25 (내일 재개용)
+# HANDOFF — 2026-08-25 (Phase 2 완료 시점)
 
 ## 완료된 것
 
-- [x] Phase 0 전체: 구조·venv·dashboard 스캐폴드, 네오플 정책 정독·요약, 실키 테스트 호출
-- [x] 품목 후보 64종 실매물 검증 → **31종 확정** (`config/items.json`)
-- [x] GitHub 저장소 생성: https://github.com/Yegeon99/dnf-market-analyst (Public, origin 연결됨)
-- [x] gh CLI 설치·로그인 (계정 Yegeon99, keyring)
-- [x] Phase 1 구현: `pipeline/collect.py`, `pipeline/aggregate.py`, `.github/workflows/snapshot.yml`
-- [x] 로컬 수집 검증 성공: 31품목, API 62호출, 실패 0, 스냅샷·timeseries.json 생성
-- [x] 보안 3종 통과: .env 미추적, 키 문자열 스캔 0건, .gitignore 확인
-- [x] 첫 커밋 + 마무리 커밋 (로컬)
+- [x] Phase 0·1 전체 (셋업, 품목 31종, 수집 파이프라인, snapshot.yml 가동)
+- [x] GitHub 인증 복구 (gh 재설치 v2.98.0 — 기존 설치 소실, curl device flow로 우회 로그인)
+- [x] `.env` 재생성 (소실 발견 — OneDrive 추정). NEOPLE·ANTHROPIC 키 모두 SET
+- [x] Secrets 2종 등록·확인 (NEOPLE_API_KEY, ANTHROPIC_API_KEY), 네오플 테스트 200
+- [x] `.venv` 재생성 (Python 3.11.9 재설치 — 시스템 python도 소실돼 있었음)
+- [x] snapshot.yml 수동 실행 성공 (run 32805882806) — data/ 한정 커밋 확인
+- [x] **Phase 2 구현 완료** (커밋 40b7ce9):
+  - `pipeline/detect.py` — 전일 대비 + 7일 MA 이탈(7일 축적 시 자동 활성화), `config/thresholds.json`
+  - `pipeline/interpret.py` — ±3일 events 교차, claude-haiku-4-5, 근거 URL 화이트리스트 검증
+  - `pipeline/briefing.py` — 이상 有 opus-5 / 0건 무비용 템플릿, `pipeline/llm.py` 비용 원장·$0.3 상한
+  - `pipeline/run_daily.py` + `.github/workflows/daily.yml` (KST 03:00), snapshot.yml은 09/15시 2회로 조정
+  - `config/events.csv` — 최근 1개월 공지·이벤트 후보 13건 (사용자 확인 대기)
+- [x] daily.yml Actions 검증 성공 (run 32807081842) — 전 체인 통과, data/ 한정 커밋
+- [x] LLM 비용 실측: interpret(haiku) $0.001/건, briefing(opus-5) $0.0133/회
+  — 최악 일 $0.0233 (목표 $0.1, 상한 $0.3 내)
 
 ## 남은 것
 
-- [x] 푸시 완료 (2026-08-25 마무리 시점에 성공 — snapshot.yml 원격 반영 확인됨)
-- [x] NEOPLE_API_KEY Secrets 등록 완료 (2026-08-25, .env 재생성 후)
-- [ ] ANTHROPIC_API_KEY — **.env에 아직 값 없음**. 사용자에게 받은 후 Secrets 등록 (빈 값 등록 금지)
-- [x] workflow_dispatch 수동 실행 성공 — 스냅샷 생성, data/ 한정 커밋 확인 (run 32805882806)
-- [ ] 게이트 1 보고 (저장소 URL, Secrets 확인, 수동 실행 결과, cron 등록 상태, 문제·해결)
-
-## 내일 첫 작업 순서
-
-1. Secrets 등록·확인: NEOPLE_API_KEY를 .env에서 읽어 `gh secret set` → `gh secret list`
-2. Actions 수동 실행: `gh workflow run snapshot.yml` → 결과 확인 (`gh run watch`)
-   — data/ 경로 한정 커밋인지 확인
-3. 게이트 1 보고 후 대기 (스냅샷 3회 연속 정상 확인이 게이트 통과 조건)
+- [ ] 게이트 1 잔여: 스냅샷 3회 연속 정상 — KST 15:00 cron 결과 확인 (백그라운드 감시 예약됨)
+- [ ] 게이트 2 사용자 검수: events.csv 후보 13건 확인, 샘플 브리핑 검수
+- [ ] Phase 3: 대시보드 4화면 (게이트 2 통과 후)
 
 ## 주의사항
 
-- **인증 성공 전까지 Actions 미가동 = 스냅샷이 아직 쌓이지 않고 있음.**
-  현재 데이터는 로컬 검증 1회분(2026-08-25_0041.json, night 슬롯)뿐.
-  시계열 축적은 푸시 + Secrets 등록이 끝나야 시작된다 — 내일 최우선.
-- gh 경로: `C:\Program Files\GitHub CLI\gh.exe` (새 셸에서 PATH에 없을 수 있음)
-- 커밋·푸시는 이 프로젝트에 한해 위임받음. 메시지 [phase-N] 한국어 형식.
-- PowerShell 문자열 보간에서 `$var건`처럼 한글이 붙으면 `${var}건`으로.
-- 로컬 파이프라인 실행: `.venv/Scripts/python.exe pipeline/collect.py`
+- **OneDrive가 gitignored 파일(.env, .venv)과 로컬 설치물(gh, python)을 날린 전례 있음.**
+  재발 시: winget으로 gh·python 재설치, .env는 사용자에게 키 요청, venv는 requirements.txt로 재생성.
+- 키 값은 채팅·로그·보고에 절대 출력 금지. "설정됨/미설정" + HTTP 코드로만 보고.
+- gh 경로: `C:\Program Files\GitHub CLI\gh.exe` (PATH에 없음)
+- 커밋·푸시 이 프로젝트에 한해 위임받음. 메시지 [phase-N] 한국어.
+- 심야 슬롯(KST 03:00)은 daily.yml이 수집+분석 통합 수행. snapshot.yml은 09/15시만.
+- 로컬 실행: `.venv/Scripts/python.exe pipeline/run_daily.py` (개별 스크립트도 가능)

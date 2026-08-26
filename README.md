@@ -8,7 +8,7 @@
 
 **Live**: https://dnf-market-analyst.vercel.app
 
-형제 프로젝트: [Arad Census](https://github.com/Yegeon99/arad-census) — 시장에 이어 **유저**를 보는 캐릭터 표본조사 리포트.
+형제 프로젝트: [Arad Census](https://github.com/Yegeon99/arad-census), 시장에 이어 **유저**를 보는 캐릭터 표본조사 **7화면 인터랙티브 리포트**.
 
 > 🟢 **운영 중 시스템** — 본 대시보드는 매일 자동으로 데이터가 추가된다.
 > 수집 시작일 2026-08-25 · 하루 6회(KST 03/07/11/15/19/23시) 자동 수집 · 심야 자동 분석·브리핑 발행.

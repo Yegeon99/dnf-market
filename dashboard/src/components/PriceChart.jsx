@@ -4,7 +4,7 @@
 import { useMemo, useRef, useState, useEffect } from "react";
 import { slotLabel, fmtGold, fmtComma } from "../lib/data";
 
-const M = { top: 30, right: 12, bottom: 24, left: 56 };
+const M = { top: 32, right: 12, bottom: 26, left: 66 };
 
 function useWidth(ref, fallback = 640) {
   const [w, setW] = useState(fallback);
@@ -142,7 +142,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
         </defs>
 
         {/* 축 단위 라벨 */}
-        <text x={M.left - 44} y={12} fontSize="10" fill="var(--chart-axis-text)">단위: 골드</text>
+        <text x={M.left - 54} y={13} fontSize="13" fill="var(--chart-axis-text)">단위: 골드</text>
 
         {/* y 그리드·눈금 */}
         {Array.from({ length: yTicks + 1 }, (_, k) => {
@@ -150,7 +150,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
           return (
             <g key={k}>
               <line x1={M.left} x2={width - M.right} y1={yAt(v)} y2={yAt(v)} stroke="var(--chart-grid)" strokeWidth="1" />
-              <text x={M.left - 6} y={yAt(v) + 4} textAnchor="end" fontSize="10" fill="var(--chart-axis-text)" className="num">
+              <text x={M.left - 6} y={yAt(v) + 4} textAnchor="end" fontSize="13" fill="var(--chart-axis-text)" className="num">
                 {model.y1 - model.y0 < 10 ? v.toFixed(1) : fmtGold(v)}
               </text>
             </g>
@@ -158,7 +158,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
         })}
         {/* x 날짜 틱 */}
         {ticks.map((t) => (
-          <text key={t.i} x={xAt(t.i)} y={height - 6} textAnchor="middle" fontSize="10" fill="var(--chart-axis-text)" className="num">
+          <text key={t.i} x={xAt(t.i)} y={height - 6} textAnchor="middle" fontSize="13" fill="var(--chart-axis-text)" className="num">
             {t.date.slice(5)}
           </text>
         ))}
@@ -198,7 +198,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
         {/* 이벤트 마커: 골드 세로 점선 + 상단 아이콘 칩 */}
         {evMarks.map((ev, k) => {
           const cx = xAt(ev.i);
-          const chipW = Math.min(Math.max(ev.type.length * 11 + 18, 40), 72);
+          const chipW = Math.min(Math.max(ev.type.length * 14 + 24, 48), 92);
           return (
             <g key={k}
                onMouseEnter={() => setEvHover(k)} onMouseLeave={() => setEvHover(null)}
@@ -207,10 +207,10 @@ export default function PriceChart({ series, events = [], height = 280 }) {
                style={{ cursor: "pointer" }}>
               <line x1={cx} x2={cx} y1={M.top - 2} y2={baseY}
                     stroke="var(--chart-event)" strokeWidth="1.2" strokeDasharray="4 3" />
-              <rect x={cx - chipW / 2} y={4} width={chipW} height="17" rx="8.5"
+              <rect x={cx - chipW / 2} y={3} width={chipW} height="20" rx="10"
                     fill="var(--gold-soft)" stroke="var(--chart-event)" strokeWidth="0.8" />
-              <circle cx={cx - chipW / 2 + 10} cy={12.5} r="2.2" fill="var(--chart-event)" />
-              <text x={cx - chipW / 2 + 17} y={16} fontSize="10" fontWeight="600" fill="var(--chart-event-text)">{ev.type}</text>
+              <circle cx={cx - chipW / 2 + 11} cy={13} r="2.4" fill="var(--chart-event)" />
+              <text x={cx - chipW / 2 + 18} y={17.5} fontSize="13" fontWeight="600" fill="var(--chart-event-text)">{ev.type}</text>
               {/* 호버 판정 넓힘 */}
               <rect x={cx - chipW / 2} y={0} width={chipW} height={height - M.bottom} fill="transparent" />
             </g>
@@ -221,8 +221,8 @@ export default function PriceChart({ series, events = [], height = 280 }) {
       {/* 이벤트 툴팁: 공지 제목 + 링크 */}
       {evHover != null && evMarks[evHover] && (
         <div
-          className="card absolute z-10 px-3 py-2 text-xs"
-          style={{ left: Math.min(xAt(evMarks[evHover].i) + 8, width - 230), top: 24, width: 220 }}
+          className="card absolute z-10 px-3 py-2 text-[13px]"
+          style={{ left: Math.min(xAt(evMarks[evHover].i) + 8, width - 246), top: 26, width: 236 }}
           onMouseEnter={() => setEvHover(evHover)} onMouseLeave={() => setEvHover(null)}
         >
           <div style={{ color: "var(--chart-event-text)" }} className="font-semibold">{evMarks[evHover].date} · {evMarks[evHover].type}</div>
@@ -233,8 +233,8 @@ export default function PriceChart({ series, events = [], height = 280 }) {
 
       {/* 데이터 툴팁: 날짜·등록가·실거래가·매물 수·전일 대비 */}
       {h && evHover == null && (
-        <div className="card pointer-events-none absolute z-10 px-3 py-2 text-xs"
-             style={{ left: Math.min(hover.x + 10, width - 210), top: 26, width: 200 }}>
+        <div className="card pointer-events-none absolute z-10 px-3 py-2 text-[13px]"
+             style={{ left: Math.min(hover.x + 10, width - 232), top: 28, width: 222 }}>
           <div className="font-semibold num">{h.date} {slotLabel(h.slot)}</div>
           <div className="mt-1 space-y-0.5">
             <div className="flex justify-between"><span style={{ color: "var(--chart-line-listed)" }}>등록 평균</span><span className="num">{h.avgPrice != null ? `${fmtComma(h.avgPrice)} 골드` : "미수집"}</span></div>
@@ -256,7 +256,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
       )}
 
       {/* 범례 */}
-      <div className="flex flex-wrap gap-x-4 gap-y-1 px-2 pt-1 text-xs" style={{ color: "var(--text-secondary)" }}>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 px-2 pt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
         {LINES.map((l) => (
           <span key={l.key} className="flex items-center gap-1.5">
             <span style={{ background: l.color, width: 14, height: 3, display: "inline-block", borderRadius: 2 }} />

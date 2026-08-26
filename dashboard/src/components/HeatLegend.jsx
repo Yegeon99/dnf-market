@@ -13,20 +13,20 @@ const CELLS = [
   { c: "var(--heat-up-5)", b: "+20%" },
 ];
 
-export default function HeatLegend({ width = 250 }) {
+export default function HeatLegend({ width = 340 }) {
   return (
     <div style={{ width }} aria-label="전일 대비 등락 색상 범례">
-      <div className="flex items-center justify-between text-[10px]" style={{ color: "var(--text-muted)" }}>
+      <div className="flex items-center justify-between text-[13px]" style={{ color: "var(--text-muted)" }}>
         <span>← 하락</span>
         <span>전일 대비 등락률</span>
         <span>상승 →</span>
       </div>
       <div className="mt-0.5 flex gap-[2px]">
         {CELLS.map((cell, i) => (
-          <span key={i} className="h-2.5 flex-1" style={{ background: cell.c, borderRadius: 2 }} />
+          <span key={i} className="h-3 flex-1" style={{ background: cell.c, borderRadius: 2 }} />
         ))}
       </div>
-      <div className="mt-0.5 flex text-[10px] num" style={{ color: "var(--text-muted)" }}>
+      <div className="mt-0.5 flex text-[13px] num" style={{ color: "var(--text-muted)" }}>
         {CELLS.map((cell, i) => (
           <span key={i} className="flex-1 text-center">{cell.b}</span>
         ))}

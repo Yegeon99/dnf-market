@@ -14,14 +14,14 @@ function Light({ on }) {
 
 function Step({ title, time, on, note }) {
   return (
-    <div className="flex min-w-[118px] flex-1 items-start gap-2 px-1">
+    <div className="flex min-w-[132px] flex-1 items-start gap-2 px-1">
       <div className="mt-1"><Light on={on} /></div>
       <div>
-        <div className="text-[13px] font-semibold leading-snug" style={{ color: "var(--text-primary)" }}>{title}</div>
-        <div className="num text-xs leading-snug" style={{ color: on ? "var(--text-secondary)" : "var(--text-muted)" }}>
+        <div className="text-sm font-semibold leading-snug" style={{ color: "var(--text-primary)" }}>{title}</div>
+        <div className="num text-[13px] leading-snug" style={{ color: on ? "var(--text-secondary)" : "var(--text-muted)" }}>
           {time}
         </div>
-        {note && <div className="text-[11px] leading-snug" style={{ color: "var(--text-muted)" }}>{note}</div>}
+        {note && <div className="text-[13px] leading-snug" style={{ color: "var(--text-muted)" }}>{note}</div>}
       </div>
     </div>
   );
@@ -68,7 +68,7 @@ export default function StatusStrip({ rows, briefings }) {
 
   return (
     <div className="card scroll-x" role="group" aria-label="무인 파이프라인 상태">
-      <div className="flex min-w-[560px] items-start gap-1 px-3 py-2">
+      <div className="flex min-w-[640px] items-start gap-1 px-3 py-2">
         <div className="mr-2 hidden shrink-0 self-center sm:block">
           <div className="t-eyebrow leading-tight" style={{ color: "var(--accent)" }}>무인<br />파이프라인</div>
         </div>

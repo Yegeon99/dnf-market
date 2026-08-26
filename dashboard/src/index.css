@@ -109,7 +109,7 @@ html {
   color-scheme: light;
   font-family: "Pretendard Variable", Pretendard, -apple-system, "Segoe UI",
     "Malgun Gothic", sans-serif;
-  font-size: 15.5px;
+  font-size: 16px;
   line-height: 1.7;
   -webkit-text-size-adjust: 100%;
 }
@@ -140,24 +140,24 @@ h1, h2, h3, p, li, td, th, figcaption, button, .t-title, .t-lead {
   letter-spacing: -0.02em;
 }
 .t-lead {
-  font-size: 0.98rem;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--text-secondary);
 }
 .t-kicker {
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   line-height: 1.4;
   color: var(--text-muted);
 }
 .t-eyebrow {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   color: var(--text-muted);
 }
-.t-small { font-size: 0.8rem; line-height: 1.65; color: var(--text-muted); }
+.t-small { font-size: 0.85rem; line-height: 1.65; color: var(--text-muted); }
 
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
@@ -166,8 +166,8 @@ a { color: var(--accent); text-underline-offset: 3px; }
 /* ── 내비 필 ── */
 .nav-pill {
   border-radius: 9999px;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.86rem;
+  padding: 0.28rem 0.8rem;
+  font-size: 0.95rem;
   font-weight: 450;
   color: var(--text-secondary);
   text-decoration: none;
@@ -183,6 +183,20 @@ a { color: var(--accent); text-underline-offset: 3px; }
 /* ── 헤어라인 ── */
 .rule { height: 1px; background: var(--hairline); border: 0; }
 .rule-strong { height: 1px; background: var(--hairline-strong); border: 0; }
+
+/* ── 접기 펼치기: 텍스트 링크 스타일 (Census 공유) ── */
+.disclose {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.disclose:hover { color: var(--accent-deep); }
 
 /* ── 카드 ── */
 .card {
@@ -230,7 +244,7 @@ a { color: var(--accent); text-underline-offset: 3px; }
 }
 
 /* ── 표 ── */
-table.plain { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+table.plain { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 table.plain th {
   text-align: left;
   font-weight: 600;

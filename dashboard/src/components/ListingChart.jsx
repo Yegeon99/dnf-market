@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import { slotLabel } from "../lib/data";
 
-const M = { top: 14, right: 12, bottom: 20, left: 56 };
+const M = { top: 16, right: 12, bottom: 22, left: 66 };
 
 export default function ListingChart({ series, height = 116 }) {
   const ref = useRef(null);
@@ -26,11 +26,11 @@ export default function ListingChart({ series, height = 116 }) {
   return (
     <div ref={ref}>
       <svg width={width} height={height} role="img" aria-label="매물 수 추이 차트">
-        <text x={M.left - 44} y={10} fontSize="10" fill="var(--chart-axis-text)">단위: 건</text>
-        <text x={M.left - 6} y={M.top + 8} textAnchor="end" fontSize="10" fill="var(--chart-axis-text)" className="num">{max.toLocaleString()}</text>
+        <text x={M.left - 54} y={12} fontSize="13" fill="var(--chart-axis-text)">단위: 건</text>
+        <text x={M.left - 6} y={M.top + 8} textAnchor="end" fontSize="13" fill="var(--chart-axis-text)" className="num">{max.toLocaleString()}</text>
         <line x1={M.left} x2={width - M.right} y1={M.top + ih} y2={M.top + ih} stroke="var(--chart-grid)" />
         {!hasAny && (
-          <text x={M.left + iw / 2} y={M.top + ih / 2} textAnchor="middle" fontSize="11" fill="var(--text-muted)">
+          <text x={M.left + iw / 2} y={M.top + ih / 2} textAnchor="middle" fontSize="13" fill="var(--text-muted)">
             표시할 매물 수 데이터가 없습니다
           </text>
         )}
@@ -61,13 +61,13 @@ export default function ListingChart({ series, height = 116 }) {
             ticks = ticks.filter((_, k) => k % step === 0 || k === ticks.length - 1);
           }
           return ticks.map((t) => (
-            <text key={t.i} x={xAt(t.i)} y={height - 5} textAnchor="middle" fontSize="10" fill="var(--chart-axis-text)" className="num">
+            <text key={t.i} x={xAt(t.i)} y={height - 5} textAnchor="middle" fontSize="13" fill="var(--chart-axis-text)" className="num">
               {t.date.slice(5)}
             </text>
           ));
         })()}
       </svg>
-      <div className="px-2 text-xs" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 회차는 빈 칸)</div>
+      <div className="px-2 text-[13px]" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 회차는 빈 칸)</div>
     </div>
   );
 }

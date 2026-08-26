@@ -60,14 +60,14 @@ def stable_briefing(target_date: str, summary: dict) -> dict:
     n = summary["trackedItems"]
     if not summary["hasPrevDay"]:
         # 수집 초기: 전일 비교 자체가 불가능 — 안정을 단정하지 않는다
-        headline = f"수집 축적 구간 — {n}종 스냅샷 기록 (변동 분석 대기)"
+        headline = f"수집 축적 구간, {n}종 스냅샷 기록. 변동 분석 대기"
         lines = [
             f"추적 품목 {n}종의 당일 스냅샷을 수집·기록했다.",
             "전일 비교 데이터가 아직 없어 변동률 산출은 다음 수집분부터 가능하다.",
             "이상 탐지는 데이터 2일차부터, 이동평균 이탈 탐지는 7일 축적 후 자동 적용된다.",
         ]
     else:
-        headline = f"안정 구간 — 이상 변동 0건 ({n}종 추적)"
+        headline = f"안정 구간, 이상 변동 0건 ({n}종 추적)"
         lines = [f"추적 품목 {n}종 전체가 이상 탐지 임계치(전일 대비 8%) 내 변동에 머물렀다."]
         if summary["topUp"]:
             t = summary["topUp"][0]

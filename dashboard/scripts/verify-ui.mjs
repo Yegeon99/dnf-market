@@ -80,12 +80,18 @@ try {
       // 히트맵: 전 품목 타일 수 + 한 화면(뷰포트) 수납 여부
       const tiles = await page.$$eval("[data-heat] button", (els) => els.length);
       checks.push([`오버뷰: 히트맵 타일 ${data.items.length}개`, tiles === data.items.length]);
-      // 상태 스트립 추가(2026-08 재단장) 이후 전량 수납 대신 "첫 화면에서 히트맵 시작"으로 기준 조정
-      const fits = await page.evaluate(() => {
-        const heat = document.querySelector("[data-heat]");
-        return heat ? heat.getBoundingClientRect().top < window.innerHeight - 120 : false;
+      // 정보 설계 개선(2026-08): 첫 화면(1440×900)은 "오늘의 이야기" = 브리핑 헤드라인 + 등락 순위 보드.
+      // 히트맵은 스크롤 아래 배치를 허용한다 (가독성 우선).
+      const fold = await page.evaluate(() => {
+        const heads = [...document.querySelectorAll("h2")];
+        const brief = heads.find((h) => h.textContent.includes("데일리 브리핑")) ??
+          [...document.querySelectorAll("a")].find((a) => a.textContent.includes("데일리 브리핑"));
+        const rank = heads.find((h) => h.textContent.includes("오늘의 등락 순위"));
+        const inView = (el) => el && el.getBoundingClientRect().top < window.innerHeight - 60;
+        return { brief: inView(brief), rank: inView(rank) };
       });
-      checks.push(["오버뷰: 히트맵 첫 화면(1440×900) 노출", fits]);
+      checks.push(["오버뷰: 브리핑 카드 첫 화면 노출", fold.brief]);
+      checks.push(["오버뷰: 등락 순위 보드 첫 화면 노출", fold.rank]);
       await page.screenshot({ path: join(shotDir, "overview_viewport-1440x900.png") });
       const body = await page.innerText("body");
       checks.push(["오버뷰: 추적 품목 수", body.includes(`${data.items.length}종`)]);

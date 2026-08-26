@@ -55,8 +55,8 @@ export default function App() {
           </nav>
           <span className="ml-auto flex items-center gap-3">
             <span className="hidden items-center gap-1.5 sm:flex" title="사람 손 없이 매일 자동 수집·발행 중">
-              <span className="pulse inline-block h-1.5 w-1.5 rounded-full" style={{ background: "var(--statuslight-ok)" }} aria-hidden="true" />
-              <span className="t-small" style={{ color: "var(--text-secondary)" }}>무인 운영 중</span>
+              <span className="pulse inline-block h-2 w-2 rounded-full" style={{ background: "var(--statuslight-ok)" }} aria-hidden="true" />
+              <span className="text-sm" style={{ color: "var(--text-secondary)" }}>무인 운영 중</span>
             </span>
             <a href="https://github.com/Yegeon99/dnf-market-analyst" target="_blank" rel="noreferrer"
                title="GitHub 저장소" aria-label="GitHub 저장소" className="flex items-center">

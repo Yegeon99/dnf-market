@@ -12,7 +12,7 @@ export default function HeatLegend({ width = 220 }) {
       <div className="flex h-2.5 overflow-hidden rounded-sm" title="전일 대비 등락 색상 스케일">
         {STOPS.map((c, i) => <span key={i} className="flex-1" style={{ background: c }} />)}
       </div>
-      <div className="mt-0.5 flex justify-between text-[9px] num" style={{ color: "var(--text-muted)" }}>
+      <div className="mt-0.5 flex justify-between text-[10px] num" style={{ color: "var(--text-muted)" }}>
         {LABELS.map((l) => <span key={l}>{l}</span>)}
       </div>
     </div>

@@ -58,7 +58,10 @@ export default function ItemDetail({ data }) {
 
       {/* 차트 */}
       <div className="card p-3">
-        <h2 className="mb-1 px-2 text-sm font-bold">시세 추이 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(하루 6회 수집 KST 03·07·11·15·19·23시, 결손 슬롯은 공백{series.some((s) => s.backfill) ? ", 과거 실거래는 일 단위 소급 백필" : ""})</span></h2>
+        <h2 className="px-2 text-sm font-bold">시세 추이</h2>
+        <p className="mb-1 px-2 text-[11px]" style={{ color: "var(--text-muted)" }}>
+          하루 6회 수집(KST 03·07·11·15·19·23시) · 결손 슬롯은 공백{series.some((s) => s.backfill) ? " · 과거 실거래는 일 단위 소급 백필" : ""}
+        </p>
         <PriceChart series={series} events={inRange} />
         <div className="mt-2 border-t pt-1.5" style={{ borderColor: "var(--border)" }}>
           <ListingChart series={series} />

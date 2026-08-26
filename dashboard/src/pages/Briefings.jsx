@@ -43,7 +43,7 @@ export default function Briefings({ data }) {
             </div>
             <h2 className="mt-1 text-base font-bold">{cur.headline}</h2>
             <ul className="mt-3 space-y-1.5 text-sm" style={{ color: "var(--text-primary)" }}>
-              {cur.summary_3lines.map((l, i) => <li key={i}>· {l}</li>)}
+              {cur.summary_3lines.map((l, i) => <li key={i} className="ml-4 list-disc">{l}</li>)}
             </ul>
 
             {cur.notable?.length > 0 && (

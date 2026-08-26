@@ -13,7 +13,7 @@ function Kpi({ label, caption, children }) {
     <div className="card px-3 py-2.5">
       <div className="text-xs" style={{ color: "var(--text-secondary)" }}>{label}</div>
       <div className="mt-0.5 text-lg font-bold num leading-tight">{children}</div>
-      {caption && <div className="mt-0.5 text-[10px] leading-tight" style={{ color: "var(--text-muted)" }}>{caption}</div>}
+      {caption && <div className="mt-0.5 text-[11px] leading-tight" style={{ color: "var(--text-muted)" }}>{caption}</div>}
     </div>
   );
 }
@@ -30,10 +30,10 @@ function Tile({ c, it, onEnter, onLeave, onClick }) {
       className="relative w-[118px] shrink-0 cursor-pointer rounded px-1.5 py-1 text-left"
       style={{ background: bg, color: fg }}
     >
-      <div className="truncate text-[13px] leading-snug">{it?.shortName ?? c.name}</div>
-      <div className="num text-xs leading-snug" style={{ opacity: 0.85 }}>{fmtGold(c.avgPrice)}</div>
-      <div className="num text-[15px] font-bold leading-snug">
-        {noCompare ? <span className="text-[11px] font-medium" style={{ opacity: 0.8 }}>비교 대기</span> : fmtSignedPct(c.changePct)}
+      <div className="truncate text-[13px] font-medium leading-snug">{it?.shortName ?? c.name}</div>
+      <div className="num text-xs leading-snug">{fmtGold(c.avgPrice)}</div>
+      <div className="min-h-[22px] num text-[15px] font-bold leading-snug">
+        {noCompare ? "" : fmtSignedPct(c.changePct)}
       </div>
       {noCompare && (
         <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full"
@@ -69,7 +69,7 @@ function Heatmap({ changes, items, llBelow }) {
       {list.map((g) => (
         <div key={g.name}>
           <div className="mb-0.5 text-[11px] font-semibold" style={{ color: "var(--text-muted)" }}>{g.name}</div>
-          <div className="flex flex-wrap gap-1 max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:pb-1">
+          <div className="flex flex-wrap gap-1">
             {g.cells.map((c) => (
               <Tile key={c.itemId} c={c} it={byId[c.itemId]}
                     onClick={() => navigate(`/item/${c.itemId}`)}
@@ -200,7 +200,7 @@ export default function Overview({ data }) {
           </div>
           <div className="mt-0.5 text-sm font-bold">{latestBriefing.headline}</div>
           <ul className="mt-1 space-y-0.5 text-xs" style={{ color: "var(--text-secondary)" }}>
-            {latestBriefing.summary_3lines.map((l, i) => <li key={i}>· {l}</li>)}
+            {latestBriefing.summary_3lines.map((l, i) => <li key={i} className="ml-4 list-disc">{l}</li>)}
           </ul>
         </Link>
       ) : (
@@ -212,7 +212,7 @@ export default function Overview({ data }) {
         <div className="mb-2 flex items-end justify-between flex-wrap gap-2">
           <div>
             <h2 className="text-sm font-bold">카테고리별 등락 히트맵 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(전일 대비 평균 등록가 · 클릭 시 상세)</span></h2>
-            <div className="text-[11px]" style={{ color: "var(--text-muted)" }}>회색+우상단 점 = 전일 비교 대기(현재가 표시)</div>
+            <div className="text-[11px]" style={{ color: "var(--text-muted)" }}>회색+우상단 점 = 전일 비교 대기(현재가 표시) · 탭/클릭 시 매물 수·실거래 상세</div>
           </div>
           <HeatLegend />
         </div>

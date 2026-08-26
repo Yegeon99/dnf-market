@@ -35,7 +35,7 @@ function ArrowGap() {
   );
 }
 
-export default function StatusStrip({ rows, briefings }) {
+export default function StatusStrip({ rows, briefings, bare = false }) {
   const collected = lastCollectedLabel(rows);
   const latestBriefing = briefings[0] ?? null;
 
@@ -66,19 +66,33 @@ export default function StatusStrip({ rows, briefings }) {
     },
   ];
 
-  return (
-    <div className="card scroll-x" role="group" aria-label="무인 파이프라인 상태">
-      <div className="flex min-w-[640px] items-start gap-1 px-3 py-2">
+  const inner = (
+    <div className={`flex items-start gap-1 ${bare ? "min-w-[560px]" : "min-w-[640px] px-3 py-2"}`}>
+      {!bare && (
         <div className="mr-2 hidden shrink-0 self-center sm:block">
           <div className="t-eyebrow leading-tight" style={{ color: "var(--accent)" }}>무인<br />파이프라인</div>
         </div>
-        {steps.map((s, i) => (
-          <div key={s.title} className="flex flex-1 items-start">
-            {i > 0 && <ArrowGap />}
-            <Step {...s} />
-          </div>
-        ))}
+      )}
+      {steps.map((s, i) => (
+        <div key={s.title} className="flex flex-1 items-start">
+          {i > 0 && <ArrowGap />}
+          <Step {...s} />
+        </div>
+      ))}
+    </div>
+  );
+
+  if (bare) {
+    return (
+      <div className="scroll-x" role="group" aria-label="무인 파이프라인 상태">
+        <div className="t-eyebrow mb-1" style={{ color: "var(--gold-text)" }}>무인 파이프라인</div>
+        {inner}
       </div>
+    );
+  }
+  return (
+    <div className="card scroll-x" role="group" aria-label="무인 파이프라인 상태">
+      {inner}
     </div>
   );
 }

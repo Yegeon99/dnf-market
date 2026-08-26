@@ -88,7 +88,7 @@ export default function App() {
         <div className="mx-auto max-w-[1280px] px-4 py-4 lg:px-6">
           <p className="t-small m-0">본 서비스는 Neople 오픈 API에서 제공받은 데이터를 일부 가공하여 활용하고 있습니다.</p>
           <p className="t-small m-0 mt-0.5">
-            비공식 팬메이드 포트폴리오이며 ㈜네오플·넥슨과 무관합니다. 게임 IP 아트워크를 사용하지 않습니다.
+            비공식 팬메이드 포트폴리오이며 ㈜네오플·넥슨과 무관합니다. 게임 그래픽은 Neople 오픈 API가 제공하는 아이템 아이콘만 사용합니다.
             형제 프로젝트: <a href="https://github.com/Yegeon99/arad-census" target="_blank" rel="noreferrer">Arad Census</a>
           </p>
         </div>

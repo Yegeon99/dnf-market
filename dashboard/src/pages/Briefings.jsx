@@ -144,39 +144,52 @@ export default function Briefings({ data }) {
         <h1 className="t-title m-0">브리핑 아카이브</h1>
         <p className="t-lead m-0 mt-1">매일 심야에 자동 발행되는 데일리 브리핑입니다. 사람 손을 거치지 않습니다.</p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-[212px_1fr]">
-        {/* 날짜 목록: 그날의 최대 등락을 함께 보여 흐름이 보이게 */}
-        <div className="space-y-1.5" aria-label="브리핑 날짜 목록">
-          {briefings.map((b) => {
-            const on = cur?.date === b.date;
-            const ext = maxByDate[b.date];
-            return (
-              <button key={b.date} onClick={() => setSelected(b.date)}
-                aria-current={on ? "true" : undefined}
-                className="card card-lift block w-full cursor-pointer p-2.5 text-left"
-                style={on ? { borderColor: "var(--accent)", boxShadow: "inset 2px 0 0 var(--accent)" } : {}}>
-                <span className="num text-sm" style={{ color: on ? "var(--accent)" : "var(--text-primary)", fontWeight: on ? 700 : 500 }}>{b.date}</span>
-                <span className="mt-0.5 flex items-center gap-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
-                  <span>이상 {b.anomaly_ids.length}건</span>
-                  {ext && (
-                    <span className="num" style={{ color: ext.changePct > 0 ? "var(--up)" : "var(--down)" }}>
-                      최대 {fmtSignedPct(ext.changePct)}
+      <div className="grid gap-4 sm:grid-cols-[224px_1fr]">
+        {/* 과거 브리핑 타임라인 레일: 그날의 최대 등락을 함께 보여 흐름이 보이게 */}
+        <div className="relative pl-4" aria-label="브리핑 날짜 목록">
+          <span className="absolute bottom-2 left-[5px] top-2 w-px" style={{ background: "var(--hairline-strong)" }} aria-hidden="true" />
+          <div className="space-y-1.5">
+            {briefings.map((b) => {
+              const on = cur?.date === b.date;
+              const ext = maxByDate[b.date];
+              return (
+                <div key={b.date} className="relative">
+                  <span className="absolute -left-[13.5px] top-4 h-2 w-2 rounded-full"
+                        style={{ background: on ? "var(--accent)" : "var(--hairline-strong)", outline: on ? "3px solid var(--accent-soft)" : "none" }}
+                        aria-hidden="true" />
+                  <button onClick={() => setSelected(b.date)}
+                    aria-current={on ? "true" : undefined}
+                    className="card card-lift block w-full cursor-pointer p-2.5 text-left"
+                    style={on ? { borderColor: "var(--accent)", boxShadow: "inset 2px 0 0 var(--accent)" } : {}}>
+                    <span className="num text-sm" style={{ color: on ? "var(--accent)" : "var(--text-primary)", fontWeight: on ? 700 : 500 }}>{b.date}</span>
+                    <span className="mt-0.5 flex items-center gap-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
+                      <span>이상 {b.anomaly_ids.length}건</span>
+                      {ext && (
+                        <span className="num" style={{ color: ext.changePct > 0 ? "var(--up)" : "var(--down)" }}>
+                          최대 {fmtSignedPct(ext.changePct)}
+                        </span>
+                      )}
                     </span>
-                  )}
-                </span>
-              </button>
-            );
-          })}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* 상세 */}
+        {/* 상세: 조간 리포트 1면 */}
         {cur && (
-          <article className="card rise p-4">
-            <div className="t-kicker num">
-              {cur.date} · 생성 {cur.generatedBy === "template" ? "규칙 기반(무비용)" : cur.generatedBy}
-              {cur.costUsd > 0 && <span> · LLM 비용 ${cur.costUsd.toFixed(4)}</span>}
+          <article className="card rise p-4 sm:p-5">
+            <div style={{ borderTop: "3px solid var(--text-primary)" }} />
+            <div className="mt-[3px]" style={{ borderTop: "1px solid var(--hairline-strong)" }} />
+            <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="t-eyebrow" style={{ color: "var(--gold-text)" }}>오늘의 조간 리포트</span>
+              <span className="t-kicker num">
+                {cur.date} 심야 03시 발행 기준 · 생성 {cur.generatedBy === "template" ? "규칙 기반(무비용)" : cur.generatedBy}
+                {cur.costUsd > 0 && <span> · LLM 비용 ${cur.costUsd.toFixed(4)}</span>}
+              </span>
             </div>
-            <h2 className="t-section m-0 mt-1.5" style={{ fontSize: "1.55rem", lineHeight: 1.35 }}>
+            <h2 className="t-section headline-nums m-0 mt-2" style={{ fontSize: "clamp(1.5rem, 2.6vw, 1.9rem)", lineHeight: 1.4 }}>
               {highlight(cur.headline)}
             </h2>
             <hr className="rule mt-3 mb-3" />

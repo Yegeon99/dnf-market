@@ -1,62 +1,94 @@
-// 화면 4 — 방법론·데이터 정책: 수집 구조 다이어그램, 이상 탐지 기준 공개, 품목 선정 근거, 출처 고지
+// 화면 4 — 방법론·데이터 정책: 인터랙티브 파이프라인 다이어그램, 이상 탐지 기준 공개, 품목 선정 근거, 출처 고지
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import HeatLegend from "../components/HeatLegend";
 
-/** 수집 파이프라인 다이어그램: GitHub Actions 무인 자동 체인을 강조한 SVG */
+const PIPE_NODES = [
+  { y: 10, h: 46, lines: ["Neople 오픈 API", "경매장 등록가 · 판매 완료"], kind: "src",
+    desc: "공식 오픈 API에서 경매장 등록가와 판매 완료 내역을 받아옵니다. 원본 응답은 저장하지 않고 집계 수치만 씁니다." },
+  { y: 106, h: 46, lines: ["하루 6회 스냅샷 수집", "KST 03·07·11·15·19·23시, 31품목"], kind: "auto",
+    desc: "GitHub Actions 예약 실행이 하루 6회 돌아갑니다. 호출 간 0.3초 대기, 재시도 1회 제한으로 API 매너를 지킵니다." },
+  { y: 170, h: 32, lines: ["시계열 병합 (회차 중복 방지)"], kind: "auto",
+    desc: "스냅샷을 시계열 파일에 합칩니다. 같은 날짜와 회차가 두 번 실행돼도 중복 기록되지 않습니다." },
+  { y: 220, h: 32, lines: ["규칙 기반 이상 탐지"], kind: "auto",
+    desc: "전일 대비와 7일 이동평균 이탈 규칙으로 이상 변동을 찾습니다. 임계치는 아래 표에 전부 공개되어 있습니다." },
+  { y: 270, h: 46, lines: ["AI 원인 해석 (이상 항목만)", "±3일 공식 공지 교차 · 근거 URL 병기"], kind: "auto",
+    desc: "이상으로 판정된 항목만 AI가 해석합니다. 근거가 없으면 원인 미상으로 남기고, 시점 일치를 인과로 단정하지 않습니다." },
+  { y: 334, h: 32, lines: ["데일리 브리핑 자동 발행"], kind: "auto",
+    desc: "매일 심야 03시 회차에서 헤드라인과 3줄 요약을 발행합니다. 이상 0건인 날은 무비용 규칙 기반 브리핑입니다." },
+  { y: 420, h: 46, lines: ["자동 커밋 · Vercel 재배포", "이 대시보드가 스스로 갱신"], kind: "out",
+    desc: "Actions 봇이 데이터만 커밋하면 Vercel이 자동 재배포합니다. 사람 손이 닿는 단계가 없습니다." },
+];
+
+/** 수집 파이프라인 다이어그램: 단계 호버 시 설명, 데이터 흐름 점선 애니메이션 */
 function PipelineDiagram() {
-  const nodes = [
-    { y: 10, h: 46, lines: ["Neople 오픈 API", "경매장 등록가 · 판매 완료"], kind: "src" },
-    { y: 106, h: 46, lines: ["하루 6회 스냅샷 수집", "KST 03·07·11·15·19·23시, 31품목"], kind: "auto" },
-    { y: 170, h: 32, lines: ["시계열 병합 (회차 중복 방지)"], kind: "auto" },
-    { y: 220, h: 32, lines: ["규칙 기반 이상 탐지"], kind: "auto" },
-    { y: 270, h: 46, lines: ["AI 원인 해석 (이상 항목만)", "±3일 공식 공지 교차 · 근거 URL 병기"], kind: "auto" },
-    { y: 334, h: 32, lines: ["데일리 브리핑 자동 발행"], kind: "auto" },
-    { y: 420, h: 46, lines: ["자동 커밋 · Vercel 재배포", "이 대시보드가 스스로 갱신"], kind: "out" },
-  ];
+  const [active, setActive] = useState(null);
   const cx = 210;
   const fill = (k) => (k === "out" ? "var(--accent)" : "var(--bg-surface)");
-  const stroke = (k) => (k === "out" ? "var(--accent)" : k === "src" ? "var(--hairline-strong)" : "var(--accent)");
+  const stroke = (k, on) => (on ? "var(--accent-deep)" : k === "out" ? "var(--accent)" : k === "src" ? "var(--hairline-strong)" : "var(--accent)");
   const textFill = (k) => (k === "out" ? "#FFFFFF" : "var(--text-primary)");
   const subFill = (k) => (k === "out" ? "rgba(255,255,255,0.85)" : "var(--text-muted)");
+  const shown = active != null ? PIPE_NODES[active] : null;
 
   return (
-    <svg viewBox="0 0 420 476" className="mx-auto block w-full max-w-[470px]" role="img"
-         aria-label="수집 파이프라인 다이어그램: Neople API에서 수집, 병합, 탐지, 해석, 브리핑, 배포까지 자동으로 이어진다">
-      <defs>
-        <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0 0.5 7 4 0 7.5z" fill="var(--hairline-strong)" />
-        </marker>
-      </defs>
+    <div>
+      <svg viewBox="0 0 420 476" className="mx-auto block w-full max-w-[470px]" role="img"
+           aria-label="수집 파이프라인 다이어그램: Neople API에서 수집, 병합, 탐지, 해석, 브리핑, 배포까지 자동으로 이어진다. 각 단계에 마우스를 올리면 설명이 보인다">
+        <defs>
+          <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0.5 7 4 0 7.5z" fill="var(--hairline-strong)" />
+          </marker>
+        </defs>
 
-      {/* GitHub Actions 무인 자동 체인 강조 박스 (수집~발행) */}
-      <rect x="14" y="74" width="392" height="304" rx="8" fill="var(--gold-soft)" fillOpacity="0.45"
-            stroke="var(--gold)" strokeWidth="1.1" strokeDasharray="5 4" />
-      <text x="26" y="94" fontSize="13" fontWeight="700" letterSpacing="0.06em" fill="var(--gold-text)">
-        GITHUB ACTIONS 무인 자동 체인
-      </text>
+        {/* GitHub Actions 무인 자동 체인 강조 박스 (수집~발행) */}
+        <rect x="14" y="74" width="392" height="304" rx="8" fill="var(--gold-soft)" fillOpacity="0.45"
+              stroke="var(--gold)" strokeWidth="1.1" strokeDasharray="5 4" />
+        <text x="26" y="94" fontSize="13" fontWeight="700" letterSpacing="0.06em" fill="var(--gold-text)">
+          GITHUB ACTIONS 무인 자동 체인
+        </text>
 
-      {/* 화살표 */}
-      {nodes.slice(0, -1).map((n, i) => {
-        const next = nodes[i + 1];
-        return (
-          <line key={i} x1={cx} y1={n.y + n.h} x2={cx} y2={next.y - 3}
-                stroke="var(--hairline-strong)" strokeWidth="1.4" markerEnd="url(#arrow)" />
-        );
-      })}
+        {/* 데이터 흐름: 애니메이션 점선 화살표 */}
+        {PIPE_NODES.slice(0, -1).map((n, i) => {
+          const next = PIPE_NODES[i + 1];
+          return (
+            <line key={i} x1={cx} y1={n.y + n.h} x2={cx} y2={next.y - 3}
+                  className="flow-dash" strokeDasharray="4 3.5"
+                  stroke="var(--hairline-strong)" strokeWidth="1.5" markerEnd="url(#arrow)" />
+          );
+        })}
 
-      {/* 노드 */}
-      {nodes.map((n, i) => (
-        <g key={i}>
-          <rect x={cx - 170} y={n.y} width="340" height={n.h} rx="5"
-                fill={fill(n.kind)} stroke={stroke(n.kind)} strokeWidth={n.kind === "src" ? 1 : 1.2} />
-          <text x={cx} y={n.y + (n.lines.length > 1 ? 19 : n.h / 2 + 5)} textAnchor="middle"
-                fontSize="13.5" fontWeight="600" fill={textFill(n.kind)}>{n.lines[0]}</text>
-          {n.lines[1] && (
-            <text x={cx} y={n.y + 36} textAnchor="middle" fontSize="13" fill={subFill(n.kind)}>{n.lines[1]}</text>
-          )}
-        </g>
-      ))}
-    </svg>
+        {/* 노드: 호버·포커스 시 아래 설명 카드 */}
+        {PIPE_NODES.map((n, i) => {
+          const on = active === i;
+          return (
+            <g key={i} tabIndex={0} role="button" aria-label={`${n.lines[0]} 단계 설명 보기`}
+               onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(null)}
+               onFocus={() => setActive(i)} onBlur={() => setActive(null)}
+               style={{ cursor: "help", outline: "none" }}>
+              <rect x={cx - 170} y={n.y} width="340" height={n.h} rx="5"
+                    fill={fill(n.kind)} stroke={stroke(n.kind, on)} strokeWidth={on ? 1.8 : n.kind === "src" ? 1 : 1.2} />
+              <text x={cx} y={n.y + (n.lines.length > 1 ? 19 : n.h / 2 + 5)} textAnchor="middle"
+                    fontSize="13.5" fontWeight="600" fill={textFill(n.kind)}>{n.lines[0]}</text>
+              {n.lines[1] && (
+                <text x={cx} y={n.y + 36} textAnchor="middle" fontSize="13" fill={subFill(n.kind)}>{n.lines[1]}</text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+      <div className="mx-auto mt-2 max-w-[470px] rounded px-3 py-2 text-[13px]"
+           style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)", minHeight: 58 }}
+           aria-live="polite">
+        {shown ? (
+          <>
+            <b style={{ color: "var(--text-primary)" }}>{shown.lines[0]}</b>
+            <span className="ml-1.5">{shown.desc}</span>
+          </>
+        ) : (
+          <span style={{ color: "var(--text-muted)" }}>각 단계에 마우스를 올리거나 키보드로 이동하면 설명이 여기에 보입니다.</span>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -182,7 +214,7 @@ export default function Methodology({ data }) {
           <li>· 시세 데이터: <a href="https://developers.neople.co.kr" target="_blank" rel="noreferrer">Neople 오픈 API</a> (경매장 등록·판매 완료). 원본 응답을 저장하지 않고 집계 수치만 쌓습니다.</li>
           <li>· 매물 수는 API 조회 상한(400건) 안에서, 실거래는 최근 100건 상한 안에서 24시간 집계합니다. 실제보다 적게 잡힐 수 있습니다.</li>
           <li>· 이벤트·패치 정보는 던전앤파이터 공식 공지에서 수동 큐레이션합니다. 자동 수집은 쓰지 않습니다.</li>
-          <li>· 본 사이트는 <b>비공식 팬메이드 포트폴리오</b>이며 ㈜네오플·넥슨과 무관합니다. 게임 아트워크와 로고를 사용하지 않습니다.</li>
+          <li>· 본 사이트는 <b>비공식 팬메이드 포트폴리오</b>이며 ㈜네오플·넥슨과 무관합니다. 게임 그래픽은 Neople 오픈 API가 제공하는 아이템 아이콘만 사용합니다.</li>
         </ul>
       </section>
     </div>

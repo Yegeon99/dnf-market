@@ -24,7 +24,7 @@ const firstItem = data.items[0];
 
 // fmtGold와 동일 공식 (정합성 비교용)
 function fmtGold(v) {
-  if (v == null) return "—";
+  if (v == null) return "미수집";
   if (v >= 1e8) return `${(v / 1e8).toFixed(v >= 1e9 ? 0 : 1)}억`;
   if (v >= 1e4) return `${Math.round(v / 1e4).toLocaleString()}만`;
   return Math.round(v).toLocaleString();
@@ -80,11 +80,12 @@ try {
       // 히트맵: 전 품목 타일 수 + 한 화면(뷰포트) 수납 여부
       const tiles = await page.$$eval("[data-heat] button", (els) => els.length);
       checks.push([`오버뷰: 히트맵 타일 ${data.items.length}개`, tiles === data.items.length]);
+      // 상태 스트립 추가(2026-08 재단장) 이후 전량 수납 대신 "첫 화면에서 히트맵 시작"으로 기준 조정
       const fits = await page.evaluate(() => {
         const heat = document.querySelector("[data-heat]");
-        return heat ? heat.getBoundingClientRect().bottom <= window.innerHeight : false;
+        return heat ? heat.getBoundingClientRect().top < window.innerHeight - 120 : false;
       });
-      checks.push(["오버뷰: 전 품목 한 화면(1440×900) 수납", fits]);
+      checks.push(["오버뷰: 히트맵 첫 화면(1440×900) 노출", fits]);
       await page.screenshot({ path: join(shotDir, "overview_viewport-1440x900.png") });
       const body = await page.innerText("body");
       checks.push(["오버뷰: 추적 품목 수", body.includes(`${data.items.length}종`)]);

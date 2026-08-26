@@ -1,18 +1,44 @@
-// 화면 1 — 마켓 오버뷰: KPI, 카테고리 히트맵(2컬럼 그룹 배치), 최신 브리핑
+// 화면 1 — 마켓 오버뷰: 파이프라인 상태 스트립, KPI, 카테고리 히트맵, 최신 브리핑
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  dodChanges, latestDate, fmtGold, fmtPct, fmtSignedPct, heatColor,
-  lastCollectedLabel, pctColor,
+  dailySeries, dodChanges, latestDate, fmtGold, fmtPct, fmtSignedPct, heatColor,
+  pctColor,
 } from "../lib/data";
-import { Change, Empty } from "../components/ui";
+import { Change, CountUpNum, Empty, Sparkline } from "../components/ui";
 import HeatLegend from "../components/HeatLegend";
+import StatusStrip from "../components/StatusStrip";
 
-function Kpi({ label, caption, children }) {
+// 아이콘: 게임 아트워크 없이 선 아이콘만 사용
+const ICONS = {
+  items: <path d="M2.5 2.5h4.4v4.4H2.5zM9.1 2.5h4.4v4.4H9.1zM2.5 9.1h4.4v4.4H2.5zM9.1 9.1h4.4v4.4H9.1z" />,
+  alert: <path d="M8 1.8 14.6 13H1.4L8 1.8zM8 6.2v3.2M8 11.4v.7" />,
+  up: <path d="M2 12.5 6.2 8l2.6 2.4L14 4.6M14 4.6h-3.4M14 4.6V8" />,
+  down: <path d="M2 3.5 6.2 8l2.6-2.4L14 11.4M14 11.4h-3.4M14 11.4V8" />,
+  sold: <path d="M2.5 13.5v-4.2M6.2 13.5V6.5M9.9 13.5V9M13.5 13.5V3.5" />,
+  archive: <path d="M2.5 4h11M2.5 4v9h11V4M5.5 7h5" />,
+};
+
+function KpiIcon({ name, color = "var(--text-muted)" }) {
   return (
-    <div className="card px-3 py-2.5">
-      <div className="text-xs" style={{ color: "var(--text-secondary)" }}>{label}</div>
-      <div className="mt-0.5 text-lg font-bold num leading-tight">{children}</div>
+    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke={color}
+         strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {ICONS[name]}
+    </svg>
+  );
+}
+
+function Kpi({ icon, iconColor, label, caption, spark, sparkColor, children }) {
+  return (
+    <div className="card rise px-3 py-2.5">
+      <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-secondary)" }}>
+        <KpiIcon name={icon} color={iconColor} />
+        {label}
+      </div>
+      <div className="mt-1 flex items-end justify-between gap-2">
+        <div className="text-lg font-bold num leading-tight">{children}</div>
+        {spark && <Sparkline values={spark} color={sparkColor ?? "var(--accent)"} />}
+      </div>
       {caption && <div className="mt-0.5 text-[11px] leading-tight" style={{ color: "var(--text-muted)" }}>{caption}</div>}
     </div>
   );
@@ -27,7 +53,7 @@ function Tile({ c, it, onEnter, onLeave, onClick }) {
   return (
     <button
       onClick={onClick} onMouseEnter={onEnter} onMouseLeave={onLeave}
-      className="relative w-[118px] shrink-0 cursor-pointer rounded px-1.5 py-1 text-left"
+      className="heat-tile relative w-[118px] shrink-0 cursor-pointer px-1.5 py-1 text-left"
       style={{ background: bg, color: fg }}
     >
       <div className="truncate text-[13px] font-medium leading-snug">{it?.shortName ?? c.name}</div>
@@ -65,11 +91,14 @@ function Heatmap({ changes, items, llBelow }) {
   };
 
   const renderGroups = (list) => (
-    <div className="space-y-2">
+    <div className="space-y-2.5">
       {list.map((g) => (
         <div key={g.name}>
-          <div className="mb-0.5 text-[11px] font-semibold" style={{ color: "var(--text-muted)" }}>{g.name}</div>
-          <div className="flex flex-wrap gap-1">
+          <div className="mb-1 flex items-baseline gap-1.5 border-b pb-0.5" style={{ borderColor: "var(--hairline)" }}>
+            <span className="text-[11px] font-bold tracking-wide" style={{ color: "var(--text-primary)" }}>{g.name}</span>
+            <span className="num text-[10px]" style={{ color: "var(--text-muted)" }}>{g.cells.length}종</span>
+          </div>
+          <div className="flex flex-wrap gap-[5px]">
             {g.cells.map((c) => (
               <Tile key={c.itemId} c={c} it={byId[c.itemId]}
                     onClick={() => navigate(`/item/${c.itemId}`)}
@@ -83,16 +112,16 @@ function Heatmap({ changes, items, llBelow }) {
 
   return (
     <div className="relative" data-heat>
-      <div className="grid gap-x-4 gap-y-2 sm:grid-cols-2">
+      <div className="grid gap-x-5 gap-y-2.5 sm:grid-cols-2">
         {renderGroups(left)}
         {renderGroups(right)}
       </div>
 
       {tip && (
         <div className="card pointer-events-none absolute z-10 px-2.5 py-1.5 text-xs"
-             style={{ left: Math.max(0, Math.min(tip.x - 90, 1160)), top: Math.max(0, tip.y - 92), width: 200 }}>
+             style={{ left: Math.max(0, Math.min(tip.x - 90, 1040)), top: Math.max(0, tip.y - 92), width: 200 }}>
           <div className="font-semibold">{tip.c.name}</div>
-          <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)}</span></div>
+          <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)} 골드</span></div>
           <div className="flex justify-between">
             <span style={{ color: "var(--text-secondary)" }}>전일 대비</span>
             {tip.c.changePct == null
@@ -101,7 +130,7 @@ function Heatmap({ changes, items, llBelow }) {
           </div>
           <div className="flex justify-between">
             <span style={{ color: "var(--text-secondary)" }}>매물 수</span>
-            <span className="num">{tip.c.listing ?? "—"}{llBelow > 0 && tip.c.listing != null && tip.c.listing < llBelow ? " (저유동)" : ""}</span>
+            <span className="num">{tip.c.listing != null ? `${tip.c.listing.toLocaleString()}건` : "미수집"}{llBelow > 0 && tip.c.listing != null && tip.c.listing < llBelow ? " (저유동)" : ""}</span>
           </div>
         </div>
       )}
@@ -120,10 +149,15 @@ export default function Overview({ data }) {
   const latestBriefing = briefings[0];
   const llBelow = thresholds?.lowLiquidity?.listingCountBelow ?? 0;
   const hasCompare = withChange.length > 0;
-  const lastCollected = lastCollectedLabel(rows);
 
-  // 비교 불가 구간 대체 KPI: 오늘 실거래 최다 / 백필 확보 기간 (데이터 생기면 자동 전환)
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
+
+  // 스파크라인 데이터: 최근 7일
+  const allDates = [...new Set(rows.map((r) => r.date))].sort().slice(-7);
+  const anomalySpark = allDates.map((d) => anomalies.filter((a) => a.date === d).length);
+  const itemSpark = (id) => dailySeries(rows, id).slice(-7).map((d) => d.avgPrice);
+
+  // 비교 불가 구간 대체 KPI: 오늘 실거래 최다 / 소급 수집 확보 기간 (데이터 생기면 자동 전환)
   let topSold = null;
   if (!hasCompare && date) {
     const best = {};
@@ -144,31 +178,43 @@ export default function Overview({ data }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-baseline justify-between flex-wrap gap-2">
-        <h1 className="text-lg font-bold">마켓 오버뷰</h1>
-        <span className="text-xs num" style={{ color: "var(--text-muted)" }}>
-          기준일 {date ?? "—"} · KST 하루 6회 수집 · <span style={{ color: "var(--accent)" }}>● 운영 중</span>
-          {lastCollected && <> · 최근 수집 {lastCollected}</>}
-        </span>
+      <div className="rise">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h1 className="t-title m-0">마켓 오버뷰</h1>
+          <span className="text-xs num" style={{ color: "var(--text-muted)" }}>
+            기준일 {date ?? "집계 전"} · KST 하루 6회 수집
+          </span>
+        </div>
       </div>
 
+      {/* 파이프라인 상태 스트립: 무인 운영이 한눈에 보이게 */}
+      <StatusStrip rows={rows} briefings={briefings} />
+
       {/* KPI */}
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <Kpi label="추적 품목">{items.length}종</Kpi>
-        <Kpi label="오늘 이상 변동"
-             caption={todayAnomalies.length === 0 ? "탐지 기준: 전일 대비 — 데이터 2일차부터 적용" : null}>
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+        <Kpi icon="items" label="추적 품목">
+          <CountUpNum value={items.length} />종
+        </Kpi>
+        <Kpi icon="alert" iconColor={todayAnomalies.length ? "var(--gold-text)" : undefined}
+             label="오늘 이상 변동"
+             caption={todayAnomalies.length === 0 ? "전일 대비 기준. 데이터 이틀째부터 적용" : "최근 7일 추이"}
+             spark={anomalySpark} sparkColor="var(--gold)">
           <span style={{ color: todayAnomalies.length ? "var(--warn)" : "var(--text-primary)" }}>
-            {todayAnomalies.length}건
+            <CountUpNum value={todayAnomalies.length} />건
           </span>
         </Kpi>
         {hasCompare ? (
           <>
-            <Kpi label="상승 1위 (전일 대비)">
+            <Kpi icon="up" iconColor="var(--up)" label="상승 1위 (전일 대비)"
+                 spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
+                 caption={ups[0] ? "최근 7일 평균가 추이" : null}>
               {ups[0]
                 ? <span className="text-sm">{byId[ups[0].itemId]?.shortName} <Change value={ups[0].changePct} /></span>
                 : <span className="text-sm" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
             </Kpi>
-            <Kpi label="하락 1위 (전일 대비)">
+            <Kpi icon="down" iconColor="var(--down)" label="하락 1위 (전일 대비)"
+                 spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
+                 caption={downs[0] ? "최근 7일 평균가 추이" : null}>
               {downs[0]
                 ? <span className="text-sm">{byId[downs[0].itemId]?.shortName} <Change value={downs[0].changePct} /></span>
                 : <span className="text-sm" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
@@ -176,12 +222,12 @@ export default function Overview({ data }) {
           </>
         ) : (
           <>
-            <Kpi label="오늘 실거래 최다 (24h)">
+            <Kpi icon="sold" label="오늘 실거래 최다 (24시간)">
               {topSold
-                ? <span className="text-sm">{topSold.name} <span className="num">{topSold.count}건</span></span>
+                ? <span className="text-sm">{topSold.name} <span className="num">{topSold.count.toLocaleString()}건</span></span>
                 : <span className="text-sm" style={{ color: "var(--text-muted)" }}>집계 중</span>}
             </Kpi>
-            <Kpi label="백필 확보 기간 (실거래 소급)">
+            <Kpi icon="archive" label="과거 실거래 소급 수집 기간">
               {bfRange
                 ? <span className="text-sm num">{bfDays}일 <span style={{ color: "var(--text-muted)" }}>({bfRange.min.slice(5)}~{bfRange.max.slice(5)})</span></span>
                 : <span className="text-sm" style={{ color: "var(--text-muted)" }}>없음</span>}
@@ -192,15 +238,20 @@ export default function Overview({ data }) {
 
       {/* 최신 브리핑 */}
       {latestBriefing ? (
-        <Link to="/briefings" className="card block px-3 py-2.5 no-underline" style={{ color: "inherit" }}>
+        <Link to="/briefings" className="card card-lift block px-3 py-2.5 no-underline" style={{ color: "inherit" }}>
           <div className="flex items-center gap-2 text-xs" style={{ color: "var(--text-secondary)" }}>
             <span className="num">{latestBriefing.date}</span>
             <span>데일리 브리핑</span>
             <span className="ml-auto" style={{ color: "var(--accent)" }}>아카이브 →</span>
           </div>
-          <div className="mt-0.5 text-sm font-bold">{latestBriefing.headline}</div>
-          <ul className="mt-1 space-y-0.5 text-xs" style={{ color: "var(--text-secondary)" }}>
-            {latestBriefing.summary_3lines.map((l, i) => <li key={i} className="ml-4 list-disc">{l}</li>)}
+          <div className="t-section mt-0.5">{latestBriefing.headline}</div>
+          <ul className="mt-1 list-none space-y-0.5 p-0 text-xs" style={{ color: "var(--text-secondary)" }}>
+            {latestBriefing.summary_3lines.map((l, i) => (
+              <li key={i} className="flex gap-1.5">
+                <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full" style={{ background: "var(--accent)" }} aria-hidden="true" />
+                {l}
+              </li>
+            ))}
           </ul>
         </Link>
       ) : (
@@ -209,10 +260,10 @@ export default function Overview({ data }) {
 
       {/* 히트맵 */}
       <div className="card px-3 py-2.5">
-        <div className="mb-2 flex items-end justify-between flex-wrap gap-2">
+        <div className="mb-2 flex flex-wrap items-end justify-between gap-2">
           <div>
-            <h2 className="text-sm font-bold">카테고리별 등락 히트맵 <span className="font-normal text-xs" style={{ color: "var(--text-muted)" }}>(전일 대비 평균 등록가 · 클릭 시 상세)</span></h2>
-            <div className="text-[11px]" style={{ color: "var(--text-muted)" }}>회색+우상단 점 = 전일 비교 대기(현재가 표시) · 탭/클릭 시 매물 수·실거래 상세</div>
+            <h2 className="t-section m-0">카테고리별 등락 히트맵 <span className="text-xs font-normal" style={{ color: "var(--text-muted)", fontFamily: "Pretendard Variable, Pretendard, sans-serif" }}>(전일 대비 평균 등록가 · 클릭 시 상세)</span></h2>
+            <div className="text-[11px]" style={{ color: "var(--text-muted)" }}>회색 바탕에 우상단 점이 있으면 전일 비교 대기 상태로 현재가만 표시합니다. 탭이나 클릭으로 매물 수와 상세를 볼 수 있습니다.</div>
           </div>
           <HeatLegend />
         </div>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- 폰트는 비차단 로드: 시스템 폰트로 먼저 그리고 로드 후 교체 (FCP 개선) -->
     <link
       rel="stylesheet"
@@ -11,12 +13,23 @@
       media="print"
       onload="this.media='all'"
     />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" />
+    </noscript>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>DNF Market Analyst — 던파 시세 분석·브리핑</title>
-    <meta name="description" content="던전앤파이터 경매장 시세를 매일 수집하고 이상 변동을 AI가 해석하는 비공식 분석 대시보드" />
+    <meta name="theme-color" content="#FAFAF8" />
+    <title>DNF Market Analyst, 던파 시세 분석·브리핑</title>
+    <meta name="description" content="던전앤파이터 경매장 시세를 하루 6회 자동 수집하고, 이상 변동을 AI가 해석해 데일리 브리핑을 발행하는 비공식 분석 대시보드" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="DNF Market Analyst — 던파 시세 분석·브리핑" />
-    <meta property="og:description" content="시세 조회 도구가 아니라 분석 시스템 — 하루 3회 자동 수집, 이상 변동 탐지, AI 원인 가설, 데일리 브리핑 자동 발행" />
+    <meta property="og:title" content="DNF Market Analyst, 던파 시세 분석·브리핑" />
+    <meta property="og:description" content="시세 조회 도구가 아니라 분석 시스템. 하루 6회 자동 수집, 이상 변동 탐지, AI 원인 가설, 데일리 브리핑 무인 발행" />
     <meta property="og:url" content="https://dnf-market-analyst.vercel.app/" />
     <meta property="og:image" content="https://dnf-market-analyst.vercel.app/og.png" />
     <meta name="twitter:card" content="summary_large_image" />

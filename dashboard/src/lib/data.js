@@ -36,7 +36,7 @@ export async function loadAll() {
 export const SLOTS = ["h03", "h07", "h11", "h15", "h19", "h23"];
 
 export function slotLabel(slot) {
-  if (slot === "day") return "일 평균(백필)";
+  if (slot === "day") return "일 평균(소급 수집)";
   const legacy = { night: "03시", am: "09시", pm: "15시" };
   if (legacy[slot]) return legacy[slot];
   return slot.startsWith("h") ? `${slot.slice(1)}시` : slot;
@@ -143,16 +143,35 @@ export function latestDate(rows) {
 
 /** 골드 표기: 1.2억 / 345만 / 6,789 */
 export function fmtGold(v) {
-  if (v == null) return "—";
+  if (v == null) return "미수집";
   if (v >= 1e8) return `${(v / 1e8).toFixed(v >= 1e9 ? 0 : 1)}억`;
   if (v >= 1e4) return `${Math.round(v / 1e4).toLocaleString()}만`;
   return Math.round(v).toLocaleString();
 }
 
+/** 천 단위 콤마 전체 표기 (툴팁·KPI용) */
+export function fmtComma(v) {
+  if (v == null) return "미수집";
+  return Math.round(v).toLocaleString();
+}
+
 export function fmtPct(v) {
-  if (v == null) return "—";
+  if (v == null) return "비교 전";
   const sign = v > 0 ? "▲" : v < 0 ? "▼" : "";
   return `${sign}${Math.abs(v).toFixed(1)}%`;
+}
+
+/** 품목의 날짜별 전일 대비 등락률 맵 {date: pct|null} (일 대표값 기준) */
+export function dailyChangeMap(rows, itemId) {
+  const daily = dailySeries(rows, itemId);
+  const map = {};
+  daily.forEach((d, i) => {
+    const prev = i > 0 ? daily[i - 1] : null;
+    map[d.date] = prev?.avgPrice && d.avgPrice != null
+      ? ((d.avgPrice - prev.avgPrice) / prev.avgPrice) * 100
+      : null;
+  });
+  return map;
 }
 
 /** 등락 색상 (색+부호 병기 — fmtPct와 함께 사용) */
@@ -162,20 +181,20 @@ export function pctColor(v) {
 }
 
 /** 히트맵 색상 스케일: 보합(±0.5% 미만) + 방향별 5단계.
- *  흰 텍스트는 최심 단계(5)에서만 — 1~4단계는 딥 네이비 텍스트로 WCAG AA 유지. */
+ *  흰 텍스트는 진한 단계(4·5)에서만, 나머지는 딥 네이비 텍스트로 WCAG AA 유지. */
 export const HEAT_BOUNDS = [0.5, 2, 5, 10, 20];
 export function heatColor(pct) {
-  if (pct == null) return { bg: "#EFF1F5", fg: "var(--text-secondary)" };
+  if (pct == null) return { bg: "var(--heat-none)", fg: "var(--text-secondary)" };
   const a = Math.abs(pct);
   if (a < HEAT_BOUNDS[0]) return { bg: "var(--heat-flat)", fg: "var(--text-primary)" };
   const lv = a < 2 ? 1 : a < 5 ? 2 : a < 10 ? 3 : a < 20 ? 4 : 5;
   const dir = pct > 0 ? "up" : "down";
-  return { bg: `var(--heat-${dir}-${lv})`, fg: lv >= 5 ? "#FFFFFF" : "var(--text-primary)" };
+  return { bg: `var(--heat-${dir}-${lv})`, fg: lv >= 4 ? "#FFFFFF" : "var(--text-primary)" };
 }
 
 /** 부호 항상 표기 등락률: +4.2% / -3.1% (색만으로 전달 금지) */
 export function fmtSignedPct(v) {
-  if (v == null) return "—";
+  if (v == null) return "비교 전";
   return `${v > 0 ? "+" : v < 0 ? "-" : "±"}${Math.abs(v).toFixed(1)}%`;
 }
 

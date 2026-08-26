@@ -1,10 +1,10 @@
-// 매물 수 바 차트 (결손 슬롯은 빈 칸으로 정직 표기)
+// 매물 수 바 차트 (결손 회차는 빈 칸으로 정직 표기)
 import { useRef, useState, useEffect } from "react";
 import { slotLabel } from "../lib/data";
 
-const M = { top: 8, right: 12, bottom: 20, left: 52 };
+const M = { top: 14, right: 12, bottom: 20, left: 56 };
 
-export default function ListingChart({ series, height = 110 }) {
+export default function ListingChart({ series, height = 116 }) {
   const ref = useRef(null);
   const [width, setWidth] = useState(640);
   useEffect(() => {
@@ -21,12 +21,19 @@ export default function ListingChart({ series, height = 110 }) {
   const xAt = (i) => M.left + (n <= 1 ? iw / 2 : (i / (n - 1)) * iw);
   const max = Math.max(...series.map((s) => s.listing ?? 0), 1);
   const bw = Math.min(Math.max(iw / n - 4, 3), 18);
+  const hasAny = series.some((s) => s.listing != null);
 
   return (
     <div ref={ref}>
-      <svg width={width} height={height}>
-        <text x={M.left - 6} y={M.top + 8} textAnchor="end" fontSize="10" fill="var(--text-muted)" className="num">{max}</text>
-        <line x1={M.left} x2={width - M.right} y1={M.top + ih} y2={M.top + ih} stroke="var(--border)" />
+      <svg width={width} height={height} role="img" aria-label="매물 수 추이 차트">
+        <text x={M.left - 44} y={10} fontSize="10" fill="var(--chart-axis-text)">단위: 건</text>
+        <text x={M.left - 6} y={M.top + 8} textAnchor="end" fontSize="10" fill="var(--chart-axis-text)" className="num">{max.toLocaleString()}</text>
+        <line x1={M.left} x2={width - M.right} y1={M.top + ih} y2={M.top + ih} stroke="var(--chart-grid)" />
+        {!hasAny && (
+          <text x={M.left + iw / 2} y={M.top + ih / 2} textAnchor="middle" fontSize="11" fill="var(--text-muted)">
+            표시할 매물 수 데이터가 없습니다
+          </text>
+        )}
         {series.map((s, i) =>
           s.listing == null ? null : (
             <g key={i}>
@@ -39,7 +46,7 @@ export default function ListingChart({ series, height = 110 }) {
                 opacity="0.55"
                 rx="2"
               >
-                <title>{`${s.date} ${slotLabel(s.slot)} — 매물 ${s.listing}`}</title>
+                <title>{`${s.date} ${slotLabel(s.slot)}, 매물 ${s.listing.toLocaleString()}건`}</title>
               </rect>
             </g>
           )
@@ -54,13 +61,13 @@ export default function ListingChart({ series, height = 110 }) {
             ticks = ticks.filter((_, k) => k % step === 0 || k === ticks.length - 1);
           }
           return ticks.map((t) => (
-            <text key={t.i} x={xAt(t.i)} y={height - 5} textAnchor="middle" fontSize="10" fill="var(--text-muted)" className="num">
+            <text key={t.i} x={xAt(t.i)} y={height - 5} textAnchor="middle" fontSize="10" fill="var(--chart-axis-text)" className="num">
               {t.date.slice(5)}
             </text>
           ));
         })()}
       </svg>
-      <div className="px-2 text-xs" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 슬롯은 빈 칸)</div>
+      <div className="px-2 text-xs" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 회차는 빈 칸)</div>
     </div>
   );
 }

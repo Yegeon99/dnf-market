@@ -1,0 +1,320 @@
+{
+ "collectedAt": "2026-08-26 12:03:34",
+ "date": "2026-08-26",
+ "slot": "h11",
+ "itemCount": 31,
+ "apiCalls": 62,
+ "items": [
+  {
+   "itemId": "785e56a0ed4e3efd573da1f56a45217d",
+   "name": "무색 큐브 조각",
+   "minUnitPrice": 24,
+   "avgUnitPrice": 24.75,
+   "listingCount": 198,
+   "soldCount24h": 100,
+   "soldAvgUnitPrice24h": 23.48,
+   "soldCapped": true
+  },
+  {
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "name": "흑색 큐브 조각",
+   "minUnitPrice": 22,
+   "avgUnitPrice": 22.99,
+   "listingCount": 3,
+   "soldCount24h": 88,
+   "soldAvgUnitPrice24h": 19.02,
+   "soldCapped": true
+  },
+  {
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "name": "흰색 큐브 조각",
+   "minUnitPrice": 56,
+   "avgUnitPrice": 57.28,
+   "listingCount": 6,
+   "soldCount24h": 72,
+   "soldAvgUnitPrice24h": 56.42,
+   "soldCapped": true
+  },
+  {
+   "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
+   "name": "황금 큐브 조각",
+   "minUnitPrice": 508,
+   "avgUnitPrice": 663.94,
+   "listingCount": 39,
+   "soldCount24h": 100,
+   "soldAvgUnitPrice24h": 503.76,
+   "soldCapped": true
+  },
+  {
+   "itemId": "3738d8271ec853e926cd146623adf952",
+   "name": "하급 원소결정",
+   "minUnitPrice": 253,
+   "avgUnitPrice": 278.82,
+   "listingCount": 35,
+   "soldCount24h": 100,
+   "soldAvgUnitPrice24h": 254.39,
+   "soldCapped": true
+  },
+  {
+   "itemId": "b682af8902d22554c7b90386abd18762",
+   "name": "상급 원소결정",
+   "minUnitPrice": 1280,
+   "avgUnitPrice": 1443.63,
+   "listingCount": 59,
+   "soldCount24h": 100,
+   "soldAvgUnitPrice24h": 1296.55,
+   "soldCapped": true
+  },
+  {
+   "itemId": "04a1c3b13441800e275ebed957adcc8e",
+   "name": "순수한 증폭서",
+   "minUnitPrice": 11959999,
+   "avgUnitPrice": 12313460.89,
+   "listingCount": 13,
+   "soldCount24h": 55,
+   "soldAvgUnitPrice24h": 11984971.73,
+   "soldCapped": true
+  },
+  {
+   "itemId": "897cab594bbd04dda00619abfe885674",
+   "name": "농밀한 이계의 정수",
+   "minUnitPrice": 20000,
+   "avgUnitPrice": 21017.53,
+   "listingCount": 229,
+   "soldCount24h": 100,
+   "soldAvgUnitPrice24h": 19742.36,
+   "soldCapped": true
+  },
+  {
+   "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
+   "name": "응축된 순수의 잔해",
+   "minUnitPrice": 433333,
+   "avgUnitPrice": 476631.45,
+   "listingCount": 147,
+   "soldCount24h": 100,
+   "soldAvgUnitPrice24h": 451746.37,
+   "soldCapped": true
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "name": "시간의 결정",
+   "minUnitPrice": 149,
+   "avgUnitPrice": 149.58,
+   "listingCount": 3,
+   "soldCount24h": 1,
+   "soldAvgUnitPrice24h": 150.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "name": "균열의 단편",
+   "minUnitPrice": 1200,
+   "avgUnitPrice": 1781.14,
+   "listingCount": 10,
+   "soldCount24h": 20,
+   "soldAvgUnitPrice24h": 1248.94,
+   "soldCapped": true
+  },
+  {
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "name": "무결점 골든 베릴",
+   "minUnitPrice": 60,
+   "avgUnitPrice": 68.22,
+   "listingCount": 8,
+   "soldCount24h": 42,
+   "soldAvgUnitPrice24h": 61.84,
+   "soldCapped": true
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "name": "봉인된 자물쇠",
+   "minUnitPrice": 38,
+   "avgUnitPrice": 40.17,
+   "listingCount": 4,
+   "soldCount24h": 5,
+   "soldAvgUnitPrice24h": 33.9,
+   "soldCapped": true
+  },
+  {
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "name": "기억의 도서관지기 카드",
+   "minUnitPrice": 1277806,
+   "avgUnitPrice": 2006132.1,
+   "listingCount": 11,
+   "soldCount24h": 16,
+   "soldAvgUnitPrice24h": 1811764.59,
+   "soldCapped": true
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "name": "기억의 도서관지기 보주",
+   "minUnitPrice": 2137998,
+   "avgUnitPrice": 5868990.4,
+   "listingCount": 5,
+   "soldCount24h": 3,
+   "soldAvgUnitPrice24h": 7045966.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "name": "피터 더 파이퍼 카드",
+   "minUnitPrice": 110000,
+   "avgUnitPrice": 3077499.75,
+   "listingCount": 4,
+   "soldCount24h": 0,
+   "soldAvgUnitPrice24h": null,
+   "soldCapped": false
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "name": "황금의 플라타니 카드",
+   "minUnitPrice": 29000,
+   "avgUnitPrice": 29000.0,
+   "listingCount": 1,
+   "soldCount24h": 0,
+   "soldAvgUnitPrice24h": null,
+   "soldCapped": false
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "name": "레어 모자 클론 아바타",
+   "minUnitPrice": 2800000,
+   "avgUnitPrice": 6298888.78,
+   "listingCount": 9,
+   "soldCount24h": 2,
+   "soldAvgUnitPrice24h": 2799999.5,
+   "soldCapped": false
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "name": "레어 머리 클론 아바타",
+   "minUnitPrice": 2700000,
+   "avgUnitPrice": 5129752.78,
+   "listingCount": 9,
+   "soldCount24h": 3,
+   "soldAvgUnitPrice24h": 2266000.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "name": "레어 얼굴 클론 아바타",
+   "minUnitPrice": 3440000,
+   "avgUnitPrice": 4828253.86,
+   "listingCount": 7,
+   "soldCount24h": 4,
+   "soldAvgUnitPrice24h": 2945833.25,
+   "soldCapped": false
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "name": "레어 목가슴 클론 아바타",
+   "minUnitPrice": 2990000,
+   "avgUnitPrice": 4610277.62,
+   "listingCount": 8,
+   "soldCount24h": 2,
+   "soldAvgUnitPrice24h": 3450000.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "name": "레어 상의 클론 아바타",
+   "minUnitPrice": 5888888,
+   "avgUnitPrice": 8884545.18,
+   "listingCount": 22,
+   "soldCount24h": 5,
+   "soldAvgUnitPrice24h": 4282857.0,
+   "soldCapped": true
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "name": "레어 하의 클론 아바타",
+   "minUnitPrice": 4300000,
+   "avgUnitPrice": 9302085.23,
+   "listingCount": 13,
+   "soldCount24h": 4,
+   "soldAvgUnitPrice24h": 4198750.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "name": "레어 허리 클론 아바타",
+   "minUnitPrice": 4450000,
+   "avgUnitPrice": 4450000.0,
+   "listingCount": 1,
+   "soldCount24h": 5,
+   "soldAvgUnitPrice24h": 3115972.8,
+   "soldCapped": false
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "name": "레어 신발 클론 아바타",
+   "minUnitPrice": 4433333,
+   "avgUnitPrice": 4441944.25,
+   "listingCount": 4,
+   "soldCount24h": 6,
+   "soldAvgUnitPrice24h": 2474074.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "name": "레어 모자 클론 아바타(2종)",
+   "minUnitPrice": 2400000,
+   "avgUnitPrice": 5087242.0,
+   "listingCount": 10,
+   "soldCount24h": 1,
+   "soldAvgUnitPrice24h": 2300000.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "name": "레어 머리 클론 아바타(2종)",
+   "minUnitPrice": 2400000,
+   "avgUnitPrice": 5230368.89,
+   "listingCount": 9,
+   "soldCount24h": 0,
+   "soldAvgUnitPrice24h": null,
+   "soldCapped": false
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "name": "레어 상의 클론 아바타(2종)",
+   "minUnitPrice": 6500000,
+   "avgUnitPrice": 10426349.14,
+   "listingCount": 7,
+   "soldCount24h": 4,
+   "soldAvgUnitPrice24h": 4612500.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "name": "레어 하의 클론 아바타(2종)",
+   "minUnitPrice": 5970000,
+   "avgUnitPrice": 8143555.4,
+   "listingCount": 5,
+   "soldCount24h": 2,
+   "soldAvgUnitPrice24h": 5000000.0,
+   "soldCapped": false
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "name": "얼굴 클론 아바타",
+   "minUnitPrice": 699999,
+   "avgUnitPrice": 699999.0,
+   "listingCount": 1,
+   "soldCount24h": 0,
+   "soldAvgUnitPrice24h": null,
+   "soldCapped": false
+  },
+  {
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "name": "목가슴 클론 아바타",
+   "minUnitPrice": 1477000,
+   "avgUnitPrice": 1477388.5,
+   "listingCount": 2,
+   "soldCount24h": 0,
+   "soldAvgUnitPrice24h": null,
+   "soldCapped": false
+  }
+ ],
+ "failures": []
+}

@@ -33,7 +33,9 @@ export function LowLiquidityBadge() {
   );
 }
 
+/** 신뢰도 뱃지. 원인 미상처럼 가설이 없는 항목은 신뢰도가 없으므로 아무것도 그리지 않는다 */
 export function ConfidenceBadge({ confidence }) {
+  if (!confidence) return null;
   const strong = confidence === "확정";
   return (
     <span
@@ -89,7 +91,8 @@ export function CountUpNum({ value, className = "" }) {
   return <span className={`num ${className}`}>{value == null ? "집계 전" : v.toLocaleString()}</span>;
 }
 
-/** 미니 스파크라인: 최근 값 추세를 한 줄로. 점 2개 미만이면 그리지 않는다 */
+/** 미니 스파크라인: 최근 값 추세를 한 줄로. 점 2개 미만이면 그리지 않는다.
+ *  viewBox를 두어 컨테이너가 좁아지면 왜곡 없이 함께 줄어든다 */
 export function Sparkline({ values = [], width = 80, height = 26, color = "var(--accent)", strokeWidth = 1.5, area = false }) {
   const pts = values.filter((v) => v != null);
   if (pts.length < 2) return null;
@@ -100,7 +103,8 @@ export function Sparkline({ values = [], width = 80, height = 26, color = "var(-
   const path = pts.map((v, i) => `${i ? "L" : "M"}${(i * step).toFixed(1)},${yAt(v).toFixed(1)}`).join(" ");
   const lastY = yAt(pts[pts.length - 1]);
   return (
-    <svg width={width} height={height} aria-hidden="true" className="shrink-0">
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}
+         aria-hidden="true" className="shrink-0 max-w-full">
       {area && (
         <path d={`${path} L${width},${height} L0,${height} Z`} fill={color} opacity="0.1" />
       )}

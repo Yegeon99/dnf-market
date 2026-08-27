@@ -274,7 +274,8 @@ p a { text-decoration: underline; }
    섹션마다 위아래 32px → 섹션 사이 수직 여백 64px.
    짝수 섹션은 풀폭 밴드 배경으로 지그재그 리듬을 만든다. */
 .sec { padding-block: 32px; }
-.sec-band { background: var(--bg-sunken); }
+/* 밴드 대비: bg-sunken(1.07:1)은 저품질 화면에서 경계가 사라져 masked(1.14:1)로 올림 */
+.sec-band { background: var(--raw-paper-masked); }
 .sec-inner { margin-inline: auto; width: 100%; max-width: 1280px; padding-inline: 1rem; }
 @media (min-width: 1024px) { .sec-inner { padding-inline: 1.5rem; } }
 
@@ -380,6 +381,21 @@ table.plain th.r, table.plain td.r { text-align: right; }
 .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .scroll-x::-webkit-scrollbar { height: 6px; }
 .scroll-x::-webkit-scrollbar-thumb { background: var(--hairline-strong); border-radius: 3px; }
+
+/* 로딩 스켈레톤 예약 높이 — 실제 오버뷰 레이아웃 실측값.
+   마운트 교체 때 아래 요소(특히 푸터)가 밀리지 않게 미리 자리를 잡아 둔다. */
+.sk-hero { height: 152px; }
+.sk-brief { height: 522px; }
+.sk-rank { height: 809px; }
+.sk-kpi { height: 215px; }
+.sk-heat { height: 1680px; }
+@media (min-width: 640px) {
+  .sk-hero { height: 66px; }
+  .sk-brief { height: 213px; }
+  .sk-rank { height: 419px; }
+  .sk-kpi { height: 102px; }
+  .sk-heat { height: 700px; }
+}
 
 /* ── 스켈레톤 ── */
 .skeleton {

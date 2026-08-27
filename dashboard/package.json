@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "predev": "node scripts/sync-data.mjs",
-    "prebuild": "node scripts/sync-data.mjs"
+    "prebuild": "node scripts/sync-data.mjs",
+    "audit": "node scripts/audit-data.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

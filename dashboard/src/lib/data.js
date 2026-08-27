@@ -137,6 +137,31 @@ export function dodChanges(rows, items, targetDate) {
   });
 }
 
+/** 브리핑이 발행되는 회차 (KST 03시). 브리핑 본문 수치는 이 회차까지 수집된 값으로 산출된다 */
+export const briefingSlot = "h03";
+
+/** 브리핑 발행 시점 기준 전일 대비 변동률.
+ *  당일은 발행 회차(03시) 값만, 전일은 그날 전 회차 평균 — 브리핑 본문과 같은 기준이다.
+ *  이후 회차가 더 쌓이면 dodChanges(최신 수집 기준)와 값이 갈리므로 화면에서 기준을 병기한다. */
+export function publishChanges(rows, items, targetDate) {
+  return items.map((it) => {
+    const daily = dailySeries(rows, it.itemId);
+    const idx = daily.findIndex((d) => d.date === targetDate);
+    const prev = idx > 0 ? daily[idx - 1] : null;
+    const prices = rows
+      .filter((r) => r.itemId === it.itemId && r.date === targetDate && r.slot === briefingSlot)
+      .map((r) => r.avgUnitPrice)
+      .filter((v) => v != null);
+    const cur = prices.length ? prices.reduce((a, b) => a + b, 0) / prices.length : null;
+    return {
+      itemId: it.itemId,
+      name: it.name,
+      changePct: prev?.avgPrice && cur != null ? ((cur - prev.avgPrice) / prev.avgPrice) * 100 : null,
+      avgPrice: cur,
+    };
+  });
+}
+
 export function latestDate(rows) {
   return rows.length ? rows.map((r) => r.date).sort().at(-1) : null;
 }

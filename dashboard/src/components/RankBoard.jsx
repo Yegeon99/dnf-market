@@ -1,5 +1,6 @@
 // 오늘의 등락 순위: 가격 기준 상승·하락 TOP 5 랭킹 보드 (좌우 2단).
-// 1위는 테두리나 배지가 아니라 크기와 굵기로만 구분한다. 매물 수 급변은 제외
+// 1위는 테두리나 배지가 아니라 크기와 굵기로만 구분한다. 매물 수 급변은 제외.
+// 시각 요소(1위 미니 차트 / 2~5위 게이지 바)는 모두 오른쪽 같은 열에 둔다 — 열이 끊기지 않게
 import { Link, useNavigate } from "react-router-dom";
 import { fmtGold, fmtSignedPct } from "../lib/data";
 import { Sparkline } from "./ui";
@@ -27,14 +28,16 @@ function ChampionRow({ c, dir, trend }) {
           {c.name}
         </span>
         <span className="num block text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>
-          {fmtGold(c.avgPrice)} 골드 · 최근 7일
+          {fmtGold(c.avgPrice)} 골드 · 최근 7일 추이
+        </span>
+      </span>
+      <span className="flex w-[104px] shrink-0 flex-col items-end gap-1 sm:w-[152px]">
+        <span className="t-numeral whitespace-nowrap" style={{ color, fontSize: "clamp(30px, 2.6vw, 38px)" }}>
+          {fmtSignedPct(c.changePct)}
         </span>
         {trend && trend.filter((v) => v != null).length >= 2 && (
-          <span className="mt-1 block"><Sparkline values={trend} width={132} height={30} color={color} strokeWidth={1.8} area /></span>
+          <Sparkline values={trend} width={152} height={30} color={color} strokeWidth={1.8} area />
         )}
-      </span>
-      <span className="t-numeral shrink-0" style={{ color, fontSize: "clamp(30px, 2.6vw, 38px)" }}>
-        {fmtSignedPct(c.changePct)}
       </span>
     </button>
   );
@@ -60,7 +63,7 @@ function Row({ rank, c, dir, maxAbs }) {
           {fmtGold(c.avgPrice)} 골드
         </span>
       </span>
-      <span className="flex shrink-0 flex-col items-end gap-1" style={{ width: 112 }}>
+      <span className="flex w-[104px] shrink-0 flex-col items-end gap-1 sm:w-[152px]">
         <span className="num text-[18px] font-bold leading-none" style={{ color }}>
           {fmtSignedPct(c.changePct)}
         </span>

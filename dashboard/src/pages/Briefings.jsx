@@ -2,7 +2,7 @@
 // 같은 사유의 이상 변동은 그룹 카드로 접고, 변동률 게이지 바로 시각 비교
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { dodChanges, fmtSignedPct } from "../lib/data";
+import { publishChanges, fmtSignedPct } from "../lib/data";
 import { ConfidenceBadge, Empty, SeverityBadge, Change, LowLiquidityBadge } from "../components/ui";
 import { highlight, itemNamePool } from "../components/rich";
 
@@ -116,11 +116,12 @@ export default function Briefings({ data }) {
   const linked = cur ? anomalies.filter((a) => cur.anomaly_ids.includes(a.id)) : [];
   const names = useMemo(() => itemNamePool(items), [items]);
 
-  // 날짜 목록용: 그날의 가격 최대 등락 (전일 대비 평균 등록가 기준)
+  // 날짜 목록용: 그날 브리핑이 본 것과 같은 발행 시점 기준 최대 등락.
+  // 최신 수집 기준을 쓰면 옆의 브리핑 본문과 1위·수치가 어긋난다.
   const maxByDate = useMemo(() => {
     const map = {};
     for (const b of briefings) {
-      const withChange = dodChanges(rows, items, b.date).filter((c) => c.changePct != null);
+      const withChange = publishChanges(rows, items, b.date).filter((c) => c.changePct != null);
       if (!withChange.length) continue;
       map[b.date] = withChange.reduce((best, c) =>
         Math.abs(c.changePct) > Math.abs(best.changePct) ? c : best);

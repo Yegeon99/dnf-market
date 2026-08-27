@@ -6,7 +6,8 @@
 정직성 원칙 (지침서 절대 규칙 7):
 - 후보 이벤트가 ±3일 내에 없으면 LLM을 호출하지 않고 "원인 미상, 관찰 지속" 기록
 - LLM 응답의 evidence_urls가 후보 목록 밖이면 무효 처리 → "원인 미상, 관찰 지속"
-- 신뢰도(확정/추정) 없는 가설은 기록하지 않는다
+- LLM이 낸 가설은 신뢰도(확정/추정)가 없으면 기록하지 않는다
+- 원인 미상은 가설이 아니므로 신뢰도를 붙이지 않는다 (confidence=None)
 
 비용 통제 (절대 규칙 9): 이상 항목에만 호출, 모델은 claude-haiku-4-5,
 일 상한 초과 시 LLMBudgetExceeded로 실행 중단.
@@ -31,7 +32,8 @@ SYSTEM_PROMPT = (ROOT / "pipeline" / "prompts" / "interpret_system.txt").read_te
 MODEL = "claude-haiku-4-5"
 EVENT_WINDOW_DAYS = 3
 
-UNKNOWN = {"text": "원인 미상, 관찰 지속", "evidence_urls": [], "confidence": "추정"}
+# 원인 미상은 가설이 아니므로 신뢰도를 붙이지 않는다 (confidence=None → 대시보드 뱃지 미표시)
+UNKNOWN = {"text": "원인 미상, 관찰 지속", "evidence_urls": [], "confidence": None}
 
 
 def load_events() -> list:

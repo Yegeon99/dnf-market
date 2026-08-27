@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route, NavLink, useLocation } from "react-router-dom";
 import { loadAll } from "./lib/data";
 import { Skeleton, Empty } from "./components/ui";
 import Overview from "./pages/Overview";
@@ -31,9 +31,41 @@ function LoadingSkeleton() {
   );
 }
 
+/** 오버뷰 전용 스켈레톤.
+ *  실제 렌더 후 아래 요소가 밀리지 않도록 섹션 구조와 실측 높이(index.css의 sk-*)를
+ *  그대로 예약한다. 예약을 안 하면 마운트 교체 때 푸터가 통째로 내려가 CLS가 튄다. */
+function SkSection({ band, note, body }) {
+  return (
+    <section className={`sec${band ? " sec-band" : ""}`}>
+      <div className="sec-inner">
+        <div className="sec-head">
+          <Skeleton className="h-[13px] w-24" />
+          <Skeleton className="mt-1.5 h-7 w-52" />
+          {note && <Skeleton className="mt-2 h-[14px] w-72 max-w-full" />}
+        </div>
+        <Skeleton className={body} />
+      </div>
+    </section>
+  );
+}
+
+function OverviewSkeleton() {
+  return (
+    <>
+      <div className="sec-inner py-4"><Skeleton className="sk-hero" /></div>
+      <div className="status-bar" />
+      <SkSection body="sk-brief" />
+      <SkSection band note body="sk-rank" />
+      <SkSection body="sk-kpi" />
+      <SkSection band note body="sk-heat" />
+    </>
+  );
+}
+
 export default function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const isOverview = useLocation().pathname === "/";
 
   useEffect(() => {
     loadAll().then(setData).catch((e) => setError(e.message));
@@ -76,7 +108,7 @@ export default function App() {
         {error ? (
           <Shell><Empty>데이터를 불러오지 못했습니다: {error}</Empty></Shell>
         ) : !data ? (
-          <Shell><LoadingSkeleton /></Shell>
+          isOverview ? <OverviewSkeleton /> : <Shell><LoadingSkeleton /></Shell>
         ) : (
           <Routes>
             {/* 오버뷰만 풀폭 밴드를 직접 그리므로 컨테이너를 스스로 관리한다 */}

@@ -4,8 +4,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  dailySeries, dodChanges, latestDate, fmtGold, fmtPct, fmtSignedPct, heatColor,
-  pctColor,
+  dailySeries, dodChanges, publishChanges, latestDate, lastCollectedLabel, fmtGold,
+  fmtPct, fmtSignedPct, heatColor, pctColor,
 } from "../lib/data";
 import { Change, CountUpNum, Empty, Sparkline } from "../components/ui";
 import { highlight, itemNamePool } from "../components/rich";
@@ -54,6 +54,7 @@ function Tile({ c, it, onEnter, onLeave, onClick }) {
       onClick={onClick} onMouseEnter={onEnter} onMouseLeave={onLeave}
       className="heat-tile relative w-[132px] shrink-0 cursor-pointer px-2 py-1.5 text-left"
       style={{ background: bg, color: fg }}
+      title={c.name}
     >
       <div className="truncate text-[14px] font-medium leading-snug">{it?.shortName ?? c.name}</div>
       <div className="num text-[13px] leading-snug">{fmtGold(c.avgPrice)}</div>
@@ -138,15 +139,16 @@ function Heatmap({ changes, items, llBelow }) {
   );
 }
 
-/** 데일리 브리핑 카드: 품목명은 bold, 등락색은 헤드라인(첫 문장)에만. 우측 미니 차트 유지 */
+/** 데일리 브리핑 카드: 품목명은 bold, 등락색은 헤드라인(첫 문장)에만.
+ *  우측 미니 차트도 본문과 같은 "발행 시점" 기준을 쓴다 (최신 수집 기준은 아래 순위 보드 담당) */
 function BriefingHero({ briefing, items, topUp, trend }) {
   const names = itemNamePool(items);
   return (
     <Link to="/briefings" className="card card-lift block px-4 py-3.5 no-underline" style={{ color: "inherit" }}>
-      <div className="flex items-center gap-2 text-[13px]" style={{ color: "var(--text-secondary)" }}>
-        <span className="num">{briefing.date}</span>
-        <span>심야 03시 발행 기준</span>
-        <span className="ml-auto" style={{ color: "var(--accent)" }}>아카이브 →</span>
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+        <span className="num whitespace-nowrap">{briefing.date}</span>
+        <span>03시 발행 시점까지의 수집분 기준</span>
+        <span className="ml-auto whitespace-nowrap" style={{ color: "var(--accent)" }}>아카이브 →</span>
       </div>
       <div className={`mt-1.5 grid gap-x-6 gap-y-3 ${topUp && trend ? "sm:grid-cols-[minmax(0,1fr)_212px]" : ""}`}>
         <div className="min-w-0">
@@ -164,7 +166,7 @@ function BriefingHero({ briefing, items, topUp, trend }) {
         </div>
         {topUp && trend && (
           <div className="rounded px-3 py-2.5" style={{ background: "var(--bg-sunken)" }}>
-            <div className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>오늘 상승 1위 · 최근 7일</div>
+            <div className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>발행 시점 상승 1위 · 최근 7일 추이</div>
             <div className="mt-0.5 truncate text-sm font-bold" style={{ color: "var(--text-primary)" }}>{topUp.name}</div>
             <div className="num mt-0.5 text-[18px] font-bold" style={{ color: "var(--up)" }}>{fmtSignedPct(topUp.changePct)}</div>
             <div className="mt-1.5">
@@ -191,7 +193,15 @@ export default function Overview({ data }) {
 
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
   const itemSpark = (id) => dailySeries(rows, id).slice(-7).map((d) => d.avgPrice);
-  const topUpTrend = ups[0] ? itemSpark(ups[0].itemId) : null;
+  const collectedLabel = lastCollectedLabel(rows);
+
+  // 브리핑 카드 미니 차트: 본문과 같은 발행 시점(03시 회차) 기준 상승 1위.
+  // 최신 수집 기준 1위는 아래 순위 보드가 맡는다 — 한 카드 안에 두 기준을 섞지 않는다.
+  const pubTop = latestBriefing
+    ? publishChanges(rows, items, latestBriefing.date)
+        .filter((c) => c.changePct != null && c.changePct > 0)
+        .sort((a, b) => b.changePct - a.changePct)[0] ?? null
+    : null;
 
   // 비교 불가 구간 대체 KPI: 오늘 실거래 최다 / 소급 수집 확보 기간 (데이터 생기면 자동 전환)
   let topSold = null;
@@ -202,7 +212,7 @@ export default function Overview({ data }) {
       if (!best[r.itemId] || r.soldCount24h > best[r.itemId]) best[r.itemId] = r.soldCount24h;
     }
     const top = Object.entries(best).sort((a, b) => b[1] - a[1])[0];
-    if (top) topSold = { name: byId[top[0]]?.shortName ?? top[0], count: top[1] };
+    if (top) topSold = { name: byId[top[0]]?.shortName ?? top[0], fullName: byId[top[0]]?.name, count: top[1] };
   }
   const bfDates = backfill.map((r) => r.date);
   const bfRange = bfDates.length
@@ -220,15 +230,15 @@ export default function Overview({ data }) {
       <Section label="오늘의 이야기" title="데일리 브리핑">
         {latestBriefing ? (
           <BriefingHero briefing={latestBriefing} items={items}
-                        topUp={ups[0] ? { ...ups[0], name: byId[ups[0].itemId]?.name ?? ups[0].name } : null}
-                        trend={topUpTrend} />
+                        topUp={pubTop}
+                        trend={pubTop ? itemSpark(pubTop.itemId) : null} />
         ) : (
           <Empty>브리핑이 아직 발행되지 않았습니다.</Empty>
         )}
       </Section>
 
       <Section band label="전일 대비" title="오늘의 등락 순위"
-               note="최신 수집 기준 · 평균 등록가 · 클릭 시 상세">
+               note={`최신 수집(${collectedLabel ?? "집계 전"}) 기준 평균 등록가. 위 브리핑은 발행 시점(03시)까지의 수집분 기준이라 같은 날이어도 순위와 수치가 다릅니다.`}>
         {hasCompare ? (
           <RankBoard ups={ups} downs={downs} trendFor={itemSpark} />
         ) : (
@@ -253,14 +263,14 @@ export default function Overview({ data }) {
                        spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
                        caption={ups[0] ? "최근 7일 평균가 추이" : null}>
                 {ups[0]
-                  ? <span className="text-[16px]">{byId[ups[0].itemId]?.shortName} <Change value={ups[0].changePct} /></span>
+                  ? <span className="text-[16px]"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} /></span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
               </KpiCell>
               <KpiCell label="하락 1위"
                        spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
                        caption={downs[0] ? "최근 7일 평균가 추이" : null}>
                 {downs[0]
-                  ? <span className="text-[16px]">{byId[downs[0].itemId]?.shortName} <Change value={downs[0].changePct} /></span>
+                  ? <span className="text-[16px]"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} /></span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
               </KpiCell>
             </>
@@ -268,7 +278,7 @@ export default function Overview({ data }) {
             <>
               <KpiCell label="오늘 실거래 최다 (24시간)">
                 {topSold
-                  ? <span className="text-[16px]">{topSold.name} <span className="num">{topSold.count.toLocaleString()}건</span></span>
+                  ? <span className="text-[16px]"><span title={topSold.fullName}>{topSold.name}</span> <span className="num">{topSold.count.toLocaleString()}건</span></span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>집계 중</span>}
               </KpiCell>
               <KpiCell label="과거 실거래 소급 수집 기간">

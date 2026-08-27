@@ -147,7 +147,7 @@ function BriefingHero({ briefing, items, topUp, trend }) {
     <Link to="/briefings" className="card card-lift block px-4 py-3.5 no-underline" style={{ color: "inherit" }}>
       <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px]" style={{ color: "var(--text-secondary)" }}>
         <span className="num whitespace-nowrap">{briefing.date}</span>
-        <span>{briefing.collectionFailed ? "당일 수집 실패, 전일 데이터 기준" : "심야 회차 발행 시점까지의 수집분 기준"}</span>
+        <span>{briefing.collectionFailed ? "심야 회차 수집 실패, 전일 데이터 기준" : "심야 회차 발행 시점까지의 수집분 기준"}</span>
         <span className="ml-auto whitespace-nowrap" style={{ color: "var(--accent)" }}>아카이브 →</span>
       </div>
       <div className={`mt-1.5 grid gap-x-6 gap-y-3 ${topUp && trend ? "sm:grid-cols-[minmax(0,1fr)_212px]" : ""}`}>
@@ -195,6 +195,19 @@ export default function Overview({ data }) {
   const itemSpark = (id) => dailySeries(rows, id).slice(-7).map((d) => d.avgPrice);
   const collectedLabel = lastCollectedLabel(rows);
 
+  // 순위 보드 안내문: 브리핑이 어느 날짜를 인용했는지와 순위 보드 기준일을 직접 비교한다.
+  // 심야 회차가 실패한 날은 브리핑이 전일을 인용하는데, 이후 회차가 성공하면
+  // 순위 보드 기준일만 당일로 넘어가 둘이 갈린다.
+  const briefBasisDate = latestBriefing?.collectionFailed
+    ? [...new Set(rows.map((r) => r.date))].sort().filter((d) => d < latestBriefing.date).at(-1) ?? null
+    : null;
+  const base = `최신 수집(${collectedLabel ?? "집계 전"}) 기준 평균 등록가.`;
+  const rankNote = !latestBriefing?.collectionFailed
+    ? `${base} 위 브리핑은 심야 회차 발행 시점까지의 수집분 기준이라 같은 날이어도 순위와 수치가 다릅니다.`
+    : briefBasisDate === date
+      ? `${base} 위 브리핑은 심야 회차 수집이 실패해 같은 ${date} 데이터를 인용하므로 수치가 일치합니다.`
+      : `${base} 위 브리핑은 심야 회차 수집 실패로 ${briefBasisDate} 데이터를 인용하므로 아래 순위와 기준일이 다릅니다.`;
+
   // 브리핑 카드 미니 차트: 본문과 같은 발행 시점(심야 회차) 기준 상승 1위.
   // 최신 수집 기준 1위는 아래 순위 보드가 맡는다 — 한 카드 안에 두 기준을 섞지 않는다.
   const pubTop = latestBriefing
@@ -238,9 +251,7 @@ export default function Overview({ data }) {
       </Section>
 
       <Section band label="전일 대비" title="오늘의 등락 순위"
-               note={latestBriefing?.collectionFailed
-                 ? `최신 수집(${collectedLabel ?? "집계 전"}) 기준 평균 등록가. 위 브리핑은 당일 수집이 실패해 같은 데이터를 인용하므로 수치가 일치합니다.`
-                 : `최신 수집(${collectedLabel ?? "집계 전"}) 기준 평균 등록가. 위 브리핑은 심야 회차 발행 시점까지의 수집분 기준이라 같은 날이어도 순위와 수치가 다릅니다.`}>
+               note={rankNote}>
         {hasCompare ? (
           <RankBoard ups={ups} downs={downs} trendFor={itemSpark} />
         ) : (

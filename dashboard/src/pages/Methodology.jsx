@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import HeatLegend from "../components/HeatLegend";
+import { slotLabel } from "../lib/data";
 
 const PIPE_NODES = [
   { y: 10, h: 46, lines: ["Neople 오픈 API", "경매장 등록가 · 판매 완료"], kind: "src",
@@ -93,7 +94,9 @@ function PipelineDiagram() {
 }
 
 export default function Methodology({ data }) {
-  const { items, thresholds } = data;
+  const { items, thresholds, collection } = data;
+  // 실패 회차 원칙에 붙일 실제 사례. 하드코딩하지 않고 수집 기록에서 최근 실패를 집어 온다
+  const lastFail = [...(collection?.attempts ?? [])].reverse().find((a) => a.okCount === 0) ?? null;
   const dod = thresholds.dayOverDay;
   const ma = thresholds.movingAverage;
   const ll = thresholds.lowLiquidity;
@@ -170,7 +173,17 @@ export default function Methodology({ data }) {
           <li>· LLM 호출은 <b>이상 탐지된 항목에만</b> 수행합니다. 전 품목 호출은 하지 않으며, 이상 0건인 날은 무비용 규칙 기반 브리핑을 냅니다.</li>
           <li>· 가설은 수동 큐레이션한 공식 공지·이벤트(±3일)만 근거로 삼고, 근거 URL과 신뢰도(확정/추정)를 반드시 함께 적습니다.</li>
           <li>· 근거가 없으면 "원인 미상, 관찰 지속"으로 남깁니다. 시점이 겹친다는 이유만으로 인과를 단정하지 않습니다.</li>
-          <li>· 수집 실패 회차는 차트에 공백으로 그대로 표기합니다. 데이터를 지어내지 않습니다.</li>
+          <li>
+            · 수집 실패 회차는 시계열에 넣지 않고 차트에 공백으로 그대로 표기합니다. 데이터를 지어내지 않습니다.
+            {lastFail && (
+              <span className="mt-0.5 block" style={{ color: "var(--text-muted)" }}>
+                실제 사례: <span className="num">{lastFail.date} {slotLabel(lastFail.slot)}</span> 회차는 오픈 API가
+                전 품목 오류를 반환해 {lastFail.itemCount}종 모두 수집에 실패했습니다.
+                해당 회차는 시계열에 병합하지 않았고, 오버뷰 상태 바에 실패로 표시됩니다.
+                다음 회차부터 자동으로 다시 수집합니다.
+              </span>
+            )}
+          </li>
           <li>· 비용 실측: 해석(claude-haiku-4-5)은 건당 약 $0.001, 브리핑(claude-opus-5)은 회당 약 $0.013입니다. 하루 상한 $0.3을 넘으면 실행을 중단합니다.</li>
         </ul>
       </section>

@@ -46,6 +46,9 @@
   --raw-cool-600: #3A62AE;
   /* 실거래 그린 (차트 보조 라인) */
   --raw-green-600: #4A8271;
+  /* 수집 실패 주황 (상태등·안내문 전용, 등락색·골드와 구분).
+     흰 바탕 5.32:1, 밴드 바탕 4.47:1 — 13px 본문에서도 WCAG AA 통과 */
+  --raw-orange-700: #A85416;
 
   /* ── 2층 semantic: 용도 별칭 ── */
   --bg-base: var(--raw-paper-base);
@@ -107,6 +110,7 @@
   --badge-radius: 3px;
   --statuslight-ok: var(--gold-bright);
   --statuslight-wait: var(--raw-ink-300);
+  --statuslight-fail: var(--raw-orange-700);
 }
 
 /* ── 바탕·본문 ── */

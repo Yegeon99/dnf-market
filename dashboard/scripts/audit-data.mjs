@@ -6,12 +6,13 @@
 //
 // 실행: node scripts/audit-data.mjs   (실패 1건이라도 있으면 exit 1)
 
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 import {
   dodChanges, publishChanges, latestDate, briefingSlot, HEAT_BOUNDS,
+  isLowLiquidity, lastCollectedLabel, slotLabel,
 } from "../src/lib/data.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -77,6 +78,9 @@ const briefings = [...rootData("briefings.json").briefings].sort((a, b) => (a.da
 const items = read(join(ROOT, "config", "items.json")).items;
 const thresholds = read(join(ROOT, "config", "thresholds.json"));
 const backfill = rootData("backfill.json").rows;
+const collection = existsSync(join(ROOT, "dashboard", "public", "data", "collection.json"))
+  ? read(join(ROOT, "dashboard", "public", "data", "collection.json"))
+  : { latestAttempt: null, attempts: [] };
 const date = latestDate(rows);
 
 // ── 1. 배포본 동기화: data/ 와 dashboard/public/data/ 가 같은가 ───────────
@@ -148,7 +152,7 @@ const date = latestDate(rows);
     const i = daily.findIndex((d) => d.date === a.date);
     const curL = a.metric === "listingCount" ? a.currentValue : daily[i]?.listing;
     const prevL = a.metric === "listingCount" ? a.baseValue : daily[i - 1]?.listing;
-    const expect = curL != null && prevL != null && curL < ll.listingCountBelow && prevL < ll.listingCountBelow;
+    const expect = isLowLiquidity(curL, prevL, ll.listingCountBelow);
     if (expect !== a.lowLiquidity) {
       bad.push(`${a.itemName}: lowLiquidity ${a.lowLiquidity} vs 재판정 ${expect} (전일 ${prevL}, 당일 ${curL})`);
     }
@@ -219,23 +223,35 @@ const date = latestDate(rows);
         `상승 ${up} + 보합 ${flatN} + 하락 ${down} + 대기 ${pending} = ${sum} (추적 ${items.length}종)`);
 }
 
-// ── 8. 저유동 뱃지 부여 조건 ──────────────────────────────────────────────
+// ── 8. 저유동 판정 단일 규칙 (이상 뱃지 · 아이템 상세 · 히트맵 툴팁) ────────
 {
   const below = thresholds.lowLiquidity.listingCountBelow;
   const bad = [];
+
+  // (1) 저장된 이상 뱃지가 공용 헬퍼 판정과 같은가
   for (const a of anomalies) {
-    // 화면(브리핑)은 anomaly.lowLiquidity 를 그대로 뱃지로 쓴다 → 4번에서 이미 재판정 대조함.
-    // 여기서는 화면 상세(ItemDetail)의 "현재 매물 수 < 기준" 규칙과의 차이만 드러낸다.
     const daily = recalcDaily(rows, a.itemId);
-    const cur = daily.at(-1)?.listing;
-    const itemLevel = cur != null && cur < below;
-    if (itemLevel !== a.lowLiquidity) {
-      bad.push(`${a.itemName}(이상=${a.lowLiquidity}, 상세=${itemLevel}, 최신 매물 ${cur})`);
+    const i = daily.findIndex((d) => d.date === a.date);
+    const cur = a.metric === "listingCount" ? a.currentValue : daily[i]?.listing;
+    const prev = a.metric === "listingCount" ? a.baseValue : daily[i - 1]?.listing;
+    if (isLowLiquidity(cur, prev, below) !== a.lowLiquidity) {
+      bad.push(`이상 뱃지 ${a.itemName}: 저장 ${a.lowLiquidity} vs 규칙 ${isLowLiquidity(cur, prev, below)}`);
     }
   }
-  check(`저유동 뱃지 조건 (기준 ${below}건 미만)`, bad.length === 0,
-        bad.length ? `이상 뱃지(전일·당일 모두 미만) vs 상세 뱃지(최신만 미만) 판정 차이: ${bad.join(", ")}`
-                   : "이상 뱃지와 상세 뱃지 판정 일치");
+
+  // (2) 히트맵 툴팁(dodChanges)과 아이템 상세(dailySeries)가 같은 판정을 내는가
+  const cells = dodChanges(rows, items, date);
+  if (cells.some((c) => !("listingPrev" in c))) bad.push("dodChanges에 listingPrev 없음");
+  for (const c of cells) {
+    const daily = recalcDaily(rows, c.itemId);
+    const heat = isLowLiquidity(c.listing, c.listingPrev, below);
+    const detail = isLowLiquidity(daily.at(-1)?.listing, daily.at(-2)?.listing, below);
+    if (heat !== detail) bad.push(`${c.name}: 히트맵 ${heat} vs 상세 ${detail}`);
+  }
+
+  const n = cells.filter((c) => isLowLiquidity(c.listing, c.listingPrev, below)).length;
+  check(`저유동 판정 단일 규칙 (당일·전일 모두 ${below}건 미만)`, bad.length === 0,
+        bad.join(" / ") || `이상 뱃지·히트맵·상세 세 곳 판정 일치 (저유동 ${n}종)`);
 }
 
 // ── 9. 백필(과거 실거래 소급 수집) 구간 표기 ──────────────────────────────
@@ -277,6 +293,55 @@ const date = latestDate(rows);
         withConf.length || briefConf.length
           ? `이상 ${withConf.length}건 · 브리핑 문장 ${briefConf.length}건에 신뢰도 잔존`
           : "원인 미상 항목에 신뢰도 괄호 없음");
+}
+
+// ── 11. 스냅샷 · 시계열 병합 건전성 ─────────────────────────────────────────
+{
+  const slotOf = (h) => (h < 5 ? "h03" : h < 9 ? "h07" : h < 13 ? "h11"
+                       : h < 17 ? "h15" : h < 21 ? "h19" : "h23");
+  const snapDir = join(ROOT, "data", "snapshots");
+  const files = existsSync(snapDir) ? readdirSync(snapDir).filter((f) => f.endsWith(".json")).sort() : [];
+  const tsKeys = new Set(rows.map((r) => `${r.date}|${r.slot}`));
+  const snapKeys = new Set();
+  const bad = [];
+  let okRuns = 0, failedRuns = 0;
+
+  for (const f of files) {
+    const snap = read(join(snapDir, f));
+    const its = snap.items || [];
+    const okCount = its.filter((it) => it.avgUnitPrice != null || it.listingCount != null
+                                    || it.soldCount24h != null).length;
+    const hour = Number(String(snap.collectedAt || "").slice(11, 13));
+    const slot = Number.isNaN(hour) ? snap.slot : slotOf(hour);
+    const key = `${snap.date}|${slot}`;
+    snapKeys.add(key);
+    if (okCount > 0) {
+      okRuns += 1;
+      if (!tsKeys.has(key)) bad.push(`${f}: 값이 있는 회차인데 시계열에 병합되지 않음`);
+    } else {
+      failedRuns += 1;
+      if (tsKeys.has(key)) bad.push(`${f}: 전 품목 실패 회차인데 시계열에 병합됨`);
+    }
+  }
+  for (const k of tsKeys) if (!snapKeys.has(k)) bad.push(`시계열 ${k}: 대응 스냅샷 없음`);
+
+  check(`스냅샷·시계열 병합 건전성 (스냅샷 ${files.length}개)`, bad.length === 0,
+        bad.join(" / ") || `성공 회차 ${okRuns}개 전부 병합, 실패 회차 ${failedRuns}개 전부 미병합, 고아 회차 0`);
+}
+
+// ── 12. "최근 수집" 라벨이 실제 값이 있는 회차를 가리키는가 ────────────────
+{
+  const label = lastCollectedLabel(rows);
+  const a = collection.latestAttempt;
+  const bad = [];
+  if (a && a.okCount === 0) {
+    const failLabel = `${a.date.slice(5)} ${slotLabel(a.slot)}`;
+    if (label === failLabel) bad.push(`실패 회차(${failLabel})를 "최근 수집"으로 표기`);
+  }
+  const withValue = rows.filter((r) => r.avgUnitPrice != null || r.listingCount != null);
+  if (!withValue.length && label) bad.push("값이 없는데 최근 수집 라벨이 있음");
+  check("최근 수집 라벨 정확성", bad.length === 0,
+        bad.join(" / ") || `"${label}" (마지막 시도 ${a ? `${a.date} ${slotLabel(a.slot)} ${a.okCount}/${a.itemCount}종` : "기록 없음"})`);
 }
 
 // ── 출력 ──────────────────────────────────────────────────────────────────

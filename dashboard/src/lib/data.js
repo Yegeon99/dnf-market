@@ -12,7 +12,7 @@ export async function loadJson(name) {
 }
 
 export async function loadAll() {
-  const [ts, anomalies, briefings, items, events, thresholds, backfill] = await Promise.all([
+  const [ts, anomalies, briefings, items, events, thresholds, backfill, collection] = await Promise.all([
     loadJson("timeseries.json").catch(() => ({ rows: [] })),
     loadJson("anomalies.json").catch(() => ({ anomalies: [] })),
     loadJson("briefings.json").catch(() => ({ briefings: [] })),
@@ -20,6 +20,7 @@ export async function loadAll() {
     loadJson("events.json").catch(() => ({ events: [] })),
     loadJson("thresholds.json"),
     loadJson("backfill.json").catch(() => ({ rows: [] })),
+    loadJson("collection.json").catch(() => ({ latestAttempt: null })),
   ]);
   return {
     rows: ts.rows || [],
@@ -29,6 +30,7 @@ export async function loadAll() {
     events: events.events || [],
     thresholds,
     backfill: backfill.rows || [],
+    collection,
   };
 }
 
@@ -133,8 +135,16 @@ export function dodChanges(rows, items, targetDate) {
       changePct,
       avgPrice: cur?.avgPrice ?? null,
       listing: cur?.listing ?? null,
+      listingPrev: prev?.listing ?? null,
     };
   });
+}
+
+/** 저유동 판정 단일 규칙: 당일·전일 매물 수가 모두 기준 미만일 때만 저유동.
+ *  detect.py의 판정과 같은 규칙이다. 화면 세 곳(이상 뱃지·아이템 상세·히트맵
+ *  툴팁)이 이 함수 하나만 쓴다 — 규칙이 갈리면 같은 품목이 화면마다 달라진다. */
+export function isLowLiquidity(cur, prev, below) {
+  return below > 0 && cur != null && prev != null && cur < below && prev < below;
 }
 
 /** 브리핑이 발행되는 회차 (KST 03시). 브리핑 본문 수치는 이 회차까지 수집된 값으로 산출된다 */
@@ -223,8 +233,10 @@ export function fmtSignedPct(v) {
   return `${v > 0 ? "+" : v < 0 ? "-" : "±"}${Math.abs(v).toFixed(1)}%`;
 }
 
-/** 최근 수집 라벨: 최신 (date, slot) → "08-25 15시" */
-export function lastCollectedLabel(rows) {
+/** 최근 수집 라벨: 실제 값이 담긴 최신 (date, slot) → "08-25 15시".
+ *  값이 하나도 없는 회차를 세면 실패 회차를 "최근 수집"이라 말하게 된다. */
+export function lastCollectedLabel(allRows) {
+  const rows = allRows.filter((r) => r.avgUnitPrice != null || r.listingCount != null);
   if (!rows.length) return null;
   const hour = (s) => (s.startsWith("h") ? parseInt(s.slice(1), 10) : { night: 3, am: 9, pm: 15 }[s] ?? 0);
   const last = rows.reduce((a, b) =>

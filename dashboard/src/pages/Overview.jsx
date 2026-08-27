@@ -131,7 +131,7 @@ function Heatmap({ changes, items, llBelow }) {
           </div>
           <div className="flex justify-between">
             <span style={{ color: "var(--text-secondary)" }}>매물 수</span>
-            <span className="num">{tip.c.listing != null ? `${tip.c.listing.toLocaleString()}건` : "미수집"}{llBelow > 0 && tip.c.listing != null && tip.c.listing < llBelow ? " (저유동)" : ""}</span>
+            <span className="num">{tip.c.listing != null ? `${tip.c.listing.toLocaleString()}건` : "미수집"}{isLowLiquidity(tip.c.listing, tip.c.listingPrev, llBelow) ? " (저유동)" : ""}</span>
           </div>
         </div>
       )}
@@ -180,7 +180,7 @@ function BriefingHero({ briefing, items, topUp, trend }) {
 }
 
 export default function Overview({ data }) {
-  const { rows, anomalies, briefings, items, thresholds, backfill } = data;
+  const { rows, anomalies, briefings, items, thresholds, backfill, collection } = data;
   const date = latestDate(rows);
   const changes = dodChanges(rows, items, date);
   const todayAnomalies = anomalies.filter((a) => a.date === date);
@@ -225,7 +225,7 @@ export default function Overview({ data }) {
   return (
     <>
       <HeroBand cells={changes} date={date} />
-      <StatusStrip rows={rows} briefings={briefings} />
+      <StatusStrip rows={rows} briefings={briefings} collection={collection} />
 
       <Section label="오늘의 이야기" title="데일리 브리핑">
         {latestBriefing ? (

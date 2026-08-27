@@ -45,7 +45,19 @@ def main() -> int:
             pass  # collectedAt 없으면 저장된 슬롯 유지
         if not date or not slot:
             continue
-        for it in snap.get("items", []):
+        # 전 품목 수집 실패 회차는 병합하지 않는다.
+        # 값이 하나도 없는 레코드를 넣으면 "최근 수집" 라벨이 실패 회차를 가리켜 거짓말이 된다.
+        # 정책: 실패 회차는 저장하지 않고 차트에 공백으로 남긴다 (방법론 페이지 고지와 동일).
+        items = snap.get("items", [])
+        if items and not any(
+            it.get("avgUnitPrice") is not None
+            or it.get("listingCount") is not None
+            or it.get("soldCount24h") is not None
+            for it in items
+        ):
+            print(f"전 품목 수집 실패 회차, 병합 건너뜀: {path.name} ({date} {slot})")
+            continue
+        for it in items:
             rec = {"itemId": it["itemId"], "date": date, "slot": slot}
             for f in FIELDS:
                 rec[f] = it.get(f)

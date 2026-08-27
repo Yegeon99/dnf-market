@@ -1,7 +1,7 @@
 // 화면 2 — 아이템 상세: 품목 아이덴티티 헤더 + 히어로 차트 + 이상 변동 이력 (딥링크 /item/:id)
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { itemSeries, fmtGold, fmtSignedPct, dailyChangeMap, latestDate } from "../lib/data";
+import { itemSeries, dailySeries, fmtGold, fmtSignedPct, dailyChangeMap, latestDate, isLowLiquidity } from "../lib/data";
 import PriceChart from "../components/PriceChart";
 import ListingChart from "../components/ListingChart";
 import { Change, ConfidenceBadge, Empty, LowLiquidityBadge, SeverityBadge } from "../components/ui";
@@ -49,7 +49,9 @@ export default function ItemDetail({ data }) {
   const myAnomalies = anomalies.filter((a) => a.itemId === id).sort((a, b) => (a.date < b.date ? 1 : -1));
   const last = [...series].reverse().find((s) => s.avgPrice != null);
   const llBelow = thresholds?.lowLiquidity?.listingCountBelow ?? 0;
-  const lowLiq = llBelow > 0 && last?.listing != null && last.listing < llBelow;
+  // 저유동 판정은 화면마다 같아야 한다 (당일·전일 매물 수 모두 기준 미만)
+  const dailyForItem = dailySeries(rows, id);
+  const lowLiq = isLowLiquidity(dailyForItem.at(-1)?.listing, dailyForItem.at(-2)?.listing, llBelow);
   const inRange = events.filter((ev) => series.some((s) => s.date === ev.date));
   const date = latestDate(rows);
   const hasBackfill = series.some((s) => s.backfill);

@@ -2,8 +2,11 @@ name: 심야 분석·브리핑
 
 on:
   schedule:
-    # KST 03:00 = UTC 18:00 — 심야 슬롯: 수집→탐지→해석→브리핑 통합 실행
-    - cron: "0 18 * * *"
+    # KST 02:17 = UTC 17:17. 심야 회차: 수집→탐지→해석→브리핑 통합 실행.
+    # 03시가 아니라 02시대인 이유: GitHub 예약 실행이 상시 30~110분 지연돼
+    # 목요일 정기점검 시간대와 겹쳤다 (2026-08-27 04:46 실행, 전 품목 503).
+    # 분을 17분으로 둔 이유: 정각은 스케줄러 혼잡으로 드롭·지연이 잦다.
+    - cron: "17 17 * * *"
   workflow_dispatch:
 
 permissions:
@@ -16,7 +19,8 @@ concurrency:
 jobs:
   daily:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # 전 품목 실패 시 재시도 백오프(30초·120초)까지 감안한 상한
+    timeout-minutes: 40
     steps:
       - name: 체크아웃
         uses: actions/checkout@v4

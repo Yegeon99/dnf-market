@@ -12,7 +12,7 @@
   - `pipeline/detect.py` — 전일 대비 + 7일 MA 이탈(7일 축적 시 자동 활성화), `config/thresholds.json`
   - `pipeline/interpret.py` — ±3일 events 교차, claude-haiku-4-5, 근거 URL 화이트리스트 검증
   - `pipeline/briefing.py` — 이상 有 opus-5 / 0건 무비용 템플릿, `pipeline/llm.py` 비용 원장·$0.3 상한
-  - `pipeline/run_daily.py` + `.github/workflows/daily.yml` (KST 03:00), snapshot.yml은 09/15시 2회로 조정
+  - `pipeline/run_daily.py` + `.github/workflows/daily.yml` (KST 02:17), snapshot.yml은 나머지 5회차
   - `config/events.csv` — 최근 1개월 공지·이벤트 후보 13건 (사용자 확인 대기)
 - [x] daily.yml Actions 검증 성공 (run 32807081842) — 전 체인 통과, data/ 한정 커밋
 - [x] LLM 비용 실측: interpret(haiku) $0.001/건, briefing(opus-5) $0.0133/회
@@ -32,5 +32,5 @@
 - 키 값은 채팅·로그·보고에 절대 출력 금지. "설정됨/미설정" + HTTP 코드로만 보고.
 - gh 경로: `C:\Program Files\GitHub CLI\gh.exe` (PATH에 없음)
 - 커밋·푸시 이 프로젝트에 한해 위임받음. 메시지 [phase-N] 한국어.
-- 심야 슬롯(KST 03:00)은 daily.yml이 수집+분석 통합 수행. snapshot.yml은 09/15시만.
+- 심야 회차(KST 02:17)는 daily.yml이 수집+분석 통합 수행. snapshot.yml은 07:17/11:17/15:17/19:17/23:17.
 - 로컬 실행: `.venv/Scripts/python.exe pipeline/run_daily.py` (개별 스크립트도 가능)

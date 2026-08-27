@@ -5,6 +5,9 @@
   헤드라인·3줄 요약·주목 변동을 생성 (일 1회 호출 — 비용 통제)
 - 이상 0건인 날: LLM 호출 없이 "안정 구간" 템플릿 브리핑 (억지 이슈 생성 금지,
   비용 절감 — 지침서 절대 규칙 9)
+- 당일 전 품목 수집 실패한 날: LLM 호출 없이 "수집 실패" 템플릿 브리핑.
+  첫 줄에 "당일 수집 실패로 전일 데이터 기준"을 명시한다 (브리핑을 건너뛰면
+  독자는 그날 무슨 일이 있었는지 알 길이 없다)
 
 브리핑 1회당 비용을 기록에 남긴다 (data/llm_costs.json + briefings.json costUsd).
 """
@@ -53,6 +56,69 @@ def market_summary(target_date: str) -> dict:
         summary["topDown"] = [c for c in sorted(changes, key=lambda c: c["change_pct"])[:3]
                               if c["change_pct"] < 0]
     return summary
+
+
+def collection_failed(target_date: str) -> bool:
+    """당일 스냅샷은 남았는데 값이 하나도 없으면 전 품목 수집 실패로 본다.
+    스냅샷 자체가 없으면(회차 미실행) False — 실패라고 단정하지 않는다."""
+    snaps = sorted((ROOT / "data" / "snapshots").glob(f"{target_date}_*.json"))
+    if not snaps:
+        return False
+    for path in snaps:
+        try:
+            snap = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        for it in snap.get("items", []):
+            if (it.get("avgUnitPrice") is not None or it.get("listingCount") is not None
+                    or it.get("soldCount24h") is not None):
+                return False
+    return True
+
+
+def failed_collection_briefing(target_date: str) -> dict:
+    """당일 수집 실패 → 전일 데이터 기준임을 첫 줄에 밝히고 발행한다 (LLM 미호출)."""
+    ts = load_json(TS_PATH, {"rows": []})
+    dates = sorted({r["date"] for r in ts.get("rows", [])})
+    last_date = dates[-1] if dates else None
+    items = load_json(ROOT / "config" / "items.json", {"items": []})["items"]
+    n = len(items)
+
+    lines = [
+        f"당일 수집 실패로 전일({last_date}) 데이터 기준입니다."
+        f" 오픈 API가 추적 {n}종 전 품목에 오류를 반환해 {target_date} 회차를 받지 못했습니다."
+        if last_date else
+        f"당일 수집 실패입니다. 오픈 API가 추적 {n}종 전 품목에 오류를 반환했습니다.",
+    ]
+    summary = market_summary(last_date) if last_date else {"topUp": [], "topDown": []}
+    if summary.get("topUp") or summary.get("topDown"):
+        up = summary["topUp"][0] if summary.get("topUp") else None
+        down = summary["topDown"][0] if summary.get("topDown") else None
+        parts = []
+        if up:
+            parts.append(f"상승은 {up['itemName']} +{up['change_pct']}%가 가장 컸습니다")
+        if down:
+            parts.append(f"하락은 {down['itemName']} {down['change_pct']}%가 가장 컸습니다")
+        parts[0] = f"전일({last_date}) 기준 " + parts[0]  # 두 내용은 두 문장으로 나눈다
+        lines.append(". ".join(parts) + ".")
+    else:
+        lines.append(f"전일({last_date}) 기준 비교 가능한 변동 수치가 없습니다."
+                     if last_date else "비교 가능한 과거 데이터가 아직 없습니다.")
+    lines.append("실패 회차는 시계열에 넣지 않고 공백으로 남깁니다."
+                 " 다음 회차부터 자동으로 다시 수집합니다.")
+
+    return {
+        "date": target_date,
+        "headline": f"수집 실패, {last_date} 데이터 {n}종 기준 유지" if last_date
+                    else f"수집 실패, {n}종 기준 데이터 없음",
+        "summary_3lines": lines[:3],
+        "notable": [],
+        "anomaly_ids": [],
+        "generatedBy": "template",
+        "costUsd": 0.0,
+        # 화면이 "03시 발행 시점 기준" 라벨 대신 "전일 데이터 기준"을 쓰게 하는 표식
+        "collectionFailed": True,
+    }
 
 
 def stable_briefing(target_date: str, summary: dict) -> dict:
@@ -138,7 +204,9 @@ def main() -> int:
     summary = market_summary(target_date)
 
     try:
-        if today:
+        if collection_failed(target_date):
+            briefing = failed_collection_briefing(target_date)
+        elif today:
             briefing = llm_briefing(target_date, summary, today)
         else:
             briefing = stable_briefing(target_date, summary)

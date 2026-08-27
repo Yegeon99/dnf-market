@@ -103,7 +103,7 @@ export default function ItemDetail({ data }) {
       <div className="card rise rise-2 p-3">
         <h2 className="t-section m-0 px-2">시세 추이</h2>
         <p className="m-0 mb-1 px-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
-          하루 6회 수집(KST 03·07·11·15·19·23시). 결손 회차는 공백으로 표기합니다.
+          하루 6회 수집(KST 02·07·11·15·19·23시 회차). 결손 회차는 공백으로 표기합니다.
           {hasBackfill && " 수집 시작 전 실거래는 과거 판매완료 내역을 일 단위로 소급 수집했습니다."}
         </p>
         <PriceChart series={series} events={inRange} height={340} />

@@ -23,11 +23,16 @@ ROOT = Path(__file__).resolve().parent.parent
 KST = ZoneInfo("Asia/Seoul")
 API_BASE = "https://api.neople.co.kr"
 
-# API 매너: 호출 간 최소 대기, 재시도는 1회로 제한 (지침서 절대 규칙 4)
+# API 매너 (지침서 절대 규칙 4, 2026-08-27 개정):
+# 호출 간 최소 대기 + 재시도 총 2회, 간격은 30초·120초 백오프.
+# 단 점검처럼 서버가 통째로 내려간 구간에서는 재시도가 무의미한 호출만 늘린다.
+# 그래서 앞선 OUTAGE_PROBE_ITEMS개 품목이 두 엔드포인트 모두 5xx면
+# 남은 품목의 재시도를 끊고 그대로 실패 처리한다.
 CALL_INTERVAL_SEC = 0.3
-RETRY_LIMIT = 1
-RETRY_BACKOFF_SEC = 2.0
+RETRY_LIMIT = 2
+RETRY_BACKOFF_SEC = (30.0, 120.0)
 TIMEOUT_SEC = 15
+OUTAGE_PROBE_ITEMS = 5
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("collect")
@@ -49,7 +54,9 @@ def load_api_key() -> str:
 
 
 def slot_for(now_kst: datetime) -> str:
-    """수집 시각 → 슬롯 라벨. 하루 6회 스케줄(KST 03/07/11/15/19/23) 구간 매핑.
+    """수집 시각 → 슬롯 라벨. 하루 6회 스케줄(KST 02:17/07:17/11:17/15:17/19:17/23:17) 구간 매핑.
+
+    슬롯 id는 시계열 호환을 위해 기존 h03/h07/... 을 그대로 쓴다 (구간 경계도 동일).
 
     구간: [0,5)→h03, [5,9)→h07, [9,13)→h11, [13,17)→h15, [17,21)→h19, [21,24)→h23
     """
@@ -67,11 +74,13 @@ def slot_for(now_kst: datetime) -> str:
     return "h23"
 
 
-def api_get(session: requests.Session, path: str, params: dict, key: str):
-    """1회 재시도 포함 GET. 키는 로그에 절대 남기지 않는다."""
+def api_get(session: requests.Session, path: str, params: dict, key: str, retry: bool = True):
+    """GET. retry=False면 재시도 없이 1회만 시도한다 (서버 전면 장애 구간).
+    키는 로그에 절대 남기지 않는다."""
     params = dict(params, apikey=key)
+    attempts = RETRY_LIMIT + 1 if retry else 1
     last_err = None
-    for attempt in range(RETRY_LIMIT + 1):
+    for attempt in range(attempts):
         try:
             resp = session.get(f"{API_BASE}{path}", params=params, timeout=TIMEOUT_SEC)
             if resp.status_code == 200:
@@ -79,9 +88,14 @@ def api_get(session: requests.Session, path: str, params: dict, key: str):
             last_err = f"HTTP {resp.status_code}"
         except requests.RequestException as exc:
             last_err = type(exc).__name__
-        if attempt < RETRY_LIMIT:
-            time.sleep(RETRY_BACKOFF_SEC)
+        if attempt < attempts - 1:
+            time.sleep(RETRY_BACKOFF_SEC[attempt])
     raise RuntimeError(last_err)
+
+
+def is_server_error(err: Exception) -> bool:
+    """5xx 여부. 연결 예외는 서버 장애로 단정하지 않는다."""
+    return str(err).startswith("HTTP 5")
 
 
 def summarize_auction(rows: list) -> dict:
@@ -137,30 +151,47 @@ def main() -> int:
     session = requests.Session()
     collected, failures = [], []
     call_count = 0
+    outage = False       # 서버 전면 장애로 판단되면 남은 품목은 재시도 없이 진행
+    probe_dead = 0       # 앞선 품목 중 두 엔드포인트 모두 5xx인 품목 수
 
-    for it in items:
+    for idx, it in enumerate(items):
         item_id, name = it["itemId"], it["name"]
         record = {"itemId": item_id, "name": name}
+        server_errors = 0
+
         try:
             data = api_get(session, "/df/auction",
-                           {"itemId": item_id, "limit": 400, "sort": "unitPrice:asc"}, key)
+                           {"itemId": item_id, "limit": 400, "sort": "unitPrice:asc"},
+                           key, retry=not outage)
             call_count += 1
             record.update(summarize_auction(data.get("rows", [])))
         except RuntimeError as err:
             failures.append({"itemId": item_id, "name": name, "endpoint": "auction", "error": str(err)})
             record.update({"minUnitPrice": None, "avgUnitPrice": None, "listingCount": None})
+            server_errors += is_server_error(err)
         time.sleep(CALL_INTERVAL_SEC)
 
         try:
-            data = api_get(session, "/df/auction-sold", {"itemId": item_id, "limit": 100}, key)
+            data = api_get(session, "/df/auction-sold", {"itemId": item_id, "limit": 100},
+                           key, retry=not outage)
             call_count += 1
             record.update(summarize_sold(data.get("rows", []), now))
         except RuntimeError as err:
             failures.append({"itemId": item_id, "name": name, "endpoint": "auction-sold", "error": str(err)})
             record.update({"soldCount24h": None, "soldAvgUnitPrice24h": None, "soldCapped": False})
+            server_errors += is_server_error(err)
         time.sleep(CALL_INTERVAL_SEC)
 
         collected.append(record)
+
+        # 전면 장애 판정: 앞선 OUTAGE_PROBE_ITEMS개 품목이 모두 두 엔드포인트 5xx
+        if not outage and idx < OUTAGE_PROBE_ITEMS:
+            if server_errors == 2:
+                probe_dead += 1
+            if idx + 1 == OUTAGE_PROBE_ITEMS and probe_dead == OUTAGE_PROBE_ITEMS:
+                outage = True
+                log.error("앞선 %d개 품목이 모두 서버 오류(5xx). 점검 구간으로 보고 남은 재시도를 중단합니다",
+                          OUTAGE_PROBE_ITEMS)
 
     snapshot = {
         "collectedAt": now.strftime("%Y-%m-%d %H:%M:%S"),
@@ -168,6 +199,7 @@ def main() -> int:
         "slot": slot,
         "itemCount": len(collected),
         "apiCalls": call_count,
+        "outage": outage,
         "items": collected,
         "failures": failures,
     }

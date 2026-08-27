@@ -41,6 +41,9 @@ export function slotLabel(slot) {
   if (slot === "day") return "일 평균(소급 수집)";
   const legacy = { night: "03시", am: "09시", pm: "15시" };
   if (legacy[slot]) return legacy[slot];
+  // 심야 회차는 2026-08-27부터 KST 02:17 실행이다. 슬롯 id(h03)는 시계열 호환을 위해
+  // 그대로 두고 표시 이름만 기준 시각에 맞춘다. 과거 기록도 같은 회차이므로 같은 이름을 쓴다.
+  if (slot === "h03") return "02시";
   return slot.startsWith("h") ? `${slot.slice(1)}시` : slot;
 }
 
@@ -147,11 +150,11 @@ export function isLowLiquidity(cur, prev, below) {
   return below > 0 && cur != null && prev != null && cur < below && prev < below;
 }
 
-/** 브리핑이 발행되는 회차 (KST 03시). 브리핑 본문 수치는 이 회차까지 수집된 값으로 산출된다 */
+/** 브리핑이 발행되는 심야 회차 (KST 02:17). 본문 수치는 이 회차까지 수집된 값으로 산출된다 */
 export const briefingSlot = "h03";
 
 /** 브리핑 발행 시점 기준 전일 대비 변동률.
- *  당일은 발행 회차(03시) 값만, 전일은 그날 전 회차 평균 — 브리핑 본문과 같은 기준이다.
+ *  당일은 심야 회차 값만, 전일은 그날 전 회차 평균 — 브리핑 본문과 같은 기준이다.
  *  이후 회차가 더 쌓이면 dodChanges(최신 수집 기준)와 값이 갈리므로 화면에서 기준을 병기한다. */
 export function publishChanges(rows, items, targetDate) {
   return items.map((it) => {

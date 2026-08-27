@@ -15,6 +15,9 @@ import {
   isLowLiquidity, lastCollectedLabel, slotLabel,
 } from "../src/lib/data.js";
 
+/** 브리핑이 어느 기준으로 쓰였는지. 수집 실패 브리핑은 전일 최신 수집 기준을 인용한다 */
+const prevDateOf = (rows, d) => [...new Set(rows.map((r) => r.date))].sort().filter((x) => x < d).at(-1) ?? null;
+
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..", "..");
 const TOL = 0.1; // 허용 오차 (%p)
@@ -168,8 +171,13 @@ const date = latestDate(rows);
     const texts = [b.headline, ...b.summary_3lines, ...(b.notable || []).map((n) => n.comment)];
     const pcts = texts.flatMap((t) => [...String(t).matchAll(/([+-]?\d+(?:\.\d+)?)%/g)].map((m) => parseFloat(m[1])));
     if (!pcts.length) continue;
-    // 대조 후보: 발행 시점 가격 등락 + 그날 anomalies 의 변동률 + 임계치 상수
-    const priceSet = publishChanges(rows, items, b.date).map((c) => c.changePct).filter((v) => v != null);
+    // 대조 후보: 그 브리핑이 실제로 쓴 기준의 가격 등락 + 그날 anomalies + 임계치 상수.
+    // 수집 실패 브리핑은 전일 최신 수집 기준(dodChanges)을 인용한다.
+    const prev = b.collectionFailed ? prevDateOf(rows, b.date) : null;
+    const priceSet = (b.collectionFailed
+      ? (prev ? dodChanges(rows, items, prev) : [])
+      : publishChanges(rows, items, b.date)
+    ).map((c) => c.changePct).filter((v) => v != null);
     const anomSet = anomalies.filter((a) => a.date === b.date).map((a) => a.change_pct);
     const constSet = [thresholds.dayOverDay.avgPrice.low, thresholds.dayOverDay.avgPrice.mid,
                       thresholds.dayOverDay.avgPrice.high];

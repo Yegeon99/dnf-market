@@ -1,5 +1,6 @@
 // 화면 1 — 마켓 오버뷰: "오늘 무슨 일이 있었나"에 3초 안에 답하는 구성.
-// 상태 스트립 → 데일리 브리핑(주인공) → 등락 순위 보드 → KPI → 히트맵 순서
+// 마스트헤드 → 상태 바 → 브리핑 → 등락 순위 → 핵심 지표 → 히트맵.
+// 섹션 라벨과 제목은 항상 카드 바깥, 짝수 섹션은 풀폭 밴드로 리듬을 만든다.
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,28 +11,32 @@ import { Change, CountUpNum, Empty, Sparkline } from "../components/ui";
 import { highlight, itemNamePool } from "../components/rich";
 import HeatLegend from "../components/HeatLegend";
 import HeroBand from "../components/HeroBand";
+import StatusStrip from "../components/StatusStrip";
 import RankBoard from "../components/RankBoard";
 
-// 아이콘: Phosphor 라인 세트로 통일 (게임 아트워크 미사용 원칙 유지)
-import { SquaresFour, Siren, TrendUp, TrendDown, ChartBar, Archive } from "@phosphor-icons/react";
-
-const ICONS = { items: SquaresFour, alert: Siren, up: TrendUp, down: TrendDown, sold: ChartBar, archive: Archive };
-
-function KpiIcon({ name, color = "var(--text-muted)" }) {
-  const I = ICONS[name];
-  return <I size={18} color={color} weight="duotone" aria-hidden="true" />;
+function Section({ label, title, note, band, children }) {
+  return (
+    <section className={`sec${band ? " sec-band" : ""}`}>
+      <div className="sec-inner">
+        <header className="sec-head">
+          <span className="sec-label">{label}</span>
+          <h2 className="sec-title">{title}</h2>
+          {note && <p className="sec-note">{note}</p>}
+        </header>
+        {children}
+      </div>
+    </section>
+  );
 }
 
-function Kpi({ icon, iconColor, label, caption, spark, sparkColor, children }) {
+function KpiCell({ label, caption, spark, sparkColor, children }) {
   return (
-    <div className="card px-3 py-3">
-      <div className="flex items-center gap-1.5 text-sm" style={{ color: "var(--text-secondary)" }}>
-        <KpiIcon name={icon} color={iconColor} />
-        {label}
-      </div>
+    <div className="min-w-0">
+      <div className="text-sm leading-snug" style={{ color: "var(--text-secondary)" }}>{label}</div>
       <div className="mt-1 flex items-end justify-between gap-2">
-        <div className="text-[26px] font-bold num leading-tight">{children}</div>
-        {spark && <Sparkline values={spark} color={sparkColor ?? "var(--accent)"} />}
+        <div className="num text-[26px] font-bold leading-tight">{children}</div>
+        {/* 좁은 화면에서는 스파크라인이 품목명을 밀어내므로 접는다 */}
+        {spark && <span className="hidden sm:block"><Sparkline values={spark} color={sparkColor ?? "var(--accent)"} /></span>}
       </div>
       {caption && <div className="mt-0.5 text-[13px] leading-snug" style={{ color: "var(--text-muted)" }}>{caption}</div>}
     </div>
@@ -88,7 +93,7 @@ function Heatmap({ changes, items, llBelow }) {
     <div className="space-y-2.5">
       {list.map((g) => (
         <div key={g.name} className="rounded-[5px] border px-2 pb-2 pt-1.5"
-             style={{ borderColor: "var(--hairline)", background: "var(--bg-base)" }}>
+             style={{ borderColor: "var(--hairline-faint)", background: "var(--bg-base)" }}>
           <div className="mb-1.5 flex items-baseline gap-1.5">
             <span className="text-[13px] font-bold tracking-wide" style={{ color: "var(--text-primary)" }}>{g.name}</span>
             <span className="num text-[13px]" style={{ color: "var(--text-muted)" }}>{g.cells.length}종</span>
@@ -114,7 +119,7 @@ function Heatmap({ changes, items, llBelow }) {
 
       {tip && (
         <div className="card pointer-events-none absolute z-10 px-3 py-2 text-[13px]"
-             style={{ left: Math.max(0, Math.min(tip.x - 100, 1000)), top: Math.max(0, tip.y - 100), width: 216 }}>
+             style={{ left: Math.max(0, Math.min(tip.x - 100, 1000)), top: Math.max(0, tip.y - 100), width: 216, boxShadow: "var(--card-shadow-lift)" }}>
           <div className="font-semibold">{tip.c.name}</div>
           <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)} 골드</span></div>
           <div className="flex justify-between">
@@ -133,26 +138,26 @@ function Heatmap({ changes, items, llBelow }) {
   );
 }
 
-/** 데일리 브리핑 히어로 카드: 오버뷰의 주인공. 우측에 상승 1위 미니 차트 */
+/** 데일리 브리핑 카드: 품목명은 bold, 등락색은 헤드라인(첫 문장)에만. 우측 미니 차트 유지 */
 function BriefingHero({ briefing, items, topUp, trend }) {
   const names = itemNamePool(items);
   return (
-    <Link to="/briefings" className="card card-lift rise rise-1 block px-4 py-3.5 no-underline" style={{ color: "inherit" }}>
+    <Link to="/briefings" className="card card-lift block px-4 py-3.5 no-underline" style={{ color: "inherit" }}>
       <div className="flex items-center gap-2 text-[13px]" style={{ color: "var(--text-secondary)" }}>
         <span className="num">{briefing.date}</span>
-        <span>데일리 브리핑 · 심야 03시 발행 기준</span>
+        <span>심야 03시 발행 기준</span>
         <span className="ml-auto" style={{ color: "var(--accent)" }}>아카이브 →</span>
       </div>
       <div className={`mt-1.5 grid gap-x-6 gap-y-3 ${topUp && trend ? "sm:grid-cols-[minmax(0,1fr)_212px]" : ""}`}>
         <div className="min-w-0">
-          <h2 className="t-section headline-nums m-0" style={{ fontSize: 25, lineHeight: 1.4 }}>
+          <h3 className="t-section headline-nums m-0" style={{ fontSize: 25, lineHeight: 1.4 }}>
             {highlight(briefing.headline)}
-          </h2>
+          </h3>
           <ul className="m-0 mt-2.5 list-none space-y-1.5 p-0 text-sm" style={{ color: "var(--text-secondary)" }}>
             {briefing.summary_3lines.map((l, i) => (
               <li key={i} className="flex gap-2">
-                <span className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "var(--accent)" }} aria-hidden="true" />
-                <span>{highlight(l, names)}</span>
+                <span className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "var(--hairline-strong)" }} aria-hidden="true" />
+                <span>{highlight(l, names, { colorNums: false })}</span>
               </li>
             ))}
           </ul>
@@ -185,10 +190,6 @@ export default function Overview({ data }) {
   const hasCompare = withChange.length > 0;
 
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
-
-  // 스파크라인 데이터: 최근 7일
-  const allDates = [...new Set(rows.map((r) => r.date))].sort().slice(-7);
-  const anomalySpark = allDates.map((d) => anomalies.filter((a) => a.date === d).length);
   const itemSpark = (id) => dailySeries(rows, id).slice(-7).map((d) => d.avgPrice);
   const topUpTrend = ups[0] ? itemSpark(ups[0].itemId) : null;
 
@@ -212,83 +213,83 @@ export default function Overview({ data }) {
     : 0;
 
   return (
-    <div className="space-y-4">
-      {/* 히어로 밴드: 정체성 + 상태 스트립 + 3D 마켓 지형도 */}
-      <HeroBand cells={changes} rows={rows} briefings={briefings} date={date} />
+    <>
+      <HeroBand cells={changes} date={date} />
+      <StatusStrip rows={rows} briefings={briefings} />
 
-      {/* 데일리 브리핑: 오늘의 이야기 (주인공) */}
-      {latestBriefing ? (
-        <BriefingHero briefing={latestBriefing} items={items}
-                      topUp={ups[0] ? { ...ups[0], name: byId[ups[0].itemId]?.name ?? ups[0].name } : null}
-                      trend={topUpTrend} />
-      ) : (
-        <Empty>브리핑이 아직 발행되지 않았습니다.</Empty>
-      )}
-
-      {/* 오늘의 등락 순위: 가격 기준 TOP 5 */}
-      {hasCompare ? (
-        <RankBoard ups={ups} downs={downs} trendFor={itemSpark} />
-      ) : (
-        <Empty>전일 비교 데이터가 쌓이면 등락 순위가 표시됩니다.</Empty>
-      )}
-
-      {/* KPI */}
-      <div className="rise rise-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-        <Kpi icon="items" label="추적 품목">
-          <span className="gold-text"><CountUpNum value={items.length} /></span>
-          <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>종</span>
-        </Kpi>
-        <Kpi icon="alert" iconColor={todayAnomalies.length ? "var(--gold-text)" : undefined}
-             label="오늘 이상 변동"
-             caption={todayAnomalies.length === 0 ? "전일 대비 기준. 데이터 이틀째부터 적용" : "최근 7일 추이"}
-             spark={anomalySpark} sparkColor="var(--gold)">
-          <span className="gold-text"><CountUpNum value={todayAnomalies.length} /></span>
-          <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>건</span>
-        </Kpi>
-        {hasCompare ? (
-          <>
-            <Kpi icon="up" iconColor="var(--up)" label="상승 1위 (전일 대비)"
-                 spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
-                 caption={ups[0] ? "최근 7일 평균가 추이" : null}>
-              {ups[0]
-                ? <span className="text-[16px]">{byId[ups[0].itemId]?.shortName} <Change value={ups[0].changePct} /></span>
-                : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
-            </Kpi>
-            <Kpi icon="down" iconColor="var(--down)" label="하락 1위 (전일 대비)"
-                 spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
-                 caption={downs[0] ? "최근 7일 평균가 추이" : null}>
-              {downs[0]
-                ? <span className="text-[16px]">{byId[downs[0].itemId]?.shortName} <Change value={downs[0].changePct} /></span>
-                : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
-            </Kpi>
-          </>
+      <Section label="오늘의 이야기" title="데일리 브리핑">
+        {latestBriefing ? (
+          <BriefingHero briefing={latestBriefing} items={items}
+                        topUp={ups[0] ? { ...ups[0], name: byId[ups[0].itemId]?.name ?? ups[0].name } : null}
+                        trend={topUpTrend} />
         ) : (
-          <>
-            <Kpi icon="sold" label="오늘 실거래 최다 (24시간)">
-              {topSold
-                ? <span className="text-[16px]">{topSold.name} <span className="num">{topSold.count.toLocaleString()}건</span></span>
-                : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>집계 중</span>}
-            </Kpi>
-            <Kpi icon="archive" label="과거 실거래 소급 수집 기간">
-              {bfRange
-                ? <span className="text-[16px] num">{bfDays}일 <span style={{ color: "var(--text-muted)" }}>({bfRange.min.slice(5)}~{bfRange.max.slice(5)})</span></span>
-                : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>없음</span>}
-            </Kpi>
-          </>
+          <Empty>브리핑이 아직 발행되지 않았습니다.</Empty>
         )}
-      </div>
+      </Section>
 
-      {/* 히트맵 */}
-      <div className="card rise rise-4 px-3 py-3">
-        <div className="mb-2 flex flex-wrap items-end justify-between gap-2">
-          <div>
-            <h2 className="t-section m-0">카테고리별 등락 히트맵 <span className="text-[13px] font-normal" style={{ color: "var(--text-muted)", fontFamily: "Pretendard Variable, Pretendard, sans-serif" }}>(전일 대비 평균 등록가 · 클릭 시 상세)</span></h2>
-            <div className="text-[13px]" style={{ color: "var(--text-muted)" }}>회색 바탕에 우상단 점이 있으면 전일 비교 대기 상태로 현재가만 표시합니다. 탭이나 클릭으로 매물 수와 상세를 볼 수 있습니다.</div>
-          </div>
-          <HeatLegend />
+      <Section band label="전일 대비" title="오늘의 등락 순위"
+               note="최신 수집 기준 · 평균 등록가 · 클릭 시 상세">
+        {hasCompare ? (
+          <RankBoard ups={ups} downs={downs} trendFor={itemSpark} />
+        ) : (
+          <Empty>전일 비교 데이터가 쌓이면 등락 순위가 표시됩니다.</Empty>
+        )}
+      </Section>
+
+      <Section label="한눈에" title="핵심 지표">
+        <div className="card kpi-strip">
+          <KpiCell label="추적 품목">
+            <CountUpNum value={items.length} />
+            <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>종</span>
+          </KpiCell>
+          <KpiCell label="오늘 이상 변동"
+                   caption={todayAnomalies.length === 0 ? "전일 대비 기준" : null}>
+            <CountUpNum value={todayAnomalies.length} />
+            <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>건</span>
+          </KpiCell>
+          {hasCompare ? (
+            <>
+              <KpiCell label="상승 1위"
+                       spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
+                       caption={ups[0] ? "최근 7일 평균가 추이" : null}>
+                {ups[0]
+                  ? <span className="text-[16px]">{byId[ups[0].itemId]?.shortName} <Change value={ups[0].changePct} /></span>
+                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
+              </KpiCell>
+              <KpiCell label="하락 1위"
+                       spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
+                       caption={downs[0] ? "최근 7일 평균가 추이" : null}>
+                {downs[0]
+                  ? <span className="text-[16px]">{byId[downs[0].itemId]?.shortName} <Change value={downs[0].changePct} /></span>
+                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
+              </KpiCell>
+            </>
+          ) : (
+            <>
+              <KpiCell label="오늘 실거래 최다 (24시간)">
+                {topSold
+                  ? <span className="text-[16px]">{topSold.name} <span className="num">{topSold.count.toLocaleString()}건</span></span>
+                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>집계 중</span>}
+              </KpiCell>
+              <KpiCell label="과거 실거래 소급 수집 기간">
+                {bfRange
+                  ? <span className="num text-[16px]">{bfDays}일 <span style={{ color: "var(--text-muted)" }}>({bfRange.min.slice(5)}~{bfRange.max.slice(5)})</span></span>
+                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>없음</span>}
+              </KpiCell>
+            </>
+          )}
         </div>
-        <Heatmap changes={changes} items={items} llBelow={llBelow} />
-      </div>
-    </div>
+      </Section>
+
+      <Section band label="품목 전체" title="카테고리별 등락 히트맵"
+               note="전일 대비 평균 등록가. 회색 바탕에 우상단 점은 비교 대기 상태입니다. 타일을 누르면 상세로 갑니다.">
+        <div className="card px-3 py-3">
+          <div className="mb-2 flex justify-end">
+            <HeatLegend />
+          </div>
+          <Heatmap changes={changes} items={items} llBelow={llBelow} />
+        </div>
+      </Section>
+    </>
   );
 }

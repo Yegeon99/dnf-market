@@ -7,8 +7,9 @@ function escapeRe(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-/** 수치 토큰에 등락색, names에 있는 품목명에 bold를 입힌 조각 배열 반환 */
-export function highlight(text, names = []) {
+/** 수치 토큰에 등락색, names에 있는 품목명에 bold를 입힌 조각 배열 반환.
+ *  colorNums: false면 수치는 색·굵기 없이 표기만 정렬한다 (첫 문장 밖에서 사용) */
+export function highlight(text, names = [], { colorNums = true } = {}) {
   if (!text) return [text];
   const nameRe = names.length
     ? new RegExp(`(${[...names].sort((a, b) => b.length - a.length).map(escapeRe).join("|")})`, "g")
@@ -20,9 +21,13 @@ export function highlight(text, names = []) {
     if (PCT_RE.test(part) && /^[+-]/.test(part)) {
       PCT_RE.lastIndex = 0;
       out.push(
-        <b key={key++} className="num" style={{ color: part.startsWith("+") ? "var(--up)" : "var(--down)" }}>
-          {part}
-        </b>
+        colorNums ? (
+          <b key={key++} className="num" style={{ color: part.startsWith("+") ? "var(--up)" : "var(--down)" }}>
+            {part}
+          </b>
+        ) : (
+          <span key={key++} className="num">{part}</span>
+        )
       );
       continue;
     }

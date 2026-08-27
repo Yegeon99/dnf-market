@@ -13,6 +13,10 @@ const NAV = [
   { to: "/methodology", label: "방법론·정책" },
 ];
 
+function Shell({ children }) {
+  return <div className="mx-auto w-full max-w-[1280px] px-4 py-5 lg:px-6">{children}</div>;
+}
+
 function LoadingSkeleton() {
   return (
     <div className="space-y-4">
@@ -68,18 +72,19 @@ export default function App() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[1280px] flex-1 px-4 py-5 lg:px-6">
+      <main className="w-full flex-1">
         {error ? (
-          <Empty>데이터를 불러오지 못했습니다: {error}</Empty>
+          <Shell><Empty>데이터를 불러오지 못했습니다: {error}</Empty></Shell>
         ) : !data ? (
-          <LoadingSkeleton />
+          <Shell><LoadingSkeleton /></Shell>
         ) : (
           <Routes>
+            {/* 오버뷰만 풀폭 밴드를 직접 그리므로 컨테이너를 스스로 관리한다 */}
             <Route path="/" element={<Overview data={data} />} />
-            <Route path="/item/:id" element={<ItemDetail data={data} />} />
-            <Route path="/briefings" element={<Briefings data={data} />} />
-            <Route path="/methodology" element={<Methodology data={data} />} />
-            <Route path="*" element={<Empty>페이지를 찾을 수 없습니다.</Empty>} />
+            <Route path="/item/:id" element={<Shell><ItemDetail data={data} /></Shell>} />
+            <Route path="/briefings" element={<Shell><Briefings data={data} /></Shell>} />
+            <Route path="/methodology" element={<Shell><Methodology data={data} /></Shell>} />
+            <Route path="*" element={<Shell><Empty>페이지를 찾을 수 없습니다.</Empty></Shell>} />
           </Routes>
         )}
       </main>

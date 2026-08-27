@@ -19,3 +19,7 @@ dashboard/public/data/
 
 .vercel
 .env*
+
+# 검증 산출물 (로컬 보관)
+screenshots/
+.playwright-mcp/

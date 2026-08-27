@@ -14,6 +14,7 @@
   --raw-paper-sunken: #F3F2EE;
   --raw-paper-masked: #EDEBE5;
   --raw-white: #FFFFFF;
+  --raw-line-faint: #EBEAE4;
   --raw-line-soft: #E2E0D9;
   --raw-line-strong: #CFCCC3;
   /* 잉크 네이비 (Census 공유값) */
@@ -50,6 +51,7 @@
   --bg-base: var(--raw-paper-base);
   --bg-surface: var(--raw-white);
   --bg-sunken: var(--raw-paper-sunken);
+  --hairline-faint: var(--raw-line-faint);
   --hairline: var(--raw-line-soft);
   --hairline-strong: var(--raw-line-strong);
   --border: var(--hairline);
@@ -89,9 +91,9 @@
 
   /* ── 3층 component: 컴포넌트 전용 ── */
   --card-bg: var(--bg-surface);
-  --card-border: var(--hairline);
+  --card-border: var(--hairline-faint);
   --card-radius: 4px;
-  --card-shadow: 0 1px 2px rgba(27, 33, 48, 0.04);
+  --card-shadow: none;
   --card-shadow-lift: 0 4px 14px rgba(27, 33, 48, 0.10);
   --nav-bg: rgba(250, 250, 248, 0.92);
   --chart-grid: var(--hairline);
@@ -122,17 +124,6 @@ html {
 button, a { touch-action: manipulation; }
 
 body { margin: 0; min-height: 100vh; }
-
-/* 종이 질감: 아주 옅은 그레인. 고정 오버레이라 리페인트 없음 */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.028;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-}
 
 /* 브랜드 톤 마감: 선택 영역·포커스 링·스크롤바 */
 ::selection { background: var(--accent-soft); color: var(--accent-deep); }
@@ -186,6 +177,8 @@ h1, h2, h3, p, li, td, th, figcaption, button, .t-title, .t-lead {
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
 
 a { color: var(--accent); text-underline-offset: 3px; }
+/* 본문 문장 안 링크는 색만으로 구분하지 않는다 (WCAG 1.4.1) */
+p a { text-decoration: underline; }
 
 /* ── 내비 필 ── */
 .nav-pill {
@@ -268,23 +261,62 @@ a { color: var(--accent); text-underline-offset: 3px; }
 /* 브리핑 헤드라인 안의 등락 수치는 크게: 숫자가 주인공 */
 .headline-nums b.num { font-size: 1.42em; line-height: 1; letter-spacing: -0.02em; }
 
-/* ── 챔피언 카드 (순위 1위) ── */
-.champion {
-  position: relative;
-  border: 1px solid var(--gold);
-  border-radius: var(--card-radius);
-  background:
-    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
-    var(--gold-grad) border-box;
-  box-shadow: 0 2px 10px rgba(138, 98, 36, 0.10);
-}
-
 /* ── 히어로 밴드: 옅은 좌표 그리드 질감 ── */
 .hero-grid-bg {
   background-image:
     linear-gradient(to right, rgba(27, 33, 48, 0.035) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(27, 33, 48, 0.035) 1px, transparent 1px);
   background-size: 28px 28px;
+}
+
+/* ── 섹션 골격 ──────────────────────────────────────────────
+   [작은 섹션 라벨 + 큰 섹션 제목]은 항상 카드 바깥.
+   섹션마다 위아래 32px → 섹션 사이 수직 여백 64px.
+   짝수 섹션은 풀폭 밴드 배경으로 지그재그 리듬을 만든다. */
+.sec { padding-block: 32px; }
+.sec-band { background: var(--bg-sunken); }
+.sec-inner { margin-inline: auto; width: 100%; max-width: 1280px; padding-inline: 1rem; }
+@media (min-width: 1024px) { .sec-inner { padding-inline: 1.5rem; } }
+
+.sec-head { margin-bottom: 1rem; }
+.sec-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  color: var(--gold-text);
+}
+.sec-title {
+  margin: 0.15rem 0 0;
+  font-family: "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2.1vw, 1.6rem);
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+.sec-note { margin: 0.35rem 0 0; font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); }
+
+/* ── 얇은 상태 바: 히어로 아래 한 줄 (높이 40px 이내) ── */
+.status-bar {
+  height: 40px;
+  border-block: 1px solid var(--hairline);
+  background: var(--bg-surface);
+}
+
+/* ── 등락 스택 바: 상승·보합·하락 구간 ── */
+.stack-seg { display: block; height: 100%; }
+
+/* ── KPI 스트립: 4칸을 구분선으로만 나눈 단일 카드 ── */
+.kpi-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kpi-strip > * { padding: 0.75rem 1rem; border-top: 1px solid var(--hairline); border-left: 1px solid var(--hairline); }
+.kpi-strip > :nth-child(-n + 2) { border-top: 0; }
+.kpi-strip > :nth-child(odd) { border-left: 0; }
+@media (min-width: 640px) {
+  .kpi-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .kpi-strip > * { border-top: 0; border-left: 1px solid var(--hairline); }
+  .kpi-strip > :first-child { border-left: 0; }
 }
 
 /* ── 모션 ── */

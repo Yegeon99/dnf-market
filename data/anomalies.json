@@ -189,6 +189,196 @@
     "evidence_urls": [],
     "confidence": null
    }
+  },
+  {
+   "id": "2026-08-28_04a1c3b13441800e275ebed957adcc8e_listingCount_dod",
+   "date": "2026-08-28",
+   "itemId": "04a1c3b13441800e275ebed957adcc8e",
+   "itemName": "순수한 증폭서",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 4.0,
+   "currentValue": 8.0,
+   "change_pct": 100.0,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
+   "date": "2026-08-28",
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "itemName": "시간의 결정",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.0,
+   "currentValue": 3.5,
+   "change_pct": 250.0,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_20d6374d6ab02076f7c32153568431c9_listingCount_dod",
+   "date": "2026-08-28",
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "itemName": "레어 모자 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.0,
+   "currentValue": 4.0,
+   "change_pct": 300.0,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_324c85d935a5e9358825380bf2065845_avgPrice_dod",
+   "date": "2026-08-28",
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "itemName": "레어 얼굴 클론 아바타",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 2950951.71,
+   "currentValue": 4694999.5,
+   "change_pct": 59.1,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+   "date": "2026-08-28",
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "itemName": "무결점 골든 베릴",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 7.0,
+   "currentValue": 17.5,
+   "change_pct": 150.0,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_b5ccbf772a3883e3171f682679e2b421_avgPrice_dod",
+   "date": "2026-08-28",
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "itemName": "레어 목가슴 클론 아바타",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 4076388.5,
+   "currentValue": 2674999.25,
+   "change_pct": -34.38,
+   "direction": "down",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_c81e24d23286a4897987547c5236edf1_avgPrice_dod",
+   "date": "2026-08-28",
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "itemName": "레어 허리 클론 아바타",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 3455555.0,
+   "currentValue": 2283398.33,
+   "change_pct": -33.92,
+   "direction": "down",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_d584d612f09215ef0c42498e6990b61d_listingCount_dod",
+   "date": "2026-08-28",
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "itemName": "봉인된 자물쇠",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 2.0,
+   "currentValue": 4.0,
+   "change_pct": 100.0,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_d9bc96637286b4f5449d21d36e44675d_avgPrice_dod",
+   "date": "2026-08-28",
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "itemName": "흑색 큐브 조각",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 18.85,
+   "currentValue": 26.6,
+   "change_pct": 41.11,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-28_f11f806769afaae8b05be488e20b6109_avgPrice_dod",
+   "date": "2026-08-28",
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "itemName": "레어 머리 클론 아바타",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 2889999.6,
+   "currentValue": 6940740.33,
+   "change_pct": 140.16,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   }
  ]
 }

@@ -161,6 +161,51 @@
    ],
    "generatedBy": "claude-opus-5",
    "costUsd": 0.036225
+  },
+  {
+   "date": "2026-08-30",
+   "headline": "추적 31종, 매물 수 변동 10건에 가격은 최대 45.44% 상승",
+   "summary_3lines": [
+    "추적 품목 31종 중 이상 변동은 10건으로, 모두 매물 수 변동이고 가격 변동은 아니어서 심각도는 낮게 판정했다.",
+    "가격은 피터 더 파이퍼 카드가 45.44% 올라 상승 1위, 기억의 도서관지기 카드가 41.33% 내려 하락 1위였다.",
+    "매물 수는 황금 큐브 조각이 95.44% 늘어 최대였고, 목가슴 클론 아바타는 66.67% 줄었다."
+   ],
+   "notable": [
+    {
+     "itemName": "피터 더 파이퍼 카드",
+     "comment": "전일 대비 45.44% 상승으로 상승 1위."
+    },
+    {
+     "itemName": "기억의 도서관지기 카드",
+     "comment": "전일 대비 41.33% 하락으로 하락 1위."
+    },
+    {
+     "itemName": "황금 큐브 조각",
+     "comment": "매물 수가 95.44% 늘었다. 원인 미상으로 관찰 지속."
+    },
+    {
+     "itemName": "레어 상의 클론 아바타",
+     "comment": "매물 수가 56.52% 늘었다. 원인 미상으로 관찰 지속."
+    },
+    {
+     "itemName": "목가슴 클론 아바타",
+     "comment": "가격은 36.28% 올랐고 매물 수는 66.67% 줄었다. 원인 미상으로 관찰 지속."
+    }
+   ],
+   "anomaly_ids": [
+    "2026-08-30_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
+    "2026-08-30_18c129fd3182476ec5e8110e0034672c_listingCount_dod",
+    "2026-08-30_488c3191c2afd5b4762f978edb61f5a4_listingCount_dod",
+    "2026-08-30_7f0d6a2522910c3c60c72e8be71641ae_listingCount_dod",
+    "2026-08-30_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+    "2026-08-30_b682af8902d22554c7b90386abd18762_listingCount_dod",
+    "2026-08-30_b9f2f716a09d0ed96d115ed5776aa5db_listingCount_dod",
+    "2026-08-30_c1028cbc6efae2eee570cbc8e2906a8f_listingCount_dod",
+    "2026-08-30_e7bc96f07229bf743d9262d0ab7f3bd8_listingCount_dod",
+    "2026-08-30_fbdf88559ec0414339d1b4d089b6bd62_listingCount_dod"
+   ],
+   "generatedBy": "claude-opus-5",
+   "costUsd": 0.027615
   }
  ]
 }

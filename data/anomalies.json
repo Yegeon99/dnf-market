@@ -569,6 +569,196 @@
     "evidence_urls": [],
     "confidence": null
    }
+  },
+  {
+   "id": "2026-08-30_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "itemName": "시간의 결정",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.3,
+   "currentValue": 2.0,
+   "change_pct": 53.85,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_18c129fd3182476ec5e8110e0034672c_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "itemName": "황금의 플라타니 카드",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.3,
+   "currentValue": 2.0,
+   "change_pct": 53.85,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_488c3191c2afd5b4762f978edb61f5a4_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "itemName": "레어 상의 클론 아바타(2세대)",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 17.0,
+   "currentValue": 26.0,
+   "change_pct": 52.94,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_7f0d6a2522910c3c60c72e8be71641ae_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "itemName": "레어 하의 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 22.7,
+   "currentValue": 34.0,
+   "change_pct": 49.78,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": false,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "itemName": "무결점 골든 베릴",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 12.7,
+   "currentValue": 6.0,
+   "change_pct": -52.76,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_b682af8902d22554c7b90386abd18762_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "b682af8902d22554c7b90386abd18762",
+   "itemName": "상급 원소결정",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 33.7,
+   "currentValue": 50.0,
+   "change_pct": 48.37,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": false,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_b9f2f716a09d0ed96d115ed5776aa5db_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "itemName": "레어 상의 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 23.0,
+   "currentValue": 36.0,
+   "change_pct": 56.52,
+   "direction": "up",
+   "severity": "mid",
+   "lowLiquidity": false,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_c1028cbc6efae2eee570cbc8e2906a8f_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "itemName": "목가슴 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 3.0,
+   "currentValue": 1.0,
+   "change_pct": -66.67,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_e7bc96f07229bf743d9262d0ab7f3bd8_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "itemName": "레어 모자 클론 아바타(2세대)",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 8.7,
+   "currentValue": 13.0,
+   "change_pct": 49.43,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-30_fbdf88559ec0414339d1b4d089b6bd62_listingCount_dod",
+   "date": "2026-08-30",
+   "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
+   "itemName": "황금 큐브 조각",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 30.7,
+   "currentValue": 60.0,
+   "change_pct": 95.44,
+   "direction": "up",
+   "severity": "mid",
+   "lowLiquidity": false,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   }
  ]
 }

@@ -35,6 +35,18 @@
      "costUsd": 0.036225
     }
    }
+  },
+  "2026-08-30": {
+   "calls": 1,
+   "inputTokens": 2593,
+   "outputTokens": 586,
+   "costUsd": 0.027615,
+   "byCaller": {
+    "briefing": {
+     "calls": 1,
+     "costUsd": 0.027615
+    }
+   }
   }
  }
 }

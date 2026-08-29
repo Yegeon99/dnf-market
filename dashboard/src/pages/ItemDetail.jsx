@@ -1,10 +1,10 @@
 // 화면 2 — 아이템 상세: 품목 아이덴티티 헤더 + 히어로 차트 + 이상 변동 이력 (딥링크 /item/:id)
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { itemSeries, dailySeries, fmtGold, fmtSignedPct, dailyChangeMap, latestDate, isLowLiquidity } from "../lib/data";
+import { itemSeries, dailySeries, fmtGold, dailyChangeMap, latestDate, isLowLiquidity } from "../lib/data";
 import PriceChart from "../components/PriceChart";
 import ListingChart from "../components/ListingChart";
-import { Change, ConfidenceBadge, Empty, LowLiquidityBadge, SeverityBadge } from "../components/ui";
+import { Change, ConfidenceBadge, CountUpPct, CountUpValue, Empty, LowLiquidityBadge, SeverityBadge } from "../components/ui";
 
 function StatCard({ label, children }) {
   return (
@@ -76,11 +76,11 @@ export default function ItemDetail({ data }) {
           <div className="text-right">
             <div className="text-[13px]" style={{ color: "var(--text-secondary)" }}>등록 평균가 (최신 수집)</div>
             <div className="t-numeral" style={{ color: "var(--text-primary)" }}>
-              {fmtGold(last?.avgPrice)}<span className="ml-1 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>골드</span>
+              <CountUpValue value={last?.avgPrice} format={fmtGold} /><span className="ml-1 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>골드</span>
             </div>
             <div className="num mt-0.5 text-[18px] font-bold"
                  style={{ color: todayChange == null ? "var(--text-muted)" : todayChange > 0 ? "var(--up)" : todayChange < 0 ? "var(--down)" : "var(--neutral)" }}>
-              {todayChange == null ? "전일 비교 전" : `전일 대비 ${fmtSignedPct(todayChange)}`}
+              {todayChange == null ? "전일 비교 전" : <>전일 대비 <CountUpPct value={todayChange} signed /></>}
             </div>
           </div>
         </div>

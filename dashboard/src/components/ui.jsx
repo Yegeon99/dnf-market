@@ -1,11 +1,12 @@
 // 공용 소형 컴포넌트: 등락 텍스트, 뱃지, 스켈레톤, 빈 상태, 카운트업, 스파크라인
 import { useEffect, useRef, useState } from "react";
-import { fmtPct, pctColor } from "../lib/data";
+import { fmtPct, fmtSignedPct, pctColor } from "../lib/data";
 
-export function Change({ value, className = "" }) {
+/** countUp을 켜면 숫자만 올라간다. 부호·소수점 표기는 목표값 기준으로 고정한다 */
+export function Change({ value, className = "", countUp = false }) {
   return (
     <span className={`num font-semibold ${className}`} style={{ color: pctColor(value) }}>
-      {fmtPct(value)}
+      {countUp ? <CountUpPct value={value} /> : fmtPct(value)}
     </span>
   );
 }
@@ -77,7 +78,7 @@ export function useCountUp(target, duration = 700) {
     let raf;
     const tick = (t) => {
       const p = Math.min((t - t0) / duration, 1);
-      setValue(Math.round(target * (1 - Math.pow(1 - p, 4))));
+      setValue(target * (1 - Math.pow(1 - p, 4)));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
@@ -88,7 +89,23 @@ export function useCountUp(target, duration = 700) {
 
 export function CountUpNum({ value, className = "" }) {
   const v = useCountUp(value);
-  return <span className={`num ${className}`}>{value == null ? "집계 전" : v.toLocaleString()}</span>;
+  return <span className={`num ${className}`}>{value == null ? "집계 전" : Math.round(v).toLocaleString()}</span>;
+}
+
+/** 형식을 유지한 채 값만 올라간다. format은 프레임마다 적용되므로 억·만 표기도 그대로 살아난다 */
+export function CountUpValue({ value, format, className = "" }) {
+  const v = useCountUp(value);
+  return <span className={`num ${className}`}>{format(value == null ? null : v)}</span>;
+}
+
+/** 등락률 카운트업. 부호와 소수점 자릿수는 목표값 기준으로 고정하고 숫자만 올라간다 */
+export function CountUpPct({ value, className = "", signed = false }) {
+  const v = useCountUp(value);
+  if (value == null) return <span className={`num ${className}`}>{signed ? fmtSignedPct(null) : fmtPct(null)}</span>;
+  const sign = signed
+    ? (value > 0 ? "+" : value < 0 ? "-" : "±")
+    : (value > 0 ? "▲" : value < 0 ? "▼" : "");
+  return <span className={`num ${className}`}>{sign}{Math.abs(v).toFixed(1)}%</span>;
 }
 
 /** 미니 스파크라인: 최근 값 추세를 한 줄로. 점 2개 미만이면 그리지 않는다.

@@ -5,6 +5,8 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { slotLabel, fmtGold, fmtComma } from "../lib/data";
 
 const M = { top: 32, right: 12, bottom: 26, left: 66 };
+// 날짜 라벨("08-30")은 가운데 정렬이라 양 끝에서 잘린다. 절반 폭만큼 안쪽으로 물린다
+const TICK_HALF = 18;
 
 function useWidth(ref, fallback = 640) {
   const [w, setW] = useState(fallback);
@@ -158,7 +160,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
         })}
         {/* x 날짜 틱 */}
         {ticks.map((t) => (
-          <text key={t.i} x={xAt(t.i)} y={height - 6} textAnchor="middle" fontSize="13" fill="var(--chart-axis-text)" className="num">
+          <text key={t.i} x={Math.min(Math.max(xAt(t.i), TICK_HALF), width - TICK_HALF)} y={height - 6} textAnchor="middle" fontSize="13" fill="var(--chart-axis-text)" className="num">
             {t.date.slice(5)}
           </text>
         ))}

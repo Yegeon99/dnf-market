@@ -1,6 +1,7 @@
 // 화면 3 — 브리핑 아카이브: 날짜 목록(그날 최대 등락 병기) + 읽기 좋은 카드 상세.
 // 같은 사유의 이상 변동은 그룹 카드로 접고, 변동률 게이지 바로 시각 비교
 import { useMemo, useState } from "react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Link, useSearchParams } from "react-router-dom";
 import { publishChanges, fmtSignedPct } from "../lib/data";
 import { ConfidenceBadge, Empty, SeverityBadge, Change, LowLiquidityBadge } from "../components/ui";
@@ -49,14 +50,19 @@ function AnomalyRow({ a, maxAbs }) {
   );
 }
 
+/** 주목해야 하는 요소라 등장할 때 한 번만 테두리가 켜졌다 꺼진다 (반복 깜빡임 없음) */
 function AnomalyGroupCard({ group, maxAbs }) {
+  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
   const first = group[0];
   const hyp = first.ai_hypothesis;
   const title = `${first.lowLiquidity ? "저유동 " : ""}${METRIC_LABEL[first.metric] ?? first.metric} 변동 ${group.length}건`;
   const range = [...group].sort((a, b) => Math.abs(b.change_pct) - Math.abs(a.change_pct));
   return (
-    <div className="rounded p-3" style={{ background: "var(--bg-sunken)" }}>
+    <m.div className="rounded p-3" style={{ background: "var(--bg-sunken)" }}
+      initial={reduce ? false : { boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0.45)" }}
+      animate={{ boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0)" }}
+      transition={{ duration: 1.2, delay: 0.35, ease: "easeOut" }}>
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>{title}</span>
         <SeverityBadge severity={first.severity} />
@@ -79,13 +85,17 @@ function AnomalyGroupCard({ group, maxAbs }) {
           {range.map((a) => <AnomalyRow key={a.id} a={a} maxAbs={maxAbs} />)}
         </div>
       )}
-    </div>
+    </m.div>
   );
 }
 
 function AnomalySingleCard({ a, maxAbs }) {
+  const reduce = useReducedMotion();
   return (
-    <div className="rounded p-3" style={{ background: "var(--bg-sunken)" }}>
+    <m.div className="rounded p-3" style={{ background: "var(--bg-sunken)" }}
+      initial={reduce ? false : { boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0.45)" }}
+      animate={{ boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0)" }}
+      transition={{ duration: 1.2, delay: 0.35, ease: "easeOut" }}>
       <div className="flex flex-wrap items-center gap-2">
         <Link to={`/item/${a.itemId}`} className="text-sm font-semibold">{a.itemName}</Link>
         <span className="text-[13px]">{METRIC_LABEL[a.metric] ?? a.metric}</span>
@@ -103,11 +113,12 @@ function AnomalySingleCard({ a, maxAbs }) {
           ))}
         </p>
       )}
-    </div>
+    </m.div>
   );
 }
 
 export default function Briefings({ data }) {
+  const reduce = useReducedMotion();
   const { briefings, anomalies, rows, items } = data;
   const [params, setParams] = useSearchParams();
   const selected = params.get("date") ?? briefings[0]?.date ?? null;
@@ -158,10 +169,15 @@ export default function Briefings({ data }) {
                   <span className="absolute -left-[13.5px] top-4 h-2 w-2 rounded-full"
                         style={{ background: on ? "var(--accent)" : "var(--hairline-strong)", outline: on ? "3px solid var(--accent-soft)" : "none" }}
                         aria-hidden="true" />
-                  <button onClick={() => setSelected(b.date)}
+                  <m.button onClick={() => setSelected(b.date)}
                     aria-current={on ? "true" : undefined}
-                    className="card card-lift block w-full cursor-pointer p-2.5 text-left"
-                    style={on ? { borderColor: "var(--accent)", boxShadow: "inset 2px 0 0 var(--accent)" } : {}}>
+                    className="card block w-full cursor-pointer p-2.5 text-left"
+                    whileHover={{ y: -3, boxShadow: on ? "inset 2px 0 0 var(--accent), 0 8px 22px rgba(27, 33, 48, 0.14)" : "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+                    whileTap={{ y: -1 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    style={on
+                      ? { borderColor: "var(--accent)", boxShadow: "inset 2px 0 0 var(--accent)" }
+                      : { boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}>
                     <span className="num text-sm" style={{ color: on ? "var(--accent)" : "var(--text-primary)", fontWeight: on ? 700 : 500 }}>{b.date}</span>
                     <span className="mt-0.5 flex items-center gap-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
                       <span>이상 {b.anomaly_ids.length}건</span>
@@ -171,7 +187,7 @@ export default function Briefings({ data }) {
                         </span>
                       )}
                     </span>
-                  </button>
+                  </m.button>
                 </div>
               );
             })}
@@ -179,8 +195,14 @@ export default function Briefings({ data }) {
         </div>
 
         {/* 상세: 조간 리포트 1면 */}
+        {/* 날짜를 바꾸면 이전 브리핑이 사라진 뒤 새 브리핑이 올라온다 */}
+        <AnimatePresence mode="wait">
         {cur && (
-          <article className="card rise p-4 sm:p-5">
+          <m.article key={cur.date} className="card p-4 sm:p-5"
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}>
             <div style={{ borderTop: "3px solid var(--text-primary)" }} />
             <div className="mt-[3px]" style={{ borderTop: "1px solid var(--hairline-strong)" }} />
             <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -229,8 +251,9 @@ export default function Briefings({ data }) {
                 </div>
               </div>
             )}
-          </article>
+          </m.article>
         )}
+        </AnimatePresence>
       </div>
     </div>
   );

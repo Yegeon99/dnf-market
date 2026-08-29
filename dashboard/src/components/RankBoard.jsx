@@ -1,9 +1,10 @@
 // 오늘의 등락 순위: 가격 기준 상승·하락 TOP 5 랭킹 보드 (좌우 2단).
 // 1위는 테두리나 배지가 아니라 크기와 굵기로만 구분한다. 매물 수 급변은 제외.
 // 시각 요소(1위 미니 차트 / 2~5위 게이지 바)는 모두 오른쪽 같은 열에 둔다 — 열이 끊기지 않게
+import { m } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import { fmtGold, fmtSignedPct } from "../lib/data";
-import { Sparkline } from "./ui";
+import { CountUpPct, Sparkline } from "./ui";
 
 function Gauge({ ratio, color, height = 5 }) {
   return (
@@ -18,9 +19,13 @@ function ChampionRow({ c, dir, trend }) {
   const navigate = useNavigate();
   const color = dir === "up" ? "var(--up)" : "var(--down)";
   return (
-    <button
+    <m.button
       onClick={() => navigate(`/item/${c.itemId}`)}
-      className="card-lift flex w-full cursor-pointer items-center gap-3 rounded px-3 py-3 text-left"
+      className="flex w-full cursor-pointer items-center gap-3 rounded px-3 py-3 text-left"
+      whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+      whileTap={{ y: -1 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      style={{ boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}
     >
       <span className="num shrink-0 text-center text-[26px] font-extrabold" style={{ width: 30, color: "var(--accent-deep)" }}>1<span className="sr-only">위</span></span>
       <span className="min-w-0 flex-1">
@@ -33,13 +38,13 @@ function ChampionRow({ c, dir, trend }) {
       </span>
       <span className="flex w-[104px] shrink-0 flex-col items-end gap-1 sm:w-[152px]">
         <span className="t-numeral whitespace-nowrap" style={{ color, fontSize: "clamp(30px, 2.6vw, 38px)" }}>
-          {fmtSignedPct(c.changePct)}
+          <CountUpPct value={c.changePct} signed />
         </span>
         {trend && trend.filter((v) => v != null).length >= 2 && (
           <Sparkline values={trend} width={152} height={30} color={color} strokeWidth={1.8} area />
         )}
       </span>
-    </button>
+    </m.button>
   );
 }
 
@@ -48,9 +53,13 @@ function Row({ rank, c, dir, maxAbs }) {
   const color = dir === "up" ? "var(--up)" : "var(--down)";
   const ratio = maxAbs > 0 ? Math.abs(c.changePct) / maxAbs : 0;
   return (
-    <button
+    <m.button
       onClick={() => navigate(`/item/${c.itemId}`)}
-      className="card-lift flex w-full cursor-pointer items-center gap-3 rounded px-3 py-1.5 text-left"
+      className="flex w-full cursor-pointer items-center gap-3 rounded px-3 py-1.5 text-left"
+      whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+      whileTap={{ y: -1 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      style={{ boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}
     >
       <span className="num shrink-0 text-center text-[19px] font-medium" style={{ width: 30, color: "var(--text-muted)" }}>
         {rank}<span className="sr-only">위</span>
@@ -69,7 +78,7 @@ function Row({ rank, c, dir, maxAbs }) {
         </span>
         <Gauge ratio={ratio} color={color} />
       </span>
-    </button>
+    </m.button>
   );
 }
 

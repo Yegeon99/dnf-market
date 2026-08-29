@@ -226,11 +226,6 @@ p a { text-decoration: underline; }
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
 }
-.card-lift { transition: box-shadow 0.18s ease, transform 0.18s ease; }
-.card-lift:hover {
-  box-shadow: var(--card-shadow-lift);
-  transform: translateY(-1px);
-}
 
 /* ── 히트맵 타일 ── */
 .heat-tile {
@@ -414,3 +409,4 @@ table.plain th.r, table.plain td.r { text-align: right; }
 }
 
 svg text { user-select: none; }
+

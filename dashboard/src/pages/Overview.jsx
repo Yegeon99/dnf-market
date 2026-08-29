@@ -2,36 +2,48 @@
 // 마스트헤드 → 상태 바 → 브리핑 → 등락 순위 → 핵심 지표 → 히트맵.
 // 섹션 라벨과 제목은 항상 카드 바깥, 짝수 섹션은 풀폭 밴드로 리듬을 만든다.
 import { useState } from "react";
+import { m, useReducedMotion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   dailySeries, dodChanges, publishChanges, latestDate, lastCollectedLabel, fmtGold,
-  fmtPct, fmtSignedPct, heatColor, pctColor,
+  fmtPct, fmtSignedPct, heatColor, pctColor, isLowLiquidity,
 } from "../lib/data";
 import { Change, CountUpNum, Empty, Sparkline } from "../components/ui";
+import Reveal from "../components/reveal";
 import { highlight, itemNamePool } from "../components/rich";
 import HeatLegend from "../components/HeatLegend";
 import HeroBand from "../components/HeroBand";
 import StatusStrip from "../components/StatusStrip";
 import RankBoard from "../components/RankBoard";
 
-function Section({ label, title, note, band, children }) {
+function Section({ label, title, note, band, index = 0, children }) {
   return (
     <section className={`sec${band ? " sec-band" : ""}`}>
       <div className="sec-inner">
-        <header className="sec-head">
-          <span className="sec-label">{label}</span>
-          <h2 className="sec-title">{title}</h2>
-          {note && <p className="sec-note">{note}</p>}
-        </header>
-        {children}
+        <Reveal index={index}>
+          <header className="sec-head">
+            <span className="sec-label">{label}</span>
+            <h2 className="sec-title">{title}</h2>
+            {note && <p className="sec-note">{note}</p>}
+          </header>
+          {children}
+        </Reveal>
       </div>
     </section>
   );
 }
 
-function KpiCell({ label, caption, spark, sparkColor, children }) {
+/** alert를 켜면 등장할 때 딱 한 번 바탕색이 옅게 켜졌다 꺼진다 (반복 없음) */
+function KpiCell({ label, caption, spark, sparkColor, alert = false, children }) {
+  const reduce = useReducedMotion();
+  const flash = alert && !reduce;
   return (
-    <div className="min-w-0">
+    <m.div
+      className="min-w-0"
+      initial={flash ? { backgroundColor: "rgba(184, 79, 74, 0.18)" } : false}
+      animate={flash ? { backgroundColor: "rgba(184, 79, 74, 0)" } : undefined}
+      transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+    >
       <div className="text-sm leading-snug" style={{ color: "var(--text-secondary)" }}>{label}</div>
       <div className="mt-1 flex items-end justify-between gap-2">
         <div className="num text-[26px] font-bold leading-tight">{children}</div>
@@ -39,11 +51,14 @@ function KpiCell({ label, caption, spark, sparkColor, children }) {
         {spark && <span className="hidden sm:block"><Sparkline values={spark} color={sparkColor ?? "var(--accent)"} /></span>}
       </div>
       {caption && <div className="mt-0.5 text-[13px] leading-snug" style={{ color: "var(--text-muted)" }}>{caption}</div>}
-    </div>
+    </m.div>
   );
 }
 
 // 2컬럼 그룹 배치: 좌(강화·스킬/성장/레어 1세대), 우(증폭/마법부여/레어 2세대/일반)
+// 클릭 가능한 카드에만 떠오르는 호버 반응을 준다 (단순 정보 카드에는 넣지 않는다)
+const MotionLink = m.create(Link);
+
 const LEFT_GROUPS = ["강화·스킬 재료", "성장 재료", "레어 클론 아바타 1세대"];
 
 function Tile({ c, it, onEnter, onLeave, onClick }) {
@@ -144,7 +159,14 @@ function Heatmap({ changes, items, llBelow }) {
 function BriefingHero({ briefing, items, topUp, trend }) {
   const names = itemNamePool(items);
   return (
-    <Link to="/briefings" className="card card-lift block px-4 py-3.5 no-underline" style={{ color: "inherit" }}>
+    <MotionLink
+      to="/briefings"
+      className="card block px-4 py-3.5 no-underline"
+      whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+      whileTap={{ y: -1 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      style={{ color: "inherit", boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}
+    >
       <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px]" style={{ color: "var(--text-secondary)" }}>
         <span className="num whitespace-nowrap">{briefing.date}</span>
         <span>{briefing.collectionFailed ? "심야 회차 수집 실패, 전일 데이터 기준" : "심야 회차 발행 시점까지의 수집분 기준"}</span>
@@ -175,7 +197,7 @@ function BriefingHero({ briefing, items, topUp, trend }) {
           </div>
         )}
       </div>
-    </Link>
+    </MotionLink>
   );
 }
 
@@ -237,10 +259,10 @@ export default function Overview({ data }) {
 
   return (
     <>
-      <HeroBand cells={changes} date={date} />
-      <StatusStrip rows={rows} briefings={briefings} collection={collection} />
+      <Reveal index={0}><HeroBand cells={changes} date={date} /></Reveal>
+      <Reveal index={1}><StatusStrip rows={rows} briefings={briefings} collection={collection} /></Reveal>
 
-      <Section label="오늘의 이야기" title="데일리 브리핑">
+      <Section index={2} label="오늘의 이야기" title="데일리 브리핑">
         {latestBriefing ? (
           <BriefingHero briefing={latestBriefing} items={items}
                         topUp={pubTop}
@@ -250,7 +272,7 @@ export default function Overview({ data }) {
         )}
       </Section>
 
-      <Section band label="전일 대비" title="오늘의 등락 순위"
+      <Section index={3} band label="전일 대비" title="오늘의 등락 순위"
                note={rankNote}>
         {hasCompare ? (
           <RankBoard ups={ups} downs={downs} trendFor={itemSpark} />
@@ -259,13 +281,13 @@ export default function Overview({ data }) {
         )}
       </Section>
 
-      <Section label="한눈에" title="핵심 지표">
+      <Section index={4} label="한눈에" title="핵심 지표">
         <div className="card kpi-strip">
           <KpiCell label="추적 품목">
             <CountUpNum value={items.length} />
             <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>종</span>
           </KpiCell>
-          <KpiCell label="오늘 이상 변동"
+          <KpiCell label="오늘 이상 변동" alert={todayAnomalies.length > 0}
                    caption={todayAnomalies.length === 0 ? "전일 대비 기준" : null}>
             <CountUpNum value={todayAnomalies.length} />
             <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>건</span>
@@ -276,14 +298,14 @@ export default function Overview({ data }) {
                        spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
                        caption={ups[0] ? "최근 7일 평균가 추이" : null}>
                 {ups[0]
-                  ? <span className="text-[16px]"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} /></span>
+                  ? <span className="text-[16px]"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} countUp /></span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
               </KpiCell>
               <KpiCell label="하락 1위"
                        spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
                        caption={downs[0] ? "최근 7일 평균가 추이" : null}>
                 {downs[0]
-                  ? <span className="text-[16px]"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} /></span>
+                  ? <span className="text-[16px]"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} countUp /></span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
               </KpiCell>
             </>
@@ -304,7 +326,7 @@ export default function Overview({ data }) {
         </div>
       </Section>
 
-      <Section band label="품목 전체" title="카테고리별 등락 히트맵"
+      <Section index={5} band label="품목 전체" title="카테고리별 등락 히트맵"
                note="전일 대비 평균 등록가. 회색 바탕에 우상단 점은 비교 대기 상태입니다. 타일을 누르면 상세로 갑니다.">
         <div className="card px-3 py-3">
           <div className="mb-2 flex justify-end">

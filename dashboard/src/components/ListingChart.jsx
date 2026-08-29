@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { slotLabel } from "../lib/data";
 
 const M = { top: 16, right: 12, bottom: 22, left: 66 };
+// 날짜 라벨은 가운데 정렬이라 양 끝에서 잘린다. 절반 폭만큼 안쪽으로 물린다
+const TICK_HALF = 18;
 
 export default function ListingChart({ series, height = 116 }) {
   const ref = useRef(null);
@@ -61,7 +63,7 @@ export default function ListingChart({ series, height = 116 }) {
             ticks = ticks.filter((_, k) => k % step === 0 || k === ticks.length - 1);
           }
           return ticks.map((t) => (
-            <text key={t.i} x={xAt(t.i)} y={height - 5} textAnchor="middle" fontSize="13" fill="var(--chart-axis-text)" className="num">
+            <text key={t.i} x={Math.min(Math.max(xAt(t.i), TICK_HALF), width - TICK_HALF)} y={height - 5} textAnchor="middle" fontSize="13" fill="var(--chart-axis-text)" className="num">
               {t.date.slice(5)}
             </text>
           ));

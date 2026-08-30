@@ -19,7 +19,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from detect import daily_series, load_json, pct_change
+from detect import daily_series, dod_changes, load_json, pct_change
 from llm import LLMBudgetExceeded, check_budget, get_client, parse_json_block, record_call
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -41,14 +41,9 @@ def market_summary(target_date: str) -> dict:
     if not ts or not ts.get("rows"):
         return summary
 
-    changes = []
-    for item_id, points in daily_series(ts["rows"]).items():
-        idx = next((i for i, p in enumerate(points) if p[0] == target_date), None)
-        if idx is None or idx == 0:
-            continue
-        chg = pct_change(points[idx - 1][1], points[idx][1])
-        if chg is not None:
-            changes.append({"itemName": names.get(item_id, item_id), "change_pct": chg})
+    # 탐지기와 같은 기준(공통 슬롯 + 중앙값)을 쓴다. 기준이 갈리면 브리핑 본문과
+    # 이상 목록이 서로 다른 1위를 말하게 된다.
+    changes = dod_changes(ts["rows"], names, target_date)
     if changes:
         summary["hasPrevDay"] = True
         changes.sort(key=lambda c: c["change_pct"], reverse=True)
@@ -85,10 +80,12 @@ def failed_collection_briefing(target_date: str) -> dict:
     n = len(items)
 
     lines = [
-        f"당일 수집 실패로 전일({last_date}) 데이터 기준입니다."
-        f" 오픈 API가 추적 {n}종 전 품목에 오류를 반환해 {target_date} 회차를 받지 못했습니다."
+        f"발행 시점(심야 회차) 수집이 실패해 전일({last_date}) 데이터 기준입니다."
+        f" 오픈 API가 추적 {n}종 전 품목에 오류를 반환했습니다."
+        f" 이후 회차가 성공하면 {target_date} 데이터는 차트에 채워집니다."
         if last_date else
-        f"당일 수집 실패입니다. 오픈 API가 추적 {n}종 전 품목에 오류를 반환했습니다.",
+        f"발행 시점(심야 회차) 수집이 실패했습니다."
+        f" 오픈 API가 추적 {n}종 전 품목에 오류를 반환했습니다.",
     ]
     summary = market_summary(last_date) if last_date else {"topUp": [], "topDown": []}
     if summary.get("topUp") or summary.get("topDown"):
@@ -104,12 +101,12 @@ def failed_collection_briefing(target_date: str) -> dict:
     else:
         lines.append(f"전일({last_date}) 기준 비교 가능한 변동 수치가 없습니다."
                      if last_date else "비교 가능한 과거 데이터가 아직 없습니다.")
-    lines.append("실패 회차는 시계열에 넣지 않고 공백으로 남깁니다."
-                 " 다음 회차부터 자동으로 다시 수집합니다.")
+    lines.append("실패한 회차는 시계열에 넣지 않고 차트에 공백으로 남깁니다."
+                 " 같은 날 다음 회차부터 자동으로 다시 수집합니다.")
 
     return {
         "date": target_date,
-        "headline": f"수집 실패, {last_date} 데이터 {n}종 기준 유지" if last_date
+        "headline": f"심야 회차 수집 실패, {last_date} 데이터 {n}종 기준 유지" if last_date
                     else f"수집 실패, {n}종 기준 데이터 없음",
         "summary_3lines": lines[:3],
         "notable": [],
@@ -156,12 +153,17 @@ def stable_briefing(target_date: str, summary: dict) -> dict:
     }
 
 
-def llm_briefing(target_date: str, summary: dict, anomalies: list) -> dict:
+def llm_briefing(target_date: str, summary: dict, anomalies: list,
+                 counts: dict | None = None) -> dict:
     check_budget()
     client = get_client()
     payload = {
         "date": target_date,
         "market": summary,
+        # 상한에 걸린 날은 anomalies가 그날의 전부가 아니다. 총 탐지 건수를 함께 넘겨
+        # 브리핑이 저장분 10건을 총계처럼 단언하지 않게 한다.
+        "anomalyCounts": counts or {"detected": len(anomalies), "stored": len(anomalies),
+                                    "truncated": 0},
         "anomalies": [
             {
                 "itemName": a["itemName"], "metric": a["metric"], "basis": a.get("basis"),
@@ -201,13 +203,19 @@ def main() -> int:
 
     anomalies_doc = load_json(ANOMALIES_PATH, {"anomalies": []})
     today = [a for a in anomalies_doc["anomalies"] if a["date"] == target_date]
+    totals = (anomalies_doc.get("dailyTotals") or {}).get(target_date) or {}
+    counts = {
+        "detected": totals.get("detected", len(today)),
+        "stored": totals.get("stored", len(today)),
+        "truncated": max(totals.get("detected", len(today)) - len(today), 0),
+    }
     summary = market_summary(target_date)
 
     try:
         if collection_failed(target_date):
             briefing = failed_collection_briefing(target_date)
         elif today:
-            briefing = llm_briefing(target_date, summary, today)
+            briefing = llm_briefing(target_date, summary, today, counts)
         else:
             briefing = stable_briefing(target_date, summary)
     except LLMBudgetExceeded as err:

@@ -3,8 +3,8 @@
 // 시각 요소(1위 미니 차트 / 2~5위 게이지 바)는 모두 오른쪽 같은 열에 둔다 — 열이 끊기지 않게
 import { m } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
-import { fmtGold, fmtSignedPct } from "../lib/data";
-import { CountUpPct, Sparkline } from "./ui";
+import { fmtGold, fmtSignedPct, isLowLiquidity } from "../lib/data";
+import { CountUpPct, LowLiquidityBadge, Sparkline } from "./ui";
 
 function Gauge({ ratio, color, height = 5 }) {
   return (
@@ -15,8 +15,9 @@ function Gauge({ ratio, color, height = 5 }) {
   );
 }
 
-function ChampionRow({ c, dir, trend }) {
+function ChampionRow({ c, dir, trend, llBelow }) {
   const navigate = useNavigate();
+  const thin = isLowLiquidity(c.listing, c.listingPrev, llBelow);
   const color = dir === "up" ? "var(--up)" : "var(--down)";
   return (
     <m.button
@@ -29,11 +30,12 @@ function ChampionRow({ c, dir, trend }) {
     >
       <span className="num shrink-0 text-center text-[26px] font-extrabold" style={{ width: 30, color: "var(--accent-deep)" }}>1<span className="sr-only">위</span></span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[18px] font-bold leading-snug" style={{ color: "var(--text-primary)" }}>
-          {c.name}
+        <span className="flex items-center gap-1.5 truncate text-[18px] font-bold leading-snug" style={{ color: "var(--text-primary)" }}>
+          <span className="truncate">{c.name}</span>
+          {thin && <LowLiquidityBadge />}
         </span>
         <span className="num block text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>
-          {fmtGold(c.avgPrice)} 골드 · 최근 7일 추이
+          {fmtGold(c.avgPrice)} 골드{c.listing != null && ` · 매물 ${Math.round(c.listing).toLocaleString()}건`} · 최근 7일 추이
         </span>
       </span>
       <span className="flex w-[104px] shrink-0 flex-col items-end gap-1 sm:w-[152px]">
@@ -48,8 +50,9 @@ function ChampionRow({ c, dir, trend }) {
   );
 }
 
-function Row({ rank, c, dir, maxAbs }) {
+function Row({ rank, c, dir, maxAbs, llBelow }) {
   const navigate = useNavigate();
+  const thin = isLowLiquidity(c.listing, c.listingPrev, llBelow);
   const color = dir === "up" ? "var(--up)" : "var(--down)";
   const ratio = maxAbs > 0 ? Math.abs(c.changePct) / maxAbs : 0;
   return (
@@ -65,11 +68,12 @@ function Row({ rank, c, dir, maxAbs }) {
         {rank}<span className="sr-only">위</span>
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[16px] font-medium leading-snug" style={{ color: "var(--text-primary)" }}>
-          {c.name}
+        <span className="flex items-center gap-1.5 truncate text-[16px] font-medium leading-snug" style={{ color: "var(--text-primary)" }}>
+          <span className="truncate">{c.name}</span>
+          {thin && <LowLiquidityBadge />}
         </span>
         <span className="num block text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>
-          {fmtGold(c.avgPrice)} 골드
+          {fmtGold(c.avgPrice)} 골드{c.listing != null && ` · 매물 ${Math.round(c.listing).toLocaleString()}건`}
         </span>
       </span>
       <span className="flex w-[104px] shrink-0 flex-col items-end gap-1 sm:w-[152px]">
@@ -82,7 +86,7 @@ function Row({ rank, c, dir, maxAbs }) {
   );
 }
 
-function Column({ title, list, dir, trendFor }) {
+function Column({ title, list, dir, trendFor, llBelow }) {
   const maxAbs = list.length ? Math.max(...list.map((c) => Math.abs(c.changePct))) : 0;
   return (
     <div className="min-w-0">
@@ -95,23 +99,24 @@ function Column({ title, list, dir, trendFor }) {
         </p>
       ) : (
         <div className="space-y-1">
-          <ChampionRow c={list[0]} dir={dir} trend={trendFor ? trendFor(list[0].itemId) : null} />
-          {list.slice(1).map((c, i) => <Row key={c.itemId} rank={i + 2} c={c} dir={dir} maxAbs={maxAbs} />)}
+          <ChampionRow c={list[0]} dir={dir} llBelow={llBelow} trend={trendFor ? trendFor(list[0].itemId) : null} />
+          {list.slice(1).map((c, i) => <Row key={c.itemId} rank={i + 2} c={c} dir={dir} maxAbs={maxAbs} llBelow={llBelow} />)}
         </div>
       )}
     </div>
   );
 }
 
-export default function RankBoard({ ups, downs, trendFor }) {
+export default function RankBoard({ ups, downs, trendFor, llBelow = 0 }) {
   return (
     <div className="card px-3 py-3">
       <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-        <Column title="가장 많이 오른 품목 TOP 5" list={ups.slice(0, 5)} dir="up" trendFor={trendFor} />
-        <Column title="가장 많이 내린 품목 TOP 5" list={downs.slice(0, 5)} dir="down" trendFor={trendFor} />
+        <Column title="가장 많이 오른 품목 TOP 5" list={ups.slice(0, 5)} dir="up" trendFor={trendFor} llBelow={llBelow} />
+        <Column title="가장 많이 내린 품목 TOP 5" list={downs.slice(0, 5)} dir="down" trendFor={trendFor} llBelow={llBelow} />
       </div>
       <p className="m-0 mt-2.5 border-t px-1 pt-2 text-[13px]" style={{ color: "var(--text-muted)", borderColor: "var(--hairline)" }}>
         가격이 아닌 매물 수 변동은 여기서 제외합니다. <Link to="/briefings">브리핑의 이상 변동 목록</Link>에서 확인할 수 있습니다.
+        <br />매물이 적은 품목은 등록 한두 건으로 순위가 크게 흔들립니다. <b>저유동</b> 뱃지가 붙은 항목은 시장 전체 흐름으로 읽지 마세요.
       </p>
     </div>
   );

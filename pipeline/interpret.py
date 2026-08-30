@@ -44,9 +44,17 @@ def load_events() -> list:
 
 
 def events_near(events: list, date_str: str) -> list:
+    """±EVENT_WINDOW_DAYS 이내 이벤트 중 개별 공지 URL이 있는 것만.
+
+    목록 페이지나 빈 URL은 독자가 그 공지를 확인할 수 없어 근거가 되지 못한다.
+    근거로 쓸 수 없는 후보를 넘기면 호출만 늘고 결과는 어차피 원인 미상이다.
+    """
     target = datetime.strptime(date_str, "%Y-%m-%d")
     out = []
     for ev in events:
+        url = (ev.get("url") or "").strip()
+        if not url or url.endswith("/list"):
+            continue
         try:
             d = datetime.strptime(ev["date"], "%Y-%m-%d")
         except ValueError:
@@ -89,7 +97,7 @@ def interpret_one(client, anomaly: dict, candidates: list) -> tuple[dict, float]
         assert isinstance(hyp.get("text"), str) and hyp["text"]
         assert hyp.get("confidence") in ("확정", "추정")
         urls = hyp.get("evidence_urls") or []
-        allowed = {ev.get("url", "") for ev in candidates}
+        allowed = {(ev.get("url") or "").strip() for ev in candidates} - {""}
         # 후보 목록 밖 URL이 섞이면 근거 무효 → 원인 미상 처리 (규칙 7)
         if any(u not in allowed for u in urls):
             return dict(UNKNOWN), cost
@@ -101,6 +109,8 @@ def interpret_one(client, anomaly: dict, candidates: list) -> tuple[dict, float]
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", default=None, help="해석 대상 날짜 (기본: 오늘 KST)")
+    parser.add_argument("--backfill", action="store_true",
+                        help="가설이 아직 없는 모든 날짜의 이상 항목을 해석한다")
     args = parser.parse_args()
     target_date = args.date or datetime.now(KST).strftime("%Y-%m-%d")
 
@@ -108,7 +118,9 @@ def main() -> int:
         print("anomalies.json 없음 — 해석 건너뜀")
         return 0
     doc = json.loads(ANOMALIES_PATH.read_text(encoding="utf-8-sig"))
-    targets = [a for a in doc["anomalies"] if a["date"] == target_date and not a.get("ai_hypothesis")]
+    targets = [a for a in doc["anomalies"]
+               if not a.get("ai_hypothesis")
+               and (args.backfill or a["date"] == target_date)]
     if not targets:
         print(f"해석 대상 없음 ({target_date})")
         return 0

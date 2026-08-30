@@ -98,20 +98,50 @@ def is_server_error(err: Exception) -> bool:
     return str(err).startswith("HTTP 5")
 
 
+def weighted_median(pairs: list) -> float | None:
+    """(단가, 수량) 목록의 수량 가중 중앙값.
+
+    경매장에는 시세의 수십 배로 올려둔 매물이 상시 섞인다. 매물이 몇 건뿐인
+    품목에서는 그 한 건이 평균을 통째로 끌고 가므로(실측: 매물 2건짜리 품목의
+    평균가가 실거래가의 10배) 대표값은 평균이 아니라 중앙값을 쓴다.
+    """
+    clean = [(p, q) for p, q in pairs if p is not None and p > 0 and q > 0]
+    if not clean:
+        return None
+    clean.sort(key=lambda t: t[0])
+    total = sum(q for _, q in clean)
+    half = total / 2
+    run = 0
+    for price, qty in clean:
+        run += qty
+        if run >= half:
+            return float(price)
+    return float(clean[-1][0])
+
+
 def summarize_auction(rows: list) -> dict:
-    """등록 매물 rows → 집계. 평균 단가는 수량 가중 평균."""
+    """등록 매물 rows → 집계.
+
+    대표값은 medUnitPrice(수량 가중 중앙값)다. avgUnitPrice(수량 가중 평균)는
+    기존 시계열과의 연속성을 위해 계속 기록하되, 화면·탐지의 기준값은 아니다.
+    """
     if not rows:
-        return {"minUnitPrice": None, "avgUnitPrice": None, "listingCount": 0}
-    total_qty = sum(r.get("count", 0) or 0 for r in rows)
+        return {"minUnitPrice": None, "avgUnitPrice": None, "medUnitPrice": None,
+                "listingCount": 0, "listingQty": 0}
+    pairs = [(r.get("unitPrice"), r.get("count", 0) or 0) for r in rows]
+    total_qty = sum(q for _, q in pairs)
     if total_qty > 0:
-        weighted = sum((r.get("unitPrice", 0) or 0) * (r.get("count", 0) or 0) for r in rows)
+        weighted = sum((p or 0) * q for p, q in pairs)
         avg = round(weighted / total_qty, 2)
     else:
         avg = round(sum(r.get("unitPrice", 0) or 0 for r in rows) / len(rows), 2)
+    med = weighted_median(pairs)
     return {
         "minUnitPrice": min(r.get("unitPrice", 0) or 0 for r in rows),
         "avgUnitPrice": avg,
-        "listingCount": len(rows),  # API가 총 매물 수를 주지 않아 rows 수(상한 400)로 기록
+        "medUnitPrice": round(med, 2) if med is not None else None,
+        "listingCount": len(rows),  # 등록 "건수" (묶음 단위). API 상한 400건
+        "listingQty": total_qty,    # 등록 총 "수량". 건수와 다르므로 따로 기록
     }
 
 
@@ -127,18 +157,34 @@ def summarize_sold(rows: list, now_kst: datetime) -> dict:
         if sold_at >= cutoff:
             recent.append(r)
     if not recent:
-        return {"soldCount24h": 0, "soldAvgUnitPrice24h": None, "soldCapped": len(rows) >= 100}
-    total_qty = sum(r.get("count", 0) or 0 for r in recent)
+        return {"soldCount24h": 0, "soldAvgUnitPrice24h": None, "soldMedUnitPrice24h": None,
+                "soldCapped": len(rows) >= 100, "soldWindowHours": None}
+    pairs = [(r.get("unitPrice"), r.get("count", 0) or 0) for r in recent]
+    total_qty = sum(q for _, q in pairs)
     if total_qty > 0:
-        weighted = sum((r.get("unitPrice", 0) or 0) * (r.get("count", 0) or 0) for r in recent)
+        weighted = sum((p or 0) * q for p, q in pairs)
         avg = round(weighted / total_qty, 2)
     else:
         avg = round(sum(r.get("unitPrice", 0) or 0 for r in recent) / len(recent), 2)
+    med = weighted_median(pairs)
+    # 100건 상한에 걸리면 이 값이 실제로 덮는 구간은 24시간이 아니라 훨씬 짧다.
+    # 화면이 "24시간"이라고 단정하지 않도록 실제 커버 구간을 함께 기록한다.
+    stamps = []
+    for r in recent:
+        try:
+            stamps.append(datetime.strptime(r["soldDate"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=KST))
+        except (KeyError, ValueError):
+            continue
+    window_hours = None
+    if stamps:
+        window_hours = round((now_kst - min(stamps)).total_seconds() / 3600, 1)
     return {
         "soldCount24h": len(recent),
         "soldAvgUnitPrice24h": avg,
+        "soldMedUnitPrice24h": round(med, 2) if med is not None else None,
         # 100건 상한에 걸리면 실제 판매는 더 많을 수 있음 — 정직하게 표시
         "soldCapped": len(rows) >= 100,
+        "soldWindowHours": window_hours,
     }
 
 
@@ -167,7 +213,8 @@ def main() -> int:
             record.update(summarize_auction(data.get("rows", [])))
         except RuntimeError as err:
             failures.append({"itemId": item_id, "name": name, "endpoint": "auction", "error": str(err)})
-            record.update({"minUnitPrice": None, "avgUnitPrice": None, "listingCount": None})
+            record.update({"minUnitPrice": None, "avgUnitPrice": None, "medUnitPrice": None,
+                           "listingCount": None, "listingQty": None})
             server_errors += is_server_error(err)
         time.sleep(CALL_INTERVAL_SEC)
 
@@ -178,7 +225,9 @@ def main() -> int:
             record.update(summarize_sold(data.get("rows", []), now))
         except RuntimeError as err:
             failures.append({"itemId": item_id, "name": name, "endpoint": "auction-sold", "error": str(err)})
-            record.update({"soldCount24h": None, "soldAvgUnitPrice24h": None, "soldCapped": False})
+            record.update({"soldCount24h": None, "soldAvgUnitPrice24h": None,
+                           "soldMedUnitPrice24h": None, "soldCapped": False,
+                           "soldWindowHours": None})
             server_errors += is_server_error(err)
         time.sleep(CALL_INTERVAL_SEC)
 

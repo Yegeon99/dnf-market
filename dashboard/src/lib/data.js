@@ -12,7 +12,7 @@ export async function loadJson(name) {
 }
 
 export async function loadAll() {
-  const [ts, anomalies, briefings, items, events, thresholds, backfill, collection] = await Promise.all([
+  const [ts, anomalies, briefings, items, events, thresholds, backfill, collection, llmCosts] = await Promise.all([
     loadJson("timeseries.json").catch(() => ({ rows: [] })),
     loadJson("anomalies.json").catch(() => ({ anomalies: [] })),
     loadJson("briefings.json").catch(() => ({ briefings: [] })),
@@ -21,21 +21,54 @@ export async function loadAll() {
     loadJson("thresholds.json"),
     loadJson("backfill.json").catch(() => ({ rows: [] })),
     loadJson("collection.json").catch(() => ({ latestAttempt: null })),
+    loadJson("llm_costs.json").catch(() => ({ days: {} })),
   ]);
   return {
     rows: ts.rows || [],
     anomalies: anomalies.anomalies || [],
+    // 상한에 걸려 저장되지 않은 이상 변동이 있는 날을 화면이 알 수 있게 한다
+    anomalyTotals: anomalies.dailyTotals || {},
     briefings: (briefings.briefings || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1)),
     items: items.items || [],
     events: events.events || [],
     thresholds,
     backfill: backfill.rows || [],
     collection,
+    llmCosts: llmCosts.days || {},
   };
 }
 
-// 하루 6회 수집 슬롯 (KST). "day"는 백필(일 단위 소급) 전용 라벨.
+// 예정 수집 슬롯 (KST). "day"는 백필(일 단위 소급) 전용 라벨.
+// 예정일 뿐이고 실제 성공 회차는 날마다 다르다 (collectionStats로 실측한다).
 export const SLOTS = ["h03", "h07", "h11", "h15", "h19", "h23"];
+
+/** 회차 대표 등록가. 중앙값이 있으면 중앙값, 없으면(2026-08-30 이전 회차) 평균.
+ *  경매장에는 시세의 수십 배로 올린 매물이 상시 섞여 있어, 매물이 몇 건뿐인 품목은
+ *  평균이 그 한 건에 끌려간다. 그래서 대표값은 중앙값을 쓴다. */
+export function repPrice(r) {
+  return r?.medUnitPrice ?? r?.avgUnitPrice ?? null;
+}
+
+/** 대표값이 중앙값인지 평균인지 (화면 라벨 분기용) */
+export function isMedianBased(rows) {
+  return rows.some((r) => r?.medUnitPrice != null);
+}
+
+/** 실제 수집 실적: {days, slots, expected, perDay:{date:n}, latestDays} */
+export function collectionStats(rows) {
+  const perDay = {};
+  for (const r of rows) (perDay[r.date] ??= new Set()).add(r.slot);
+  const dates = Object.keys(perDay).sort();
+  const counts = Object.fromEntries(dates.map((d) => [d, perDay[d].size]));
+  const slots = dates.reduce((a, d) => a + counts[d], 0);
+  return {
+    days: dates.length,
+    slots,
+    expected: dates.length * SLOTS.length,
+    perDay: counts,
+    dates,
+  };
+}
 
 export function slotLabel(slot) {
   if (slot === "day") return "일 평균(소급 수집)";
@@ -88,11 +121,13 @@ export function itemSeries(rows, itemId, backfillRows = []) {
     return {
       date,
       slot,
-      avgPrice: r?.avgUnitPrice ?? null,
+      avgPrice: repPrice(r),
       minPrice: r?.minUnitPrice ?? null,
-      soldAvg: r?.soldAvgUnitPrice24h ?? null,
+      soldAvg: r?.soldMedUnitPrice24h ?? r?.soldAvgUnitPrice24h ?? null,
       listing: r?.listingCount ?? null,
+      listingQty: r?.listingQty ?? null,
       soldCapped: r?.soldCapped ?? false,
+      soldWindowHours: r?.soldWindowHours ?? null,
       backfill: false,
     };
   });
@@ -108,7 +143,7 @@ export function dailySeries(rows, itemId) {
   }
   return Object.entries(byDate)
     .map(([date, recs]) => {
-      const p = recs.map((r) => r.avgUnitPrice).filter((v) => v != null);
+      const p = recs.map(repPrice).filter((v) => v != null);
       const c = recs.map((r) => r.listingCount).filter((v) => v != null);
       return {
         date,
@@ -119,26 +154,68 @@ export function dailySeries(rows, itemId) {
     .sort((a, b) => (a.date < b.date ? -1 : 1));
 }
 
-/** 전 품목 전일 대비 변동률 [{itemId, name, category, changePct|null, listing}] */
-export function dodChanges(rows, items, targetDate) {
+/** {itemId: {date: {slot: [price, count]}}} — 공통 슬롯 비교용 격자 */
+function slotGridOf(rows) {
+  const g = {};
+  for (const r of rows) {
+    ((g[r.itemId] ??= {})[r.date] ??= {})[r.slot] = [repPrice(r), r.listingCount ?? null];
+  }
+  return g;
+}
+
+/** 지정 슬롯들만으로 일 대표값 → [price, count] */
+function meanOver(day, slots) {
+  const p = [], c = [];
+  for (const s of slots) {
+    const v = day[s];
+    if (!v) continue;
+    if (v[0] != null) p.push(v[0]);
+    if (v[1] != null) c.push(v[1]);
+  }
+  return [
+    p.length ? p.reduce((a, b) => a + b, 0) / p.length : null,
+    c.length ? c.reduce((a, b) => a + b, 0) / c.length : null,
+  ];
+}
+
+/** 전 품목 전일 대비 변동률 [{itemId, name, category, changePct|null, listing}].
+ *
+ *  비교는 두 날에 모두 있는 회차(공통 슬롯)로만 한다. 수집 회차가 날마다 1~6개로
+ *  달라서, 회차 구성이 다른 날을 그대로 비교하면 시간대 차이가 변동률로 둔갑한다.
+ *  파이프라인(detect.py dod_changes)과 같은 규칙이다. */
+export function dodChanges(rows, items, targetDate, minListing = 0) {
+  const grid = slotGridOf(rows);
   return items.map((it) => {
-    const daily = dailySeries(rows, it.itemId);
-    const idx = daily.findIndex((d) => d.date === targetDate);
-    const cur = idx >= 0 ? daily[idx] : daily[daily.length - 1];
-    const prev = idx > 0 ? daily[idx - 1] : null;
-    let changePct = null;
-    if (prev && prev.avgPrice && cur?.avgPrice != null) {
-      changePct = ((cur.avgPrice - prev.avgPrice) / prev.avgPrice) * 100;
+    const days = grid[it.itemId] ?? {};
+    const dates = Object.keys(days).sort();
+    let idx = dates.indexOf(targetDate);
+    if (idx < 0) idx = dates.length - 1;
+    const curDate = dates[idx], prevDate = idx > 0 ? dates[idx - 1] : null;
+    const [curAll, curCntAll] = curDate ? meanOver(days[curDate], Object.keys(days[curDate])) : [null, null];
+
+    let changePct = null, listingPrev = null, thin = false;
+    if (prevDate) {
+      const common = Object.keys(days[curDate]).filter((s) => s in days[prevDate]);
+      if (common.length) {
+        const [cp, cc] = meanOver(days[curDate], common);
+        const [pp, pc] = meanOver(days[prevDate], common);
+        listingPrev = pc;
+        // 탐지기와 같은 기준: 매물이 이틀 연속 기준 미만이면 가격 신호를 채택하지 않는다.
+        // 매물 두어 건짜리 품목은 등록 하나로 수치가 몇 배씩 튀어 순위가 무의미해진다.
+        thin = minListing > 0 && cc != null && pc != null && cc < minListing && pc < minListing;
+        if (!thin && pp && cp != null) changePct = ((cp - pp) / pp) * 100;
+      }
     }
     return {
+      thin,
       itemId: it.itemId,
       name: it.name,
       category: it.category,
       reason: it.reason,
       changePct,
-      avgPrice: cur?.avgPrice ?? null,
-      listing: cur?.listing ?? null,
-      listingPrev: prev?.listing ?? null,
+      avgPrice: curAll,
+      listing: curCntAll,
+      listingPrev,
     };
   });
 }
@@ -163,7 +240,7 @@ export function publishChanges(rows, items, targetDate) {
     const prev = idx > 0 ? daily[idx - 1] : null;
     const prices = rows
       .filter((r) => r.itemId === it.itemId && r.date === targetDate && r.slot === briefingSlot)
-      .map((r) => r.avgUnitPrice)
+      .map(repPrice)
       .filter((v) => v != null);
     const cur = prices.length ? prices.reduce((a, b) => a + b, 0) / prices.length : null;
     return {
@@ -207,7 +284,7 @@ export function dailyChangeMap(rows, itemId) {
     const prev = i > 0 ? daily[i - 1] : null;
     map[d.date] = prev?.avgPrice && d.avgPrice != null
       ? ((d.avgPrice - prev.avgPrice) / prev.avgPrice) * 100
-      : null;
+      : null;  // 일 대표값 기준 (회차 구성 차이는 dodChanges가 보정한다)
   });
   return map;
 }
@@ -239,7 +316,7 @@ export function fmtSignedPct(v) {
 /** 최근 수집 라벨: 실제 값이 담긴 최신 (date, slot) → "08-25 15시".
  *  값이 하나도 없는 회차를 세면 실패 회차를 "최근 수집"이라 말하게 된다. */
 export function lastCollectedLabel(allRows) {
-  const rows = allRows.filter((r) => r.avgUnitPrice != null || r.listingCount != null);
+  const rows = allRows.filter((r) => repPrice(r) != null || r.listingCount != null);
   if (!rows.length) return null;
   const hour = (s) => (s.startsWith("h") ? parseInt(s.slice(1), 10) : { night: 3, am: 9, pm: 15 }[s] ?? 0);
   const last = rows.reduce((a, b) =>

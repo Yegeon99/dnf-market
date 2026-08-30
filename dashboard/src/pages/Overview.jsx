@@ -8,7 +8,7 @@ import {
   dailySeries, dodChanges, publishChanges, latestDate, lastCollectedLabel, fmtGold,
   fmtPct, fmtSignedPct, heatColor, pctColor, isLowLiquidity,
 } from "../lib/data";
-import { Change, CountUpNum, Empty, Sparkline } from "../components/ui";
+import { Change, CountUpNum, Empty, LowLiquidityBadge, Sparkline } from "../components/ui";
 import Reveal from "../components/reveal";
 import { highlight, itemNamePool } from "../components/rich";
 import HeatLegend from "../components/HeatLegend";
@@ -59,7 +59,9 @@ function KpiCell({ label, caption, spark, sparkColor, alert = false, children })
 // 클릭 가능한 카드에만 떠오르는 호버 반응을 준다 (단순 정보 카드에는 넣지 않는다)
 const MotionLink = m.create(Link);
 
-const LEFT_GROUPS = ["강화·스킬 재료", "성장 재료", "레어 클론 아바타 1세대"];
+// 2컬럼 그룹 배치: 좌(재료 계열), 우(아바타 계열)
+const LEFT_GROUPS = ["큐브 조각", "제작·마법부여 재료", "증폭 재료", "기타 재료",
+                     "확률형 상자", "마법부여"];
 
 function Tile({ c, it, onEnter, onLeave, onClick }) {
   const noCompare = c.changePct == null;
@@ -156,8 +158,9 @@ function Heatmap({ changes, items, llBelow }) {
 
 /** 데일리 브리핑 카드: 품목명은 bold, 등락색은 헤드라인(첫 문장)에만.
  *  우측 미니 차트도 본문과 같은 "발행 시점" 기준을 쓴다 (최신 수집 기준은 아래 순위 보드 담당) */
-function BriefingHero({ briefing, items, topUp, trend }) {
+function BriefingHero({ briefing, items, topUp, trend, detected, stored }) {
   const names = itemNamePool(items);
+  const cut = detected != null && stored != null ? Math.max(detected - stored, 0) : 0;
   return (
     <MotionLink
       to="/briefings"
@@ -172,6 +175,12 @@ function BriefingHero({ briefing, items, topUp, trend }) {
         <span>{briefing.collectionFailed ? "심야 회차 수집 실패, 전일 데이터 기준" : "심야 회차 발행 시점까지의 수집분 기준"}</span>
         <span className="ml-auto whitespace-nowrap" style={{ color: "var(--accent)" }}>아카이브 →</span>
       </div>
+      {cut > 0 && (
+        <p className="m-0 mt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+          이 날 실제 탐지된 이상은 <b className="num">{detected}건</b>입니다.
+          아래 본문은 표시 상한에 걸린 상위 <b className="num">{stored}건</b>만 보고 쓰였습니다.
+        </p>
+      )}
       <div className={`mt-1.5 grid gap-x-6 gap-y-3 ${topUp && trend ? "sm:grid-cols-[minmax(0,1fr)_212px]" : ""}`}>
         <div className="min-w-0">
           <h3 className="t-section headline-nums m-0" style={{ fontSize: 25, lineHeight: 1.4 }}>
@@ -202,19 +211,31 @@ function BriefingHero({ briefing, items, topUp, trend }) {
 }
 
 export default function Overview({ data }) {
-  const { rows, anomalies, briefings, items, thresholds, backfill, collection } = data;
+  const { rows, anomalies, briefings, items, thresholds, backfill, collection, anomalyTotals } = data;
   const date = latestDate(rows);
-  const changes = dodChanges(rows, items, date);
+  // 가격 신호를 신뢰할 최소 매물 수는 탐지기와 같은 값을 쓴다 (화면과 탐지가 갈리지 않게)
+  const minListing = thresholds?.guards?.minListingCountForPriceSignal ?? 0;
+  const changes = dodChanges(rows, items, date, minListing);
   const todayAnomalies = anomalies.filter((a) => a.date === date);
+  // 이상 항목은 하루 상한이 있어 저장분이 그날의 전부가 아니다. 실제 탐지 건수를 쓴다.
+  const totals = anomalyTotals?.[date] ?? null;
+  const anomalyCount = totals?.detected ?? todayAnomalies.length;
+  const anomalyCut = Math.max(anomalyCount - todayAnomalies.length, 0);
   const withChange = changes.filter((c) => c.changePct != null);
   const ups = [...withChange].sort((a, b) => b.changePct - a.changePct).filter((c) => c.changePct > 0);
   const downs = [...withChange].sort((a, b) => a.changePct - b.changePct).filter((c) => c.changePct < 0);
   const latestBriefing = briefings[0];
   const llBelow = thresholds?.lowLiquidity?.listingCountBelow ?? 0;
+  const thinCount = changes.filter((c) => c.thin).length;
   const hasCompare = withChange.length > 0;
 
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
   const itemSpark = (id) => dailySeries(rows, id).slice(-7).map((d) => d.avgPrice);
+  // 매물이 몇 건뿐인 품목은 등록 한두 건으로 순위가 뒤집힌다. 근거 수량을 함께 밝힌다.
+  const lowLiq = (c) => isLowLiquidity(c.listing, c.listingPrev, llBelow);
+  const moverCaption = (c) =>
+    c.listing != null ? `매물 ${Math.round(c.listing).toLocaleString()}건 기준 · 최근 7일 추이`
+                      : "최근 7일 추이";
   const collectedLabel = lastCollectedLabel(rows);
 
   // 순위 보드 안내문: 브리핑이 어느 날짜를 인용했는지와 순위 보드 기준일을 직접 비교한다.
@@ -223,7 +244,7 @@ export default function Overview({ data }) {
   const briefBasisDate = latestBriefing?.collectionFailed
     ? [...new Set(rows.map((r) => r.date))].sort().filter((d) => d < latestBriefing.date).at(-1) ?? null
     : null;
-  const base = `최신 수집(${collectedLabel ?? "집계 전"}) 기준 평균 등록가.`;
+  const base = `두 날 모두 수집된 회차만 비교한 등록 대표가(중앙값) 기준. 최신 수집은 ${collectedLabel ?? "집계 전"}입니다.`;
   const rankNote = !latestBriefing?.collectionFailed
     ? `${base} 위 브리핑은 심야 회차 발행 시점까지의 수집분 기준이라 같은 날이어도 순위와 수치가 다릅니다.`
     : briefBasisDate === date
@@ -259,13 +280,15 @@ export default function Overview({ data }) {
 
   return (
     <>
-      <Reveal index={0}><HeroBand cells={changes} date={date} /></Reveal>
+      <Reveal index={0}><HeroBand cells={changes} date={date} rows={rows} /></Reveal>
       <Reveal index={1}><StatusStrip rows={rows} briefings={briefings} collection={collection} /></Reveal>
 
       <Section index={2} label="오늘의 이야기" title="데일리 브리핑">
         {latestBriefing ? (
           <BriefingHero briefing={latestBriefing} items={items}
                         topUp={pubTop}
+                        detected={anomalyTotals?.[latestBriefing.date]?.detected}
+                        stored={anomalies.filter((a) => a.date === latestBriefing.date).length}
                         trend={pubTop ? itemSpark(pubTop.itemId) : null} />
         ) : (
           <Empty>브리핑이 아직 발행되지 않았습니다.</Empty>
@@ -275,7 +298,7 @@ export default function Overview({ data }) {
       <Section index={3} band label="전일 대비" title="오늘의 등락 순위"
                note={rankNote}>
         {hasCompare ? (
-          <RankBoard ups={ups} downs={downs} trendFor={itemSpark} />
+          <RankBoard ups={ups} downs={downs} trendFor={itemSpark} llBelow={llBelow} />
         ) : (
           <Empty>전일 비교 데이터가 쌓이면 등락 순위가 표시됩니다.</Empty>
         )}
@@ -287,25 +310,29 @@ export default function Overview({ data }) {
             <CountUpNum value={items.length} />
             <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>종</span>
           </KpiCell>
-          <KpiCell label="오늘 이상 변동" alert={todayAnomalies.length > 0}
-                   caption={todayAnomalies.length === 0 ? "전일 대비 기준" : null}>
-            <CountUpNum value={todayAnomalies.length} />
+          <KpiCell label="오늘 이상 변동" alert={anomalyCount > 0}
+                   caption={anomalyCount === 0
+                     ? "전일 대비 기준"
+                     : anomalyCut > 0
+                       ? `표시 상한으로 상위 ${todayAnomalies.length}건만 목록에 실림`
+                       : "전일 대비 기준"}>
+            <CountUpNum value={anomalyCount} />
             <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>건</span>
           </KpiCell>
           {hasCompare ? (
             <>
               <KpiCell label="상승 1위"
                        spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
-                       caption={ups[0] ? "최근 7일 평균가 추이" : null}>
+                       caption={ups[0] ? moverCaption(ups[0]) : null}>
                 {ups[0]
-                  ? <span className="text-[16px]"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} countUp /></span>
+                  ? <span className="text-[16px]"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} countUp />{lowLiq(ups[0]) && <> <LowLiquidityBadge /></>}</span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
               </KpiCell>
               <KpiCell label="하락 1위"
                        spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
-                       caption={downs[0] ? "최근 7일 평균가 추이" : null}>
+                       caption={downs[0] ? moverCaption(downs[0]) : null}>
                 {downs[0]
-                  ? <span className="text-[16px]"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} countUp /></span>
+                  ? <span className="text-[16px]"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} countUp />{lowLiq(downs[0]) && <> <LowLiquidityBadge /></>}</span>
                   : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
               </KpiCell>
             </>
@@ -327,7 +354,9 @@ export default function Overview({ data }) {
       </Section>
 
       <Section index={5} band label="품목 전체" title="카테고리별 등락 히트맵"
-               note="전일 대비 평균 등록가. 회색 바탕에 우상단 점은 비교 대기 상태입니다. 타일을 누르면 상세로 갑니다.">
+               note={`전일 대비 등록 대표가(중앙값). 회색 바탕에 우상단 점은 비교 대기 상태입니다.${
+                 thinCount > 0 ? ` 매물이 이틀 연속 ${minListing}건 미만인 ${thinCount}종은 가격 신호를 신뢰할 수 없어 비교하지 않습니다.` : ""
+               } 타일을 누르면 상세로 갑니다.`}>
         <div className="card px-3 py-3">
           <div className="mb-2 flex justify-end">
             <HeatLegend />

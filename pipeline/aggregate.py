@@ -16,8 +16,9 @@ SNAP_DIR = ROOT / "data" / "snapshots"
 OUT_PATH = ROOT / "data" / "timeseries.json"
 
 FIELDS = [
-    "minUnitPrice", "avgUnitPrice", "listingCount",
-    "soldCount24h", "soldAvgUnitPrice24h", "soldCapped",
+    "minUnitPrice", "avgUnitPrice", "medUnitPrice", "listingCount", "listingQty",
+    "soldCount24h", "soldAvgUnitPrice24h", "soldMedUnitPrice24h", "soldCapped",
+    "soldWindowHours",
 ]
 
 

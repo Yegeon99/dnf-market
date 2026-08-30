@@ -3,106 +3,106 @@
   {
    "itemId": "785e56a0ed4e3efd573da1f56a45217d",
    "name": "무색 큐브 조각",
-   "category": "강화·스킬 재료",
-   "reason": "전 직업 스킬 소모·강화 기초 재료. 던파 경제의 기축 품목",
+   "category": "스킬·큐브 재료",
+   "reason": "공식 설명 기준 상위 스킬 사용·큐브의 계약·모순의 결정체 구입에 쓰인다. 던파 경제의 기축 품목",
    "shortName": "무색 큐브",
-   "displayGroup": "강화·스킬 재료"
+   "displayGroup": "큐브 조각"
   },
   {
    "itemId": "d9bc96637286b4f5449d21d36e44675d",
    "name": "흑색 큐브 조각",
-   "category": "강화·스킬 재료",
-   "reason": "색 큐브 계열. 제작·크래프트 수요 반영",
+   "category": "큐브 계약 재료",
+   "reason": "공식 설명 기준 퀘스트·큐브의 계약용. 언커먼·유니크 장비 해체 공급",
    "shortName": "흑색 큐브",
-   "displayGroup": "강화·스킬 재료"
+   "displayGroup": "큐브 조각"
   },
   {
    "itemId": "4390b9e236193bc39855cc8964d23faa",
    "name": "흰색 큐브 조각",
-   "category": "강화·스킬 재료",
-   "reason": "색 큐브 계열. 제작·크래프트 수요 반영",
+   "category": "큐브 계약 재료",
+   "reason": "공식 설명 기준 퀘스트·큐브의 계약용. 언커먼·유니크 장비 해체 공급",
    "shortName": "흰색 큐브",
-   "displayGroup": "강화·스킬 재료"
+   "displayGroup": "큐브 조각"
   },
   {
    "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
    "name": "황금 큐브 조각",
-   "category": "강화·스킬 재료",
-   "reason": "희소 큐브. 저매물 품목의 가격 변동성 관찰용",
+   "category": "제작·큐브 재료",
+   "reason": "공식 설명 기준 아이템 생산·큐브의 계약용. 레전더리 장비 해체 공급이라 희소",
    "shortName": "황금 큐브",
-   "displayGroup": "강화·스킬 재료"
+   "displayGroup": "큐브 조각"
   },
   {
    "itemId": "3738d8271ec853e926cd146623adf952",
    "name": "하급 원소결정",
-   "category": "강화·스킬 재료",
-   "reason": "분해 산물. 마법부여·제작 수요와 공급의 균형 지표",
+   "category": "제작·마법부여 재료",
+   "reason": "공식 설명 기준 아이템 생산·마법 부여용. 레어 장비 해체·연금 공급",
    "shortName": "하급 원소결정",
-   "displayGroup": "강화·스킬 재료"
+   "displayGroup": "제작·마법부여 재료"
   },
   {
    "itemId": "b682af8902d22554c7b90386abd18762",
    "name": "상급 원소결정",
-   "category": "강화·스킬 재료",
-   "reason": "상위 분해 산물. 유니크 등급 재료 시세 대표",
+   "category": "제작·마법부여 재료",
+   "reason": "공식 설명 기준 아이템 생산·마법 부여용. 유니크 장비 해체·연금 공급",
    "shortName": "상급 원소결정",
-   "displayGroup": "강화·스킬 재료"
+   "displayGroup": "제작·마법부여 재료"
+  },
+  {
+   "itemId": "897cab594bbd04dda00619abfe885674",
+   "name": "농밀한 이계의 정수",
+   "category": "제작 재료",
+   "reason": "공식 설명 기준 이계 기운의 정화서 제작 레시피 재료. 증폭 재료가 아니다",
+   "shortName": "이계의 정수",
+   "displayGroup": "제작·마법부여 재료"
   },
   {
    "itemId": "04a1c3b13441800e275ebed957adcc8e",
    "name": "순수한 증폭서",
    "category": "증폭 재료",
-   "reason": "차원 증폭 수요 직결. 업데이트·이벤트에 민감한 고가 품목",
+   "reason": "공식 설명 기준 차원의 능력을 부여해 증폭을 가능하게 한다. 증폭 수요 직결",
    "shortName": "증폭서",
-   "displayGroup": "증폭 재료"
-  },
-  {
-   "itemId": "897cab594bbd04dda00619abfe885674",
-   "name": "농밀한 이계의 정수",
-   "category": "증폭 재료",
-   "reason": "증폭 관련 재료. 증폭 이벤트 시 수요 급변 관찰용",
-   "shortName": "이계의 정수",
    "displayGroup": "증폭 재료"
   },
   {
    "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
    "name": "응축된 순수의 잔해",
-   "category": "성장 재료",
-   "reason": "장비 성장 재료. 시즌 콘텐츠 수요 반영",
+   "category": "증폭 재료",
+   "reason": "공식 설명 기준 순수한 증폭서 제작 재료. 고강화 증폭 실패 시 획득",
    "shortName": "순수의 잔해",
-   "displayGroup": "성장 재료"
+   "displayGroup": "증폭 재료"
   },
   {
    "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
    "name": "시간의 결정",
-   "category": "성장 재료",
-   "reason": "유니크 재료. 일상 파밍 공급량 지표",
+   "category": "기타 재료",
+   "reason": "유니크 재료. 공식 설명에 사용처 기재가 없어 용도는 단정하지 않는다. 일상 파밍 공급량 지표",
    "shortName": "시간의 결정",
-   "displayGroup": "성장 재료"
+   "displayGroup": "기타 재료"
   },
   {
    "itemId": "8b998230ab012e695e9a53d67187cc3f",
    "name": "균열의 단편",
-   "category": "성장 재료",
-   "reason": "던전 드랍 재료. 파밍 활동량 프록시",
+   "category": "기타 재료",
+   "reason": "던전 드랍 재료. 공식 설명에 사용처 기재가 없어 용도는 단정하지 않는다. 파밍 활동량 프록시",
    "shortName": "균열의 단편",
-   "displayGroup": "성장 재료"
+   "displayGroup": "기타 재료"
   },
   {
    "itemId": "a072ded7b41743a22cccb74cd73bc24d",
    "name": "무결점 골든 베릴",
-   "category": "성장 재료",
-   "reason": "저가 대량 거래 재료. 물량 흐름 관찰용",
+   "category": "기타 재료",
+   "reason": "유니크 재료. 공식 설명에 사용처 기재가 없어 용도는 단정하지 않는다. 대량 거래 물량 흐름 관찰용",
    "shortName": "골든 베릴",
-   "displayGroup": "성장 재료"
+   "displayGroup": "기타 재료"
   },
   {
    "itemId": "d584d612f09215ef0c42498e6990b61d",
    "name": "봉인된 자물쇠",
-   "category": "성장 재료",
-   "reason": "저가 대량 거래 재료. 물량 흐름 관찰용",
+   "category": "확률형 상자",
+   "reason": "공식 설명 기준 해방의 열쇠 3개로 개봉하는 확률형 상자. 이달의 아이템 수요 프록시",
    "shortName": "봉인된 자물쇠",
-   "displayGroup": "성장 재료"
+   "displayGroup": "확률형 상자"
   },
   {
    "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
@@ -138,51 +138,51 @@
   },
   {
    "itemId": "20d6374d6ab02076f7c32153568431c9",
-   "name": "레어 모자 클론 아바타",
+   "name": "레어 모자 클론 아바타 (동일명 1)",
    "category": "레어 아바타",
-   "reason": "레어 아바타 시장 대표. 패키지·이벤트 공급에 민감",
-   "shortName": "모자",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "모자 (1)",
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "f11f806769afaae8b05be488e20b6109",
-   "name": "레어 머리 클론 아바타",
+   "name": "레어 머리 클론 아바타 (동일명 1)",
    "category": "레어 아바타",
-   "reason": "레어 아바타 시장 대표",
-   "shortName": "머리",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "머리 (1)",
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "324c85d935a5e9358825380bf2065845",
    "name": "레어 얼굴 클론 아바타",
    "category": "레어 아바타",
    "reason": "레어 아바타 시장 대표",
-   "shortName": "얼굴",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "shortName": "레어 얼굴",
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "b5ccbf772a3883e3171f682679e2b421",
    "name": "레어 목가슴 클론 아바타",
    "category": "레어 아바타",
    "reason": "레어 아바타 시장 대표",
-   "shortName": "목가슴",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "shortName": "레어 목가슴",
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
-   "name": "레어 상의 클론 아바타",
+   "name": "레어 상의 클론 아바타 (동일명 1)",
    "category": "레어 아바타",
-   "reason": "레어 아바타 시장 대표",
-   "shortName": "상의",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "상의 (1)",
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
-   "name": "레어 하의 클론 아바타",
+   "name": "레어 하의 클론 아바타 (동일명 1)",
    "category": "레어 아바타",
-   "reason": "레어 아바타 시장 대표",
-   "shortName": "하의",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "하의 (1)",
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "c81e24d23286a4897987547c5236edf1",
@@ -190,7 +190,7 @@
    "category": "레어 아바타",
    "reason": "저매물 레어 아바타. 품귀 관찰용",
    "shortName": "허리",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "30b8500c4447878005d9d1f433dac030",
@@ -198,46 +198,46 @@
    "category": "레어 아바타",
    "reason": "저매물 레어 아바타. 품귀 관찰용",
    "shortName": "신발",
-   "displayGroup": "레어 클론 아바타 1세대"
+   "displayGroup": "레어 클론 아바타"
   },
   {
    "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
-   "name": "레어 모자 클론 아바타(2세대)",
+   "name": "레어 모자 클론 아바타 (동일명 2)",
    "category": "레어 아바타",
-   "reason": "동명 별개 아이템(세대 구분). 세대 간 가격차 관찰용",
-   "shortName": "모자",
-   "displayGroup": "레어 클론 아바타 2세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "모자 (2)",
+   "displayGroup": "레어 클론 아바타 (동일명 2)"
   },
   {
    "itemId": "0756f89fac0518d4390f3e371adf7479",
-   "name": "레어 머리 클론 아바타(2세대)",
+   "name": "레어 머리 클론 아바타 (동일명 2)",
    "category": "레어 아바타",
-   "reason": "세대 간 가격차 관찰용",
-   "shortName": "머리",
-   "displayGroup": "레어 클론 아바타 2세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "머리 (2)",
+   "displayGroup": "레어 클론 아바타 (동일명 2)"
   },
   {
    "itemId": "488c3191c2afd5b4762f978edb61f5a4",
-   "name": "레어 상의 클론 아바타(2세대)",
+   "name": "레어 상의 클론 아바타 (동일명 2)",
    "category": "레어 아바타",
-   "reason": "세대 간 가격차 관찰용",
-   "shortName": "상의",
-   "displayGroup": "레어 클론 아바타 2세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "상의 (2)",
+   "displayGroup": "레어 클론 아바타 (동일명 2)"
   },
   {
    "itemId": "c37bf84cf16964557b577497404268c8",
-   "name": "레어 하의 클론 아바타(2세대)",
+   "name": "레어 하의 클론 아바타 (동일명 2)",
    "category": "레어 아바타",
-   "reason": "세대 간 가격차 관찰용",
-   "shortName": "하의",
-   "displayGroup": "레어 클론 아바타 2세대"
+   "reason": "공식 이름이 같은 별개 아이템이다(itemId가 다름). 공개 API의 이름·등급·분류·설명·세트가 모두 같아 구분 근거가 없어, 등록 순서로 번호만 붙였다",
+   "shortName": "하의 (2)",
+   "displayGroup": "레어 클론 아바타 (동일명 2)"
   },
   {
    "itemId": "8e132da6f012fc61191ca68df4663b44",
    "name": "얼굴 클론 아바타",
    "category": "일반 아바타",
    "reason": "일반 아바타 기축. 신규·복귀 유저 유입 프록시",
-   "shortName": "얼굴",
+   "shortName": "일반 얼굴",
    "displayGroup": "일반 클론 아바타"
   },
   {
@@ -245,7 +245,7 @@
    "name": "목가슴 클론 아바타",
    "category": "일반 아바타",
    "reason": "일반 아바타 기축. 신규·복귀 유저 유입 프록시",
-   "shortName": "목가슴",
+   "shortName": "일반 목가슴",
    "displayGroup": "일반 클론 아바타"
   }
  ]

@@ -1,7 +1,7 @@
 // 무인 파이프라인 상태 바: 수집 → 분석 → 브리핑 → 배포를 한 줄 40px에 담는다.
 // 히어로 바로 아래에 얇게 깔려 "지금도 사람 손 없이 돌고 있다"만 전한다.
 // 단, 최근 회차가 실패했으면 그 사실을 숨기지 않는다 (상태등 주황 + 오른쪽 안내).
-import { lastCollectedLabel, slotLabel } from "../lib/data";
+import { collectionStats, lastCollectedLabel, slotLabel } from "../lib/data";
 
 function Light({ state }) {
   const color = { ok: "var(--statuslight-ok)", fail: "var(--statuslight-fail)" }[state]
@@ -23,6 +23,7 @@ function failureNotice(attempt) {
 
 export default function StatusStrip({ rows, briefings, collection }) {
   const collected = lastCollectedLabel(rows);
+  const st = collectionStats(rows);
   const latest = briefings[0] ?? null;
   const attempt = collection?.latestAttempt ?? null;
   const notice = failureNotice(attempt);
@@ -65,7 +66,7 @@ export default function StatusStrip({ rows, briefings, collection }) {
               {notice
                 ?? (partial
                   ? `${attempt.date.slice(5)} ${slotLabel(attempt.slot)} 회차 일부 실패(${attempt.okCount}/${attempt.itemCount}종 수집)`
-                  : "하루 6회 자동 · 매일 자동 발행")}
+                  : `${st.days}일간 ${st.slots}회 수집 · 매일 자동 발행`)}
             </span>
           </div>
         </div>

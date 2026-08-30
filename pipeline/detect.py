@@ -42,16 +42,46 @@ def slot_order(slot: str) -> int:
     return 99
 
 
+def rep_price(row: dict):
+    """회차 대표 등록가. 중앙값이 있으면 중앙값, 없으면(과거 회차) 평균으로 대체.
+
+    경매장에는 시세의 수십 배로 올린 매물이 상시 섞여 있어, 매물이 몇 건뿐인
+    품목은 평균이 그 한 건에 끌려간다. 2026-08-30 이후 회차부터 중앙값을 쓴다.
+    """
+    med = row.get("medUnitPrice")
+    return med if med is not None else row.get("avgUnitPrice")
+
+
 def slot_series(rows: list) -> dict:
-    """{(itemId, date): [(slot, avgPrice, listingCount)] 시간순} — 저유동 지속성 검사용."""
+    """{(itemId, date): [(slot, price, listingCount)] 시간순} — 저유동 지속성 검사용."""
     out = {}
     for r in rows:
         out.setdefault((r["itemId"], r["date"]), []).append(
-            (r["slot"], r.get("avgUnitPrice"), r.get("listingCount"))
+            (r["slot"], rep_price(r), r.get("listingCount"))
         )
     for key in out:
         out[key].sort(key=lambda t: slot_order(t[0]))
     return out
+
+
+def slot_map(rows: list) -> dict:
+    """{itemId: {date: {slot: (price, count)}}} — 공통 슬롯 비교용 원본 격자."""
+    out = {}
+    for r in rows:
+        out.setdefault(r["itemId"], {}).setdefault(r["date"], {})[r["slot"]] = (
+            rep_price(r), r.get("listingCount")
+        )
+    return out
+
+
+def mean_over(day: dict, slots: set):
+    """지정 슬롯들만으로 일 대표값 산출 → (price, count)."""
+    prices = [day[s][0] for s in slots if s in day and day[s][0] is not None]
+    counts = [day[s][1] for s in slots if s in day and day[s][1] is not None]
+    return (
+        round(sum(prices) / len(prices), 2) if prices else None,
+        round(sum(counts) / len(counts), 1) if counts else None,
+    )
 
 
 def daily_series(rows: list) -> dict:
@@ -66,7 +96,7 @@ def daily_series(rows: list) -> dict:
 
     series = {}
     for (item_id, date), recs in by_item_date.items():
-        prices = [r["avgUnitPrice"] for r in recs if r.get("avgUnitPrice") is not None]
+        prices = [rep_price(r) for r in recs if rep_price(r) is not None]
         counts = [r["listingCount"] for r in recs if r.get("listingCount") is not None]
         series.setdefault(item_id, []).append((
             date,
@@ -114,9 +144,39 @@ def sustained_slots(slots: list, base, metric: str, low_threshold: float, direct
     return streak
 
 
+def dod_changes(rows: list, names: dict, target_date: str) -> list:
+    """공통 슬롯 기준 전일 대비 변동률 [{itemName, change_pct, listing}].
+
+    브리핑과 대시보드가 탐지기와 같은 기준을 쓰도록 여기 한 곳에서만 계산한다.
+    """
+    grid = slot_map(rows)
+    out = []
+    for item_id, days in grid.items():
+        dates = sorted(days)
+        idx = next((i for i, d in enumerate(dates) if d == target_date), None)
+        if idx is None or idx == 0:
+            continue
+        cur_d, prev_d = dates[idx], dates[idx - 1]
+        common = set(days[cur_d]) & set(days[prev_d])
+        if not common:
+            continue
+        cur_p, cur_c = mean_over(days[cur_d], common)
+        prev_p, _ = mean_over(days[prev_d], common)
+        chg = pct_change(prev_p, cur_p)
+        if chg is not None:
+            out.append({"itemName": names.get(item_id, item_id),
+                        "change_pct": chg, "listing": cur_c})
+    return out
+
+
 def detect_for_date(series: dict, names: dict, th: dict, target_date: str,
-                    slots_map: dict | None = None) -> list:
-    """target_date 기준 이상 탐지."""
+                    slots_map: dict | None = None, grid: dict | None = None) -> list:
+    """target_date 기준 이상 탐지.
+
+    전일 대비는 grid(슬롯 격자)가 있으면 두 날에 모두 존재하는 슬롯만으로 계산한다.
+    수집 회차가 날마다 1~6개로 들쭉날쭉해, 슬롯 구성이 다른 날을 그대로 비교하면
+    시간대 차이가 변동률로 둔갑한다.
+    """
     found = []
     guards = th["guards"]
     ma_cfg = th["movingAverage"]
@@ -130,14 +190,30 @@ def detect_for_date(series: dict, names: dict, th: dict, target_date: str,
         date, price, count = points[idx]
         prev_date, prev_price, prev_count = points[idx - 1]
 
+        # 전일 대비 전용 값: 두 날 공통 슬롯만으로 다시 계산 (없으면 비교 생략)
+        dod_price, dod_count = price, count
+        dod_prev_price, dod_prev_count = prev_price, prev_count
+        dod_ok = True
+        if grid is not None:
+            days = grid.get(item_id, {})
+            common = set(days.get(date, {})) & set(days.get(prev_date, {}))
+            if common:
+                dod_price, dod_count = mean_over(days[date], common)
+                dod_prev_price, dod_prev_count = mean_over(days[prev_date], common)
+            else:
+                dod_ok = False
+
         thin_market = (count is not None and count < guards["minListingCountForPriceSignal"]) \
             and (prev_count is not None and prev_count < guards["minListingCountForPriceSignal"])
 
         # --- 전일 대비 ---
         checks = []
-        if not thin_market:
-            checks.append(("avgPrice", prev_price, price, th["dayOverDay"]["avgPrice"], "dod"))
-        checks.append(("listingCount", prev_count, count, th["dayOverDay"]["listingCount"], "dod"))
+        if dod_ok:
+            if not thin_market:
+                checks.append(("avgPrice", dod_prev_price, dod_price,
+                               th["dayOverDay"]["avgPrice"], "dod"))
+            checks.append(("listingCount", dod_prev_count, dod_count,
+                           th["dayOverDay"]["listingCount"], "dod"))
 
         # --- 7일 이동평균 이탈 (품목별 7일 이상 축적 시 자동 활성화) ---
         window = ma_cfg["windowDays"]
@@ -200,12 +276,22 @@ def detect_for_date(series: dict, names: dict, th: dict, target_date: str,
     # 일 상한: severity(high>mid>low) → |변동률| 순으로 상위만
     sev_rank = {"high": 0, "mid": 1, "low": 2}
     found.sort(key=lambda a: (sev_rank[a["severity"]], -abs(a["change_pct"])))
-    return found[: guards["maxAnomaliesPerDay"]]
+    cap = guards["maxAnomaliesPerDay"]
+    kept = found[:cap]
+    # 상한에 걸린 날은 저장분이 그날의 전부가 아니다. 몇 건을 잘랐는지 함께 남겨야
+    # 화면과 브리핑이 "10건"을 총계처럼 말하지 않는다.
+    for a in kept:
+        a["detectedTotal"] = len(found)
+        a["truncated"] = max(len(found) - cap, 0)
+    return kept
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", help="탐지 대상 날짜 (기본: 오늘 KST)", default=None)
+    parser.add_argument("--backfill", action="store_true",
+                        help="시계열에 있는 모든 날짜를 다시 탐지한다 "
+                             "(수집 실패로 심야 회차를 건너뛴 날을 메운다)")
     args = parser.parse_args()
     target_date = args.date or datetime.now(KST).strftime("%Y-%m-%d")
 
@@ -222,27 +308,45 @@ def main() -> int:
         return 1
 
     series = daily_series(ts["rows"])
-    new_anomalies = detect_for_date(series, names, th, target_date, slot_series(ts["rows"]))
+    slots, grid = slot_series(ts["rows"]), slot_map(ts["rows"])
 
-    existing = load_json(OUT_PATH, {"anomalies": []})["anomalies"]
-    merged = {a["id"]: a for a in existing}
+    targets = sorted({r["date"] for r in ts["rows"]}) if args.backfill else [target_date]
+
+    doc = load_json(OUT_PATH, {"anomalies": []})
+    merged = {a["id"]: a for a in doc.get("anomalies", [])}
+    daily_totals = dict(doc.get("dailyTotals", {}))
     added = 0
-    for a in new_anomalies:
-        if a["id"] in merged:
-            # 기존 항목의 AI 가설 보존, 수치만 갱신
-            hyp = merged[a["id"]].get("ai_hypothesis")
-            if hyp:
-                a["ai_hypothesis"] = hyp
-        else:
-            added += 1
-        merged[a["id"]] = a
+    for d in targets:
+        new_anomalies = detect_for_date(series, names, th, d, slots, grid)
+        # 그날의 이상 목록은 통째로 교체한다. 병합만 하면 재탐지 때마다 예전 상위 항목이
+        # 남아 저장 건수가 상한을 넘고, 지금 기준으로는 이상이 아닌 항목이 계속 보인다.
+        keep = {a["id"] for a in new_anomalies}
+        for old_id in [i for i, a in merged.items() if a["date"] == d and i not in keep]:
+            del merged[old_id]
+        for a in new_anomalies:
+            if a["id"] in merged:
+                # 살아남은 항목의 AI 가설은 보존하고 수치만 갱신
+                hyp = merged[a["id"]].get("ai_hypothesis")
+                if hyp:
+                    a["ai_hypothesis"] = hyp
+            else:
+                added += 1
+            merged[a["id"]] = a
+        # 상한에 걸려 저장 못 한 건수까지 날짜별로 남긴다 (0건인 날도 기록)
+        total = new_anomalies[0]["detectedTotal"] if new_anomalies else 0
+        daily_totals[d] = {"detected": total, "stored": len(new_anomalies)}
 
     rows = sorted(merged.values(), key=lambda a: (a["date"], a["id"]))
     OUT_PATH.write_text(
-        json.dumps({"anomalies": rows}, ensure_ascii=False, indent=1), encoding="utf-8"
+        json.dumps({"dailyTotals": daily_totals, "anomalies": rows},
+                   ensure_ascii=False, indent=1), encoding="utf-8"
     )
-    today_count = len([a for a in rows if a["date"] == target_date])
-    print(f"이상 탐지 완료: {target_date} 기준 {today_count}건 (신규 {added}건, 누적 {len(rows)}건)")
+    for d in targets:
+        t = daily_totals[d]
+        cut = t["detected"] - t["stored"]
+        note = f" (상한으로 {cut}건 제외)" if cut > 0 else ""
+        print(f"이상 탐지: {d} 실제 {t['detected']}건 → 저장 {t['stored']}건{note}")
+    print(f"신규 {added}건, 누적 {len(rows)}건")
     return 0
 
 

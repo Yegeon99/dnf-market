@@ -119,12 +119,14 @@ function AnomalySingleCard({ a, maxAbs }) {
 
 export default function Briefings({ data }) {
   const reduce = useReducedMotion();
-  const { briefings, anomalies, rows, items } = data;
+  const { briefings, anomalies, rows, items, anomalyTotals } = data;
   const [params, setParams] = useSearchParams();
   const selected = params.get("date") ?? briefings[0]?.date ?? null;
   const setSelected = (d) => setParams({ date: d }, { replace: true });
   const cur = briefings.find((b) => b.date === selected) ?? briefings[0];
-  const linked = cur ? anomalies.filter((a) => cur.anomaly_ids.includes(a.id)) : [];
+  const linked = cur ? anomalies.filter((a) => a.date === cur.date) : [];
+  const totals = cur ? anomalyTotals?.[cur.date] : null;
+  const cut = totals ? Math.max(totals.detected - linked.length, 0) : 0;
   const names = useMemo(() => itemNamePool(items), [items]);
 
   // 날짜 목록용: 그날 브리핑이 본 것과 같은 발행 시점 기준 최대 등락.
@@ -180,7 +182,8 @@ export default function Briefings({ data }) {
                       : { boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}>
                     <span className="num text-sm" style={{ color: on ? "var(--accent)" : "var(--text-primary)", fontWeight: on ? 700 : 500 }}>{b.date}</span>
                     <span className="mt-0.5 flex items-center gap-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
-                      <span>이상 {b.anomaly_ids.length}건</span>
+                      <span>이상 {anomalyTotals?.[b.date]?.detected
+                        ?? anomalies.filter((a) => a.date === b.date).length}건</span>
                       {ext && (
                         <span className="num" style={{ color: ext.changePct > 0 ? "var(--up)" : "var(--down)" }}>
                           최대 {fmtSignedPct(ext.changePct)}
@@ -242,6 +245,13 @@ export default function Briefings({ data }) {
             {linked.length > 0 && (
               <div className="mt-5 border-t pt-3" style={{ borderColor: "var(--hairline)" }}>
                 <h3 className="t-kicker m-0">연결된 이상 변동·가설</h3>
+                {cut > 0 && (
+                  <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+                    이 날 실제로 탐지된 이상은 <b className="num">{totals.detected}건</b>입니다.
+                    표시 상한 때문에 심각도와 변동 폭이 큰 <b className="num">{linked.length}건</b>만 아래에 싣습니다.
+                    위 브리핑 본문이 건수를 다르게 말한다면 이 수치가 기준입니다.
+                  </p>
+                )}
                 <div className="mt-2 space-y-2">
                   {groups.map((g, i) =>
                     g.length > 1

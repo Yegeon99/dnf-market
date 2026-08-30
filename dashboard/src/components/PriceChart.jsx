@@ -34,9 +34,18 @@ function segments(points) {
 }
 
 const LINES = [
-  { key: "avgPrice", label: "등록 평균가", color: "var(--chart-line-listed)" },
-  { key: "soldAvg", label: "실거래 평균가(24시간)", color: "var(--chart-line-sold)" },
+  { key: "avgPrice", label: "등록 대표가", color: "var(--chart-line-listed)" },
+  { key: "soldAvg", label: "실거래 대표가", color: "var(--chart-line-sold)" },
 ];
+
+/** 실거래 집계 구간 라벨. API가 최근 100건만 주므로 상한에 걸리면 24시간이 아니다 */
+function soldWindowLabel(s) {
+  if (s?.backfill) return "실거래(일 평균)";
+  if (!s?.soldCapped) return "실거래(24시간)";
+  return s.soldWindowHours != null
+    ? `실거래(최근 100건, 약 ${s.soldWindowHours}시간)`
+    : "실거래(최근 100건)";
+}
 
 export default function PriceChart({ series, events = [], height = 280 }) {
   const wrapRef = useRef(null);
@@ -229,7 +238,9 @@ export default function PriceChart({ series, events = [], height = 280 }) {
         >
           <div style={{ color: "var(--chart-event-text)" }} className="font-semibold">{evMarks[evHover].date} · {evMarks[evHover].type}</div>
           <div className="mt-0.5" style={{ color: "var(--text-primary)" }}>{evMarks[evHover].title}</div>
-          <a href={evMarks[evHover].url} target="_blank" rel="noreferrer" className="mt-1 inline-block">공지 열기 ↗</a>
+          {evMarks[evHover].url
+            ? <a href={evMarks[evHover].url} target="_blank" rel="noreferrer" className="mt-1 inline-block">공지 열기 ↗</a>
+            : <span className="mt-1 inline-block" style={{ color: "var(--text-muted)" }}>개별 공지 주소 미확보</span>}
         </div>
       )}
 
@@ -239,9 +250,9 @@ export default function PriceChart({ series, events = [], height = 280 }) {
              style={{ left: Math.min(hover.x + 10, width - 232), top: 28, width: 222 }}>
           <div className="font-semibold num">{h.date} {slotLabel(h.slot)}</div>
           <div className="mt-1 space-y-0.5">
-            <div className="flex justify-between"><span style={{ color: "var(--chart-line-listed)" }}>등록 평균</span><span className="num">{h.avgPrice != null ? `${fmtComma(h.avgPrice)} 골드` : "미수집"}</span></div>
-            <div className="flex justify-between"><span style={{ color: "var(--chart-line-sold)" }}>{h.backfill ? "실거래(일 평균)" : "실거래(24시간)"}</span><span className="num">{h.soldAvg != null ? `${fmtComma(h.soldAvg)} 골드` : "없음"}</span></div>
-            <div className="flex justify-between"><span style={{ color: "var(--text-secondary)" }}>매물 수</span><span className="num">{h.listing != null ? `${h.listing.toLocaleString()}건` : "미수집"}</span></div>
+            <div className="flex justify-between"><span style={{ color: "var(--chart-line-listed)" }}>등록 대표가</span><span className="num">{h.avgPrice != null ? `${fmtComma(h.avgPrice)} 골드` : "미수집"}</span></div>
+            <div className="flex justify-between"><span style={{ color: "var(--chart-line-sold)" }}>{soldWindowLabel(h)}</span><span className="num">{h.soldAvg != null ? `${fmtComma(h.soldAvg)} 골드` : "없음"}</span></div>
+            <div className="flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 건수</span><span className="num">{h.listing != null ? `${h.listing.toLocaleString()}건` : "미수집"}{h.listingQty != null ? ` (${h.listingQty.toLocaleString()}개)` : ""}</span></div>
             <div className="flex justify-between">
               <span style={{ color: "var(--text-secondary)" }}>전일 대비</span>
               <span className="num" style={{ color: hChange == null ? "var(--text-muted)" : hChange > 0 ? "var(--up)" : hChange < 0 ? "var(--down)" : "var(--neutral)" }}>
@@ -275,7 +286,8 @@ export default function PriceChart({ series, events = [], height = 280 }) {
           <span style={{ borderLeft: "2px dashed var(--chart-event)", height: 12, display: "inline-block" }} />
           이벤트·패치
         </span>
-        {capped && <span style={{ color: "var(--text-muted)" }}>* 실거래는 API 상한(최근 100건) 내 집계</span>}
+        {capped && <span style={{ color: "var(--text-muted)" }}>* 실거래는 API 상한(최근 100건) 내 집계. 상한에 걸린 회차는 24시간이 아니라 그 100건이 덮는 구간의 값</span>}
+        <span style={{ color: "var(--text-muted)" }}>* 등록 대표가는 매물 단가의 중앙값. 시세와 동떨어진 소수 매물이 평균을 끌고 가는 것을 막는다 (2026-08-30 이전 회차는 평균)</span>
         {hasBackfill && (
           <span style={{ color: "var(--text-muted)" }}>* 수집 시작 전 실거래는 판매완료 내역을 일 단위로 소급 수집. 등록가·매물 수는 소급이 불가능해 공백</span>
         )}

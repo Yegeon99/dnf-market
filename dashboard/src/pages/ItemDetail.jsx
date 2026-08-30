@@ -74,7 +74,7 @@ export default function ItemDetail({ data }) {
             <p className="m-0 mt-1 text-[13px]" style={{ color: "var(--text-muted)" }}>선정 사유: {item.reason}</p>
           </div>
           <div className="text-right">
-            <div className="text-[13px]" style={{ color: "var(--text-secondary)" }}>등록 평균가 (최신 수집)</div>
+            <div className="text-[13px]" style={{ color: "var(--text-secondary)" }}>등록 대표가 (최신 수집)</div>
             <div className="t-numeral" style={{ color: "var(--text-primary)" }}>
               <CountUpValue value={last?.avgPrice} format={fmtGold} /><span className="ml-1 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>골드</span>
             </div>
@@ -95,15 +95,15 @@ export default function ItemDetail({ data }) {
       {/* 보조 지표 */}
       <div className="rise rise-1 grid grid-cols-3 gap-2.5">
         <StatCard label="등록 최저가">{fmtGold(last?.minPrice)}{last?.minPrice != null && <span className="text-[13px] font-normal"> 골드</span>}</StatCard>
-        <StatCard label="실거래 평균(24시간)">{fmtGold(last?.soldAvg)}{last?.soldAvg != null && <span className="text-[13px] font-normal"> 골드</span>}</StatCard>
-        <StatCard label="매물 수">{last?.listing != null ? `${last.listing.toLocaleString()}` : "미수집"}{last?.listing != null && <span className="text-[13px] font-normal"> 건</span>}</StatCard>
+        <StatCard label={last?.soldCapped ? "실거래 대표가 (최근 100건)" : "실거래 대표가 (24시간)"}>{fmtGold(last?.soldAvg)}{last?.soldAvg != null && <span className="text-[13px] font-normal"> 골드</span>}</StatCard>
+        <StatCard label="등록 건수">{last?.listing != null ? `${last.listing.toLocaleString()}` : "미수집"}{last?.listing != null && <span className="text-[13px] font-normal"> 건{last?.listingQty != null ? ` (${last.listingQty.toLocaleString()}개)` : ""}</span>}</StatCard>
       </div>
 
       {/* 히어로 차트 */}
       <div className="card rise rise-2 p-3">
         <h2 className="t-section m-0 px-2">시세 추이</h2>
         <p className="m-0 mb-1 px-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
-          하루 6회 수집(KST 02·07·11·15·19·23시 회차). 결손 회차는 공백으로 표기합니다.
+          하루 최대 6회 수집(KST 02·07·11·15·19·23시 회차)이며, 예약 실행이 밀리거나 점검과 겹치면 회차가 빕니다. 결손 회차는 공백으로 표기합니다.
           {hasBackfill && " 수집 시작 전 실거래는 과거 판매완료 내역을 일 단위로 소급 수집했습니다."}
         </p>
         <PriceChart series={series} events={inRange} height={340} />

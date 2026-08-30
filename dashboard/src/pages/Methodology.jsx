@@ -2,13 +2,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import HeatLegend from "../components/HeatLegend";
-import { slotLabel } from "../lib/data";
+import { collectionStats, slotLabel } from "../lib/data";
 
 const PIPE_NODES = [
   { y: 10, h: 46, lines: ["Neople 오픈 API", "경매장 등록가 · 판매 완료"], kind: "src",
     desc: "공식 오픈 API에서 경매장 등록가와 판매 완료 내역을 받아옵니다. 원본 응답은 저장하지 않고 집계 수치만 씁니다." },
-  { y: 106, h: 46, lines: ["하루 6회 스냅샷 수집", "KST 02·07·11·15·19·23시, 31품목"], kind: "auto",
-    desc: "GitHub Actions 예약 실행이 하루 6회 돌아갑니다. 호출 간 0.3초 대기, 재시도는 2회까지(30초·120초 간격)로 제한합니다. 앞선 품목이 모두 서버 오류면 재시도를 멈춰 점검 중 무의미한 호출을 만들지 않습니다." },
+  { y: 106, h: 46, lines: ["하루 최대 6회 스냅샷 수집", "KST 02·07·11·15·19·23시, 31품목"], kind: "auto",
+    desc: "GitHub Actions 예약 실행이 하루 6회 예약돼 있습니다. 예약 실행이 30~110분 밀리거나 게임 점검과 겹치면 그 회차는 빕니다. 실제 성공 회차는 히어로와 상태 바에 실측값으로 표시합니다. 호출 간 0.3초 대기, 재시도는 2회까지(30초·120초 간격)로 제한합니다." },
   { y: 170, h: 32, lines: ["시계열 병합 (회차 중복 방지)"], kind: "auto",
     desc: "스냅샷을 시계열 파일에 합칩니다. 같은 날짜와 회차가 두 번 실행돼도 중복 기록되지 않습니다." },
   { y: 220, h: 32, lines: ["규칙 기반 이상 탐지"], kind: "auto",
@@ -94,7 +94,13 @@ function PipelineDiagram() {
 }
 
 export default function Methodology({ data }) {
-  const { items, thresholds, collection } = data;
+  const { items, thresholds, collection, rows, llmCosts } = data;
+  // 비용은 표기하지 않고 원장에서 실측값을 읽는다. 손으로 적은 숫자는 금방 낡는다.
+  const costDays = Object.values(llmCosts ?? {});
+  const brief = costDays.map((d) => d?.byCaller?.briefing?.costUsd).filter((v) => v != null);
+  const briefAvg = brief.length ? brief.reduce((a, b) => a + b, 0) / brief.length : null;
+  const interpretCalls = costDays.reduce((a, d) => a + (d?.byCaller?.interpret?.calls ?? 0), 0);
+  const stat = collectionStats(rows ?? []);
   // 실패 회차 원칙에 붙일 실제 사례. 하드코딩하지 않고 수집 기록에서 최근 실패를 집어 온다
   const lastFail = [...(collection?.attempts ?? [])].reverse().find((a) => a.okCount === 0) ?? null;
   const dod = thresholds.dayOverDay;
@@ -114,7 +120,8 @@ export default function Methodology({ data }) {
         </p>
         <p className="m-0 mt-2 rounded px-3 py-2 text-[13px]" style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
           본 대시보드는 매일 자동으로 데이터가 쌓이는 <b>운영 중 시스템</b>입니다.
-          수집 시작일은 2026-08-25이며, 하루 6회(KST 02·07·11·15·19·23시) 자동 수집하고 심야 회차에 분석과 브리핑을 자동 발행합니다.
+          수집 시작일은 2026-08-25이며, 하루 최대 6회(KST 02·07·11·15·19·23시) 자동 수집하고 심야 회차에 분석과 브리핑을 자동 발행합니다.
+          예약 실행 지연과 게임 점검 때문에 회차가 빌 수 있어, 지금까지 <b className="num">{stat.days}일간 {stat.slots}회</b>를 실제로 수집했습니다(예약 기준 {stat.expected}회).
         </p>
       </div>
 
@@ -123,7 +130,7 @@ export default function Methodology({ data }) {
         <h2 className="t-section m-0">수집·분석 구조</h2>
         <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
           Neople 오픈 API는 시세 히스토리를 제공하지 않습니다.
-          그래서 GitHub Actions 예약 실행이 하루 6회 스냅샷을 수집해 저장소에 시계열을 직접 쌓습니다.
+          그래서 GitHub Actions 예약 실행이 하루 최대 6회 스냅샷을 수집해 저장소에 시계열을 직접 쌓습니다.
           심야 회차에서 탐지, 해석, 브리핑까지 한 번에 실행합니다.
         </p>
         <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
@@ -158,7 +165,10 @@ export default function Methodology({ data }) {
         <ul className="m-0 mt-2.5 list-none space-y-1 p-0 text-[13px]" style={{ color: "var(--text-secondary)" }}>
           <li>* 이동평균 규칙은 품목별 데이터가 {ma.minDaysRequired}일 이상 쌓인 구간에서만 자동 적용됩니다. 그 전에는 전일 대비만 봅니다.</li>
           <li>· 저유동 보정: 매물 {ll.listingCountBelow}건 미만 품목은 당일 연속 {ll.minConsecutiveSlots}회차 지속 변동일 때만 "중간" 이상으로 분류하고, 화면에 <b>저유동</b> 뱃지로 해석 주의를 안내합니다.</li>
-          <li>· 매물 {thresholds.guards.minListingCountForPriceSignal}건 미만이 이틀 연속이면 가격 신호 자체를 채택하지 않습니다. 이상 항목은 하루 최대 {thresholds.guards.maxAnomaliesPerDay}건입니다.</li>
+          <li>· 매물 {thresholds.guards.minListingCountForPriceSignal}건 미만이 이틀 연속이면 가격 신호 자체를 채택하지 않습니다.</li>
+          <li>· 이상 항목은 하루 최대 {thresholds.guards.maxAnomaliesPerDay}건까지만 목록에 싣습니다. 상한에 걸린 날은 브리핑 화면에 <b>실제 탐지 건수</b>를 함께 표시해, 목록에 실린 수를 그날의 전부로 읽지 않게 합니다.</li>
+          <li>· 등록 대표가는 매물 단가의 <b>중앙값</b>입니다. 경매장에는 시세와 동떨어진 가격의 매물이 상시 섞여 있어, 매물이 몇 건뿐인 품목은 평균이 그 한 건에 끌려갑니다(실측: 매물 2건 품목의 평균가가 실거래가의 10배). 2026-08-30 이전에 수집한 회차는 중앙값 기록이 없어 평균을 그대로 씁니다.</li>
+          <li>· 전일 대비는 <b>두 날에 모두 수집된 회차</b>로만 비교합니다. 회차 구성이 다른 날을 그대로 비교하면 시간대 차이가 변동률로 둔갑합니다.</li>
         </ul>
         <div className="mt-3">
           <div className="mb-1 text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>오버뷰 히트맵 색상 스케일 (전일 대비, 보합 ±0.5% 미만)</div>
@@ -171,7 +181,7 @@ export default function Methodology({ data }) {
         <h2 className="t-section m-0">AI 해석·정직성 정책</h2>
         <ul className="m-0 mt-2.5 list-none space-y-1.5 p-0 text-[13px]" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
           <li>· LLM 호출은 <b>이상 탐지된 항목에만</b> 수행합니다. 전 품목 호출은 하지 않으며, 이상 0건인 날은 무비용 규칙 기반 브리핑을 냅니다.</li>
-          <li>· 가설은 수동 큐레이션한 공식 공지·이벤트(±3일)만 근거로 삼고, 근거 URL과 신뢰도(확정/추정)를 반드시 함께 적습니다.</li>
+          <li>· 가설은 수동 큐레이션한 공식 공지·이벤트(±3일)만 근거로 삼고, 근거 URL과 신뢰도(확정/추정)를 반드시 함께 적습니다. 개별 공지 주소가 없는 이벤트는 독자가 확인할 수 없으므로 근거 후보에서 제외합니다.</li>
           <li>· 근거가 없으면 "원인 미상, 관찰 지속"으로 남깁니다. 시점이 겹친다는 이유만으로 인과를 단정하지 않습니다.</li>
           <li>
             · 수집 실패 회차는 시계열에 넣지 않고 차트에 공백으로 그대로 표기합니다. 데이터를 지어내지 않습니다.
@@ -184,7 +194,16 @@ export default function Methodology({ data }) {
               </span>
             )}
           </li>
-          <li>· 비용 실측: 해석(claude-haiku-4-5)은 건당 약 $0.001, 브리핑(claude-opus-5)은 회당 약 $0.013입니다. 하루 상한 $0.3을 넘으면 실행을 중단합니다.</li>
+          <li>
+            · 비용은 호출 원장에서 그대로 읽습니다.
+            {briefAvg != null
+              ? <> 브리핑(claude-opus-5) 실측 평균은 회당 <b className="num">${briefAvg.toFixed(4)}</b>입니다({brief.length}회 기준).</>
+              : <> 아직 브리핑 호출 기록이 없습니다.</>}
+            {interpretCalls === 0
+              ? " 해석(claude-haiku-4-5)은 지금까지 호출된 적이 없습니다. 근거로 쓸 공지가 ±3일 안에 없으면 호출하지 않고 원인 미상으로 남기기 때문입니다."
+              : ` 해석(claude-haiku-4-5)은 누적 ${interpretCalls}건 호출했습니다.`}
+            {" 하루 상한 $0.3을 넘으면 실행을 중단합니다."}
+          </li>
         </ul>
       </section>
 
@@ -193,7 +212,17 @@ export default function Methodology({ data }) {
         <h2 className="t-section m-0">추적 품목 선정 근거 ({items.length}종)</h2>
         <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
           전 품목이 아니라 시장 대표성이 있는 품목을 카테고리별로 골라 근거를 문서화했습니다.
-          API 호출 절제(품목 수 상한, 호출 간 대기, 하루 6회)도 설계 원칙입니다.
+          분류와 선정 사유는 Neople 오픈 API가 주는 <b>공식 아이템 설명</b>에 적힌 사용처를 기준으로 적었고,
+          설명에 사용처가 없는 품목은 용도를 단정하지 않았습니다.
+          API 호출 절제(품목 수 상한, 호출 간 대기, 하루 최대 6회)도 설계 원칙입니다.
+        </p>
+        <p className="m-0 mt-2 rounded px-3 py-2 text-[13px]"
+           style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: 680 }}>
+          <b>이름이 같은 별개 아이템 안내.</b> 클론 아바타 일부는 게임 안 이름이 완전히 같은데
+          거래소에서는 서로 다른 아이템으로 취급됩니다. 공개 API가 주는 이름·등급·분류·설명·세트가
+          모두 같아 무엇이 다른지 구분할 근거가 없습니다. 그래서 이 화면은 <b>(동일명 1)</b>,
+          <b> (동일명 2)</b>처럼 등록 순서로 번호만 붙였습니다.
+          게임에 없는 "1세대·2세대" 같은 표현은 쓰지 않습니다.
         </p>
         <div className="scroll-x mt-3">
           <table className="plain" style={{ minWidth: 480 }}>

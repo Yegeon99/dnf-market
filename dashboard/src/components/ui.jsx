@@ -25,7 +25,7 @@ export function SeverityBadge({ severity }) {
 export function LowLiquidityBadge() {
   return (
     <span
-      className="px-1.5 py-0.5 text-[13px] font-medium"
+      className="whitespace-nowrap px-1.5 py-0.5 text-[13px] font-medium"
       style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)", border: "1px solid var(--hairline)", borderRadius: "var(--badge-radius)" }}
       title="매물 수가 적어 소수 등록·거래만으로 지표가 크게 움직일 수 있는 품목입니다. 변동 해석에 주의하세요."
     >

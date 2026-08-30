@@ -34,7 +34,7 @@
    "metric": "avgPrice",
    "basis": "dod",
    "baseValue": 2715547.1,
-   "currentValue": 4226867.02,
+   "currentValue": 4226867.01,
    "change_pct": 55.65,
    "direction": "up",
    "severity": "low",

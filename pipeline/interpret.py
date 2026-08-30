@@ -115,7 +115,7 @@ def main() -> int:
     target_date = args.date or datetime.now(KST).strftime("%Y-%m-%d")
 
     if not ANOMALIES_PATH.exists():
-        print("anomalies.json 없음 — 해석 건너뜀")
+        print("anomalies.json 없음, 해석 건너뜀")
         return 0
     doc = json.loads(ANOMALIES_PATH.read_text(encoding="utf-8-sig"))
     targets = [a for a in doc["anomalies"]

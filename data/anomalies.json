@@ -40,7 +40,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 26,
-   "truncated": 16
+   "truncated": 16,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-26_324c85d935a5e9358825380bf2065845_listingCount_dod",
@@ -56,7 +61,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 26,
-   "truncated": 16
+   "truncated": 16,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-26_488c3191c2afd5b4762f978edb61f5a4_avgPrice_dod",
@@ -72,7 +82,12 @@
    "severity": "mid",
    "lowLiquidity": true,
    "detectedTotal": 26,
-   "truncated": 16
+   "truncated": 16,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-26_5f5d0a2e9dd8050b6e3c4655a09cf296_listingCount_dod",
@@ -130,7 +145,12 @@
    "severity": "high",
    "lowLiquidity": true,
    "detectedTotal": 26,
-   "truncated": 16
+   "truncated": 16,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-26_c37bf84cf16964557b577497404268c8_listingCount_dod",
@@ -167,7 +187,12 @@
    "severity": "mid",
    "lowLiquidity": true,
    "detectedTotal": 26,
-   "truncated": 16
+   "truncated": 16,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-26_d584d612f09215ef0c42498e6990b61d_listingCount_dod",
@@ -225,7 +250,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_0756f89fac0518d4390f3e371adf7479_listingCount_dod",
@@ -241,7 +271,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
@@ -257,7 +292,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_18c129fd3182476ec5e8110e0034672c_listingCount_dod",
@@ -273,7 +313,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_20d6374d6ab02076f7c32153568431c9_listingCount_dod",
@@ -289,7 +334,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_5f5d0a2e9dd8050b6e3c4655a09cf296_listingCount_dod",
@@ -305,7 +355,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_c1028cbc6efae2eee570cbc8e2906a8f_listingCount_dod",
@@ -321,7 +376,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_c37bf84cf16964557b577497404268c8_listingCount_dod",
@@ -337,7 +397,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_c81e24d23286a4897987547c5236edf1_listingCount_dod",
@@ -353,7 +418,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-27_d9bc96637286b4f5449d21d36e44675d_listingCount_dod",
@@ -369,7 +439,12 @@
    "severity": "low",
    "lowLiquidity": true,
    "detectedTotal": 31,
-   "truncated": 21
+   "truncated": 21,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-28_04a1c3b13441800e275ebed957adcc8e_listingCount_dod",
@@ -427,7 +502,12 @@
    "severity": "high",
    "lowLiquidity": true,
    "detectedTotal": 29,
-   "truncated": 19
+   "truncated": 19,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-28_20d6374d6ab02076f7c32153568431c9_listingCount_dod",
@@ -548,7 +628,12 @@
    "severity": "high",
    "lowLiquidity": true,
    "detectedTotal": 29,
-   "truncated": 19
+   "truncated": 19,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-28_f11f806769afaae8b05be488e20b6109_avgPrice_dod",
@@ -585,7 +670,12 @@
    "severity": "high",
    "lowLiquidity": true,
    "detectedTotal": 30,
-   "truncated": 20
+   "truncated": 20,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-29_0ecd816e640341e04fc5c9a0715d91a8_listingCount_dod",
@@ -601,7 +691,12 @@
    "severity": "mid",
    "lowLiquidity": true,
    "detectedTotal": 30,
-   "truncated": 20
+   "truncated": 20,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-29_18c129fd3182476ec5e8110e0034672c_listingCount_dod",
@@ -680,7 +775,12 @@
    "severity": "mid",
    "lowLiquidity": true,
    "detectedTotal": 30,
-   "truncated": 20
+   "truncated": 20,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-29_8e132da6f012fc61191ca68df4663b44_listingCount_dod",
@@ -822,7 +922,12 @@
    "severity": "high",
    "lowLiquidity": true,
    "detectedTotal": 30,
-   "truncated": 20
+   "truncated": 20,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-30_488c3191c2afd5b4762f978edb61f5a4_listingCount_dod",
@@ -859,7 +964,12 @@
    "severity": "high",
    "lowLiquidity": true,
    "detectedTotal": 30,
-   "truncated": 20
+   "truncated": 20,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
   },
   {
    "id": "2026-08-30_7f0d6a2522910c3c60c72e8be71641ae_listingCount_dod",

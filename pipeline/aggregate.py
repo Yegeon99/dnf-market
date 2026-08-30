@@ -25,7 +25,7 @@ FIELDS = [
 def main() -> int:
     snapshots = sorted(SNAP_DIR.glob("*.json"))
     if not snapshots:
-        print("스냅샷 없음 — 집계 건너뜀")
+        print("스냅샷 없음, 집계 건너뜀")
         return 0
 
     merged = {}  # (itemId, date, slot) -> record
@@ -33,7 +33,7 @@ def main() -> int:
         try:
             snap = json.loads(path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError) as err:
-            print(f"스냅샷 읽기 실패(건너뜀): {path.name} — {type(err).__name__}")
+            print(f"스냅샷 읽기 실패(건너뜀): {path.name}, {type(err).__name__}")
             continue
         date = snap.get("date")
         # 슬롯은 collectedAt에서 재산출 (구 3슬롯 체계 스냅샷도 6슬롯 라벨로 일관 병합)

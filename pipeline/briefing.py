@@ -43,7 +43,9 @@ def market_summary(target_date: str) -> dict:
 
     # 탐지기와 같은 기준(공통 슬롯 + 중앙값)을 쓴다. 기준이 갈리면 브리핑 본문과
     # 이상 목록이 서로 다른 1위를 말하게 된다.
-    changes = dod_changes(ts["rows"], names, target_date)
+    th = load_json(ROOT / "config" / "thresholds.json", {}) or {}
+    min_listing = (th.get("guards") or {}).get("minListingCountForPriceSignal", 0)
+    changes = dod_changes(ts["rows"], names, target_date, min_listing)
     if changes:
         summary["hasPrevDay"] = True
         changes.sort(key=lambda c: c["change_pct"], reverse=True)
@@ -229,7 +231,7 @@ def main() -> int:
     doc["briefings"] = [b for b in doc["briefings"] if b["date"] != target_date] + [briefing]
     doc["briefings"].sort(key=lambda b: b["date"])
     OUT_PATH.write_text(json.dumps(doc, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"브리핑 발행: {target_date} — {briefing['headline']} (비용 ${briefing['costUsd']:.4f})")
+    print(f"브리핑 발행: {target_date} {briefing['headline']} (비용 ${briefing['costUsd']:.4f})")
     return 0
 
 

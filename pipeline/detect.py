@@ -144,10 +144,12 @@ def sustained_slots(slots: list, base, metric: str, low_threshold: float, direct
     return streak
 
 
-def dod_changes(rows: list, names: dict, target_date: str) -> list:
+def dod_changes(rows: list, names: dict, target_date: str, min_listing: int = 0) -> list:
     """공통 슬롯 기준 전일 대비 변동률 [{itemName, change_pct, listing}].
 
     브리핑과 대시보드가 탐지기와 같은 기준을 쓰도록 여기 한 곳에서만 계산한다.
+    매물이 이틀 연속 min_listing 미만인 품목은 가격 신호를 채택하지 않는다.
+    탐지기가 버리는 수치를 브리핑이 상승 1위로 인용하면 화면과 말이 갈린다.
     """
     grid = slot_map(rows)
     out = []
@@ -161,7 +163,10 @@ def dod_changes(rows: list, names: dict, target_date: str) -> list:
         if not common:
             continue
         cur_p, cur_c = mean_over(days[cur_d], common)
-        prev_p, _ = mean_over(days[prev_d], common)
+        prev_p, prev_c = mean_over(days[prev_d], common)
+        if (min_listing and cur_c is not None and prev_c is not None
+                and cur_c < min_listing and prev_c < min_listing):
+            continue
         chg = pct_change(prev_p, cur_p)
         if chg is not None:
             out.append({"itemName": names.get(item_id, item_id),
@@ -297,14 +302,14 @@ def main() -> int:
 
     ts = load_json(TS_PATH, None)
     if not ts or not ts.get("rows"):
-        print("timeseries 없음 — 탐지 건너뜀")
+        print("timeseries 없음, 탐지 건너뜀")
         return 0
 
     items = load_json(ROOT / "config" / "items.json", {"items": []})["items"]
     names = {it["itemId"]: it["name"] for it in items}
     th = load_json(THRESHOLDS_PATH, None)
     if th is None:
-        print("thresholds.json 없음 — 탐지 불가")
+        print("thresholds.json 없음, 탐지 불가")
         return 1
 
     series = daily_series(ts["rows"])

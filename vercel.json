@@ -4,7 +4,6 @@
   "outputDirectory": "dashboard/dist",
   "rewrites": [
     {
-      "_comment": "SPA fallback. 정적 파일(데이터·번들·파비콘·OG 이미지·robots)은 그대로 내보낸다",
       "source": "/((?!data/|assets/|favicon|og[.]png|robots[.]txt).*)",
       "destination": "/index.html"
     }

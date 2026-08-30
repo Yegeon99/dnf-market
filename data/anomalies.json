@@ -23,6 +23,10 @@
   "2026-08-30": {
    "detected": 30,
    "stored": 10
+  },
+  "2026-08-31": {
+   "detected": 37,
+   "stored": 10
   }
  },
  "anomalies": [
@@ -1074,6 +1078,232 @@
     "text": "원인 미상, 관찰 지속",
     "evidence_urls": [],
     "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-31_12972068f1423ceb4991d42e3719f214_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "itemName": "피터 더 파이퍼 카드",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 2.0,
+   "currentValue": 4.0,
+   "change_pct": 100.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "8월 28일 클라이언트 패치 시점과 피터 더 파이퍼 카드 판매 물량 증가(100%) 시점이 3일 이내로 일치한다. 패치 내용에서 해당 품목의 직접적 변화 여부를 확인할 수 없어 관련성은 추정 수준이다.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_3738d8271ec853e926cd146623adf952_avgPrice_dod",
+   "date": "2026-08-31",
+   "itemId": "3738d8271ec853e926cd146623adf952",
+   "itemName": "하급 원소결정",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 238.18,
+   "currentValue": 280.0,
+   "change_pct": 17.56,
+   "direction": "up",
+   "severity": "mid",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "8월 28일 클라이언트 패치 시점과 하급 원소결정 가격 상승(17.56%) 시점이 일치한다. 패치 내용에서 해당 품목의 수급 변화를 직접 확인할 필요가 있다.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_4390b9e236193bc39855cc8964d23faa_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "itemName": "흰색 큐브 조각",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 5.0,
+   "currentValue": 19.0,
+   "change_pct": 280.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "8월 28일 클라이언트 패치 시점과 흰색 큐브 조각 등록 수 상승(280%) 시점이 3일 이내로 일치한다. 패치 내용 확인 필요.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_7f0d6a2522910c3c60c72e8be71641ae_avgPrice_dod",
+   "date": "2026-08-31",
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "itemName": "레어 하의 클론 아바타 (동일명 1)",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 8119443.85,
+   "currentValue": 4699999.0,
+   "change_pct": -42.11,
+   "direction": "down",
+   "severity": "high",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-31_8e132da6f012fc61191ca68df4663b44_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "itemName": "얼굴 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 3.0,
+   "currentValue": 1.0,
+   "change_pct": -66.67,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "8월 28일 클라이언트 패치 시점과 얼굴 클론 아바타 판매 물량 66.67% 감소 시점이 일치한다. 패치 내용 확인 필요.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "itemName": "무결점 골든 베릴",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 6.0,
+   "currentValue": 15.0,
+   "change_pct": 150.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "무결점 골든 베릴의 등록 수량이 8월 31일 150% 증가했으며, 이는 8월 28일 클라이언트 패치 시점으로부터 3일 이내에 발생했다. 패치 내용과의 직접적 연관성은 제공된 정보로 확인할 수 없다.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_b5ccbf772a3883e3171f682679e2b421_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "itemName": "레어 목가슴 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 8.0,
+   "currentValue": 14.0,
+   "change_pct": 75.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-08-31_b9f2f716a09d0ed96d115ed5776aa5db_avgPrice_dod",
+   "date": "2026-08-31",
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "itemName": "레어 상의 클론 아바타 (동일명 1)",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 6452209.5,
+   "currentValue": 3888877.0,
+   "change_pct": -39.73,
+   "direction": "down",
+   "severity": "high",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "8월 28일 클라이언트 패치 시점과 8월 31일 가격 하락(39.73%) 시점이 일치한다. 패치 내용에서 해당 아바타 품목의 직접적 변화 여부를 확인할 수 없어 시점 관련성 수준으로 평가된다.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_c1028cbc6efae2eee570cbc8e2906a8f_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "itemName": "목가슴 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 1.0,
+   "currentValue": 3.0,
+   "change_pct": 200.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "목가슴 클론 아바타 등록 건수가 2026년 8월 31일에 전일 대비 200% 증가했다. 같은 기간 8월 28일 클라이언트 패치 공지와 시점이 일치하나, 공지 내용만으로는 해당 품목과의 직접적 연관성을 확인할 수 없다.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
+   }
+  },
+  {
+   "id": "2026-08-31_c81e24d23286a4897987547c5236edf1_listingCount_dod",
+   "date": "2026-08-31",
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "itemName": "레어 허리 클론 아바타",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 3.0,
+   "currentValue": 6.0,
+   "change_pct": 100.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "8월 28일 클라이언트 패치 시점과 레어 허리 클론 아바타 등록 수 2배 증가(3개→6개)가 일치한다. 패치 내용이 해당 아바타 또는 수급 변화를 직접 언급하는지 확인 필요.",
+    "evidence_urls": [
+     "https://df.nexon.com/community/news/notice/2928397"
+    ],
+    "confidence": "추정"
    }
   }
  ]

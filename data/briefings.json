@@ -237,6 +237,51 @@
    ],
    "generatedBy": "claude-opus-5",
    "costUsd": 0.03831
+  },
+  {
+   "date": "2026-08-31",
+   "headline": "추적 31종, 이상 변동 37건, 클론 아바타 가격 하락 집중",
+   "summary_3lines": [
+    "추적 품목 31종에서 이상 변동 37건이 탐지됐다. 이 중 상위 10건을 아래에 싣는다.",
+    "가격 하락은 레어 모자 클론 아바타 (동일명 2)가 53.26%로 가장 컸다. 매물 10건 기준이다.",
+    "상승은 균열의 단편이 45.71%로 1위다. 매물 7건 기준이라 해석에 주의가 필요하다."
+   ],
+   "notable": [
+    {
+     "itemName": "레어 하의 클론 아바타 (동일명 1)",
+     "comment": "가격이 42.11% 하락했다. 심각도 high, 원인 미상으로 관찰 지속."
+    },
+    {
+     "itemName": "레어 상의 클론 아바타 (동일명 1)",
+     "comment": "가격이 39.73% 하락했다. 심각도 high, 8월 28일 클라이언트 패치와 시점이 겹친다는 추정 수준의 해석이다."
+    },
+    {
+     "itemName": "하급 원소결정",
+     "comment": "가격이 17.56% 올랐다. 심각도 mid, 패치 시점과의 일치는 추정 단계다."
+    },
+    {
+     "itemName": "흰색 큐브 조각",
+     "comment": "매물 수가 280% 늘었다. 심각도 low, 패치 관련성은 추정이다."
+    },
+    {
+     "itemName": "목가슴 클론 아바타",
+     "comment": "매물 수가 200% 늘었다. 심각도 low, 패치와의 직접 연관은 확인되지 않아 추정에 머문다."
+    }
+   ],
+   "anomaly_ids": [
+    "2026-08-31_12972068f1423ceb4991d42e3719f214_listingCount_dod",
+    "2026-08-31_3738d8271ec853e926cd146623adf952_avgPrice_dod",
+    "2026-08-31_4390b9e236193bc39855cc8964d23faa_listingCount_dod",
+    "2026-08-31_7f0d6a2522910c3c60c72e8be71641ae_avgPrice_dod",
+    "2026-08-31_8e132da6f012fc61191ca68df4663b44_listingCount_dod",
+    "2026-08-31_a072ded7b41743a22cccb74cd73bc24d_listingCount_dod",
+    "2026-08-31_b5ccbf772a3883e3171f682679e2b421_listingCount_dod",
+    "2026-08-31_b9f2f716a09d0ed96d115ed5776aa5db_avgPrice_dod",
+    "2026-08-31_c1028cbc6efae2eee570cbc8e2906a8f_listingCount_dod",
+    "2026-08-31_c81e24d23286a4897987547c5236edf1_listingCount_dod"
+   ],
+   "generatedBy": "claude-opus-5",
+   "costUsd": 0.041605
   }
  ]
 }

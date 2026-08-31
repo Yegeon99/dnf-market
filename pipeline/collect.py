@@ -98,6 +98,34 @@ def is_server_error(err: Exception) -> bool:
     return str(err).startswith("HTTP 5")
 
 
+def failure_kind(error: str) -> str:
+    """실패 사유 분류. 종료 코드 판단 기준이다.
+
+    outage: 5xx·네트워크 예외 — 우리 잘못이 아닌 외부 장애(정기점검 등)
+    auth:   401/403 — 키 미등록·만료
+    client: 그 외 4xx — 요청 형식·호출 빈도 등 우리 쪽 코드·설정 오류
+    """
+    if error.startswith("HTTP 5"):
+        return "outage"
+    if error in ("HTTP 401", "HTTP 403"):
+        return "auth"
+    if error.startswith("HTTP 4"):
+        return "client"
+    return "outage"  # requests 예외명(ConnectionError·Timeout 등)
+
+
+def step_summary(text: str) -> None:
+    """Actions 실행 요약란에 기록. 로컬 실행이면 조용히 넘어간다."""
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not path:
+        return
+    try:
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(text + "\n")
+    except OSError as exc:
+        log.warning("Actions 요약 기록 실패: %s", type(exc).__name__)
+
+
 def weighted_median(pairs: list) -> float | None:
     """(단가, 수량) 목록의 수량 가중 중앙값.
 
@@ -212,7 +240,8 @@ def main() -> int:
             call_count += 1
             record.update(summarize_auction(data.get("rows", [])))
         except RuntimeError as err:
-            failures.append({"itemId": item_id, "name": name, "endpoint": "auction", "error": str(err)})
+            failures.append({"itemId": item_id, "name": name, "endpoint": "auction",
+                             "error": str(err), "kind": failure_kind(str(err))})
             record.update({"minUnitPrice": None, "avgUnitPrice": None, "medUnitPrice": None,
                            "listingCount": None, "listingQty": None})
             server_errors += is_server_error(err)
@@ -224,7 +253,8 @@ def main() -> int:
             call_count += 1
             record.update(summarize_sold(data.get("rows", []), now))
         except RuntimeError as err:
-            failures.append({"itemId": item_id, "name": name, "endpoint": "auction-sold", "error": str(err)})
+            failures.append({"itemId": item_id, "name": name, "endpoint": "auction-sold",
+                             "error": str(err), "kind": failure_kind(str(err))})
             record.update({"soldCount24h": None, "soldAvgUnitPrice24h": None,
                            "soldMedUnitPrice24h": None, "soldCapped": False,
                            "soldWindowHours": None})
@@ -242,6 +272,10 @@ def main() -> int:
                 log.error("앞선 %d개 품목이 모두 서버 오류(5xx). 점검 구간으로 보고 남은 재시도를 중단합니다",
                           OUTAGE_PROBE_ITEMS)
 
+    kind_counts = {}
+    for f in failures:
+        kind_counts[f["kind"]] = kind_counts.get(f["kind"], 0) + 1
+
     snapshot = {
         "collectedAt": now.strftime("%Y-%m-%d %H:%M:%S"),
         "date": now.strftime("%Y-%m-%d"),
@@ -249,6 +283,7 @@ def main() -> int:
         "itemCount": len(collected),
         "apiCalls": call_count,
         "outage": outage,
+        "failureKinds": kind_counts,
         "items": collected,
         "failures": failures,
     }
@@ -260,9 +295,30 @@ def main() -> int:
 
     log.info("스냅샷 저장: %s (품목 %d, 호출 %d, 실패 %d)",
              out_path.name, len(collected), call_count, len(failures))
-    # 부분 실패는 성공분을 저장하고 정상 종료. 전 품목 실패만 오류로 처리.
-    if failures and len(failures) >= len(items) * 2:
-        log.error("전 품목 수집 실패")
+
+    expected_calls = len(items) * 2
+    kind_note = ", ".join(f"{k} {v}" for k, v in sorted(kind_counts.items())) or "없음"
+    step_summary(f"### 스냅샷 수집 {now.strftime('%Y-%m-%d %H:%M KST')}\n"
+                 f"- 성공 {call_count} / 실패 {len(failures)} (총 {expected_calls}회 호출 예정)\n"
+                 f"- 품목 {len(collected)}종, 실패 분류: {kind_note}\n"
+                 f"- 파일: `{out_path.name}`")
+
+    # 부분 실패는 성공분을 저장하고 정상 종료. 전 품목 실패만 사유별로 판정한다.
+    if failures and len(failures) >= expected_calls:
+        kinds = {f["kind"] for f in failures}
+        if kinds == {"outage"}:
+            # 오픈 API 전면 장애. 우리가 고칠 것이 없고 다음 회차가 자동으로 다시 받는다.
+            # 워크플로를 빨갛게 만들지 않되 요약에 경고를 남긴다.
+            log.warning("전 품목 수집 실패 — 오픈 API 외부 장애로 판단, 경고만 남기고 정상 종료")
+            print("::warning title=오픈 API 외부 장애::"
+                  f"추적 {len(items)}종 전 품목 수집 실패. 전부 5xx·네트워크 오류라 "
+                  "외부 장애로 보고 정상 종료합니다. 다음 회차에서 자동 재수집됩니다.")
+            step_summary("> 전 품목 실패지만 전부 외부 장애(5xx·네트워크)라 정상 종료했습니다.")
+            return 0
+        log.error("전 품목 수집 실패 — 사유에 %s 포함, 오류로 처리",
+                  "/".join(sorted(kinds - {"outage"})))
+        print("::error title=수집 실패::"
+              f"전 품목 실패 사유에 {'/'.join(sorted(kinds - {'outage'}))}가 포함돼 있습니다.")
         return 1
     return 0
 

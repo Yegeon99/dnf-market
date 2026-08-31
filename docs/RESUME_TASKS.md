@@ -95,7 +95,7 @@
     `concurrency: data-commit` 과 `git pull --rebase origin master` 는 두 워크플로에 **이미** 적용돼 있음.
   - Secrets 는 08-25 등록 완료(HANDOFF 기록). 그 이후 32회 실행 전부 성공.
 
-- [ ] **C2-a. `pipeline/collect.py` 종료 코드 분류** (미착수, 핵심 작업)
+- [x] **C2-a. `pipeline/collect.py` 종료 코드 분류 완료** (2026-09-01)
       - 실패 사유를 분류: `HTTP 5xx`·네트워크 예외 = **예상 가능한 외부 장애**,
         `HTTP 401/403` = 인증 실패, 그 외 4xx = 코드·설정 오류
       - 전 품목 실패 + 전부 외부 장애 → `::warning` 남기고 **exit 0**
@@ -104,14 +104,28 @@
       - 현재 코드 위치: `collect.py` `main()` 말미
         `if failures and len(failures) >= len(items) * 2: return 1`
       - `load_api_key()` 의 `sys.exit(1)` 은 **그대로 유지** (진짜 인증 실패 구분용)
-- [ ] C2-b. 두 워크플로 커밋 스텝에 **푸시 재시도 루프**(rebase 후 3회) 추가.
-      concurrency·rebase 자체는 이미 있음 → 재시도만 보강
+      - 구현: `failure_kind()` 추가 (`5xx`·`requests` 예외명 → `outage`, `401/403` → `auth`,
+        그 외 `4xx` → `client`). `429`도 호출 빈도 문제라 `client`(exit 1)로 둔다.
+        `failures[]` 각 항목에 `kind`, 스냅샷에 `failureKinds` 집계 기록.
+        전 품목 실패 시 `kinds == {"outage"}` 면 `::warning` + exit 0, 아니면 `::error` + exit 1.
+        `step_summary()` 로 `$GITHUB_STEP_SUMMARY` 에 성공/실패/분류 항상 기록 (로컬은 무시)
+      - 검증: `dev/test_collect_exit.py` 4케이스 통과
+        (전면 5xx→0, ConnectionError→0, 401 섞임→1, 400 섞임→1)
+- [x] C2-b. 두 워크플로 커밋 스텝에 **푸시 재시도 루프**(rebase 후 3회) 추가 완료.
+      `for attempt in 1 2 3; do git pull --rebase origin master && git push && exit 0;
+      실패 시 ::warning + git rebase --abort + sleep 10; done` → 3회 모두 실패면 `::error` + exit 1.
+      YAML 파싱·`bash -n` 문법 검사 통과
 - [ ] C2-c. 워크플로 설정 오류 — C1 결과상 **해당 없음**
-- [ ] C3. `run_daily.py` 연쇄 실패 방지 확인.
+- [x] C3. `run_daily.py` 연쇄 실패 방지 확인 완료.
       현재 STEPS 에서 수집은 `critical=False` 지만 `exit_code` 로 전파된다.
       C2-a 적용 시 외부 장애는 collect가 0을 반환하므로 브리핑 경로
       (`briefing.py` 의 "전일 데이터 기준" 템플릿, `briefing.py:77~118`)를 타고
-      워크플로가 성공 종료한다. 실제로 그렇게 되는지 확인할 것
+      워크플로가 성공 종료한다.
+      **실측(임시 사본에서 collect 스텁으로 전 품목 외부 장애 재현):**
+      수집 exit 0 → 집계가 `전 품목 수집 실패 회차, 병합 건너뜀` 으로 시계열 오염 없음 →
+      탐지 0건 → 해석 0건(LLM 미호출) → 브리핑 템플릿
+      `심야 회차 수집 실패, 2026-08-31 데이터 31종 기준 유지` (비용 $0.0000) →
+      `run_daily exit=0`. 연쇄 실패 없음 확인
 - [ ] C4. `gh workflow run` 으로 두 워크플로 1회씩 실행 → 성공 확인
 - [ ] C5. 실패 이력·조치 내용 HANDOFF 기록 (C1 부분은 이미 기록됨, 조치 결과 추가 필요)
 

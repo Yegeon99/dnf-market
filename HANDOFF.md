@@ -21,7 +21,7 @@
 ## 남은 것
 
 - [x] 게이트 1 통과: Actions 연속 성공 4회 (12:37·13:35 수동, 12:57 daily, 15:43 cron 자동) — cron→data 커밋→Vercel 재배포→라이브 갱신 전 체인 검증 완료
-- [x] 게이트 2·3·4 통과: events 13건 확정, 대시보드 4화면, Vercel 배포(https://dnf-market-analyst.vercel.app)
+- [x] 게이트 2·3·4 통과: events 13건 확정, 대시보드 4화면, Vercel 배포(https://dnf-market.vercel.app)
 - [ ] 운영 관찰: 브리핑 7일 연속 발행·이상 탐지 실사례 축적 (성공 기준), 첫 실전 이상 탐지 시 가설 품질 확인
 - [ ] 백필 실거래 30일 소급 완료·수집 하루 6회 증편 — 데이터 축적 진행 중
 
@@ -34,3 +34,45 @@
 - 커밋·푸시 이 프로젝트에 한해 위임받음. 메시지 [phase-N] 한국어.
 - 심야 회차(KST 02:17)는 daily.yml이 수집+분석 통합 수행. snapshot.yml은 07:17/11:17/15:17/19:17/23:17.
 - 로컬 실행: `.venv/Scripts/python.exe pipeline/run_daily.py` (개별 스크립트도 가능)
+
+---
+
+# HANDOFF 추가 — 2026-09-01 (개명 + 진행 중 작업)
+
+## 프로젝트 개명 (DNF Market Analyst → DNF Market)
+
+- GitHub 저장소 `dnf-market-analyst` → **`dnf-market`** (`gh repo rename`, 로컬 remote 갱신 완료)
+- 문서 3건 파일명 변경: `DNF-Market_PRD.md`, `DNF-Market_지침서.md`, `DNF-MARKET_UPGRADE.md`
+- 코드·문서 전수 치환 완료 (헤더 로고·푸터·OG 태그 `og:url` 포함·메타·주석·package.json name)
+- 화면 컨셉 문구 "아라드 거래소 관제실"은 유지
+- 형제 프로젝트도 `arad-census` → `dnf-census` 로 개명돼 있어 링크 일괄 갱신.
+  푸터 링크는 `https://dnf-census.vercel.app` 라이브 주소로 교체
+- **Vercel 프로젝트명·도메인 변경은 미완료.** CLI 미로그인이라 사용자 클릭 필요.
+  절차·검증 항목은 `docs/RESUME_TASKS.md` A3~A5 참조
+
+## Actions 실패 이력 (전수 조사, 2026-09-01)
+
+전체 실행 이력 중 실패는 아래 3건뿐. 이후 32회 연속 성공.
+
+- `32762460157` (2026-08-24, 시세 스냅샷 수집)
+  로그: `NEOPLE_API_KEY: `(빈 값) → `ERROR NEOPLE_API_KEY가 없습니다` → exit 1
+  원인: **Secret 미등록 시점의 인증 실패.** 진짜 오류이므로 실패로 남는 게 정상
+- `32794804564` (2026-08-25, 시세 스냅샷 수집) — 위와 동일 원인
+- `33006954256` (2026-08-26, 심야 분석·브리핑)
+  로그: `스냅샷 저장: 2026-08-27_0446.json (품목 31, 호출 0, 실패 62)` →
+  `ERROR 전 품목 수집 실패` → `수집 실패 (exit 1)`
+  원인: **네오플 API 전면 장애(목요일 정기점검). 62회 호출 전부 5xx.**
+  같은 로그에 `Current branch master is up to date.` → `1eda3ce..d49845d master -> master`
+  가 찍혀 있어 **푸시 충돌은 원인이 아니다.** concurrency·`git pull --rebase`는 이미 적용돼 있었음
+
+## 조치 상태
+
+- [x] 원인 특정 (로그 근거 확보)
+- [ ] `collect.py` 종료 코드 분류 — 외부 5xx 장애는 exit 0 + Actions 요약 경고,
+      인증 실패·코드 오류는 exit 1 유지 (`docs/RESUME_TASKS.md` C2-a)
+- [ ] 커밋 스텝 푸시 재시도 루프 보강 (C2-b)
+- [ ] `workflow_dispatch` 로 두 워크플로 검증 (C4)
+
+## 다음 세션 시작 지점
+
+`docs/RESUME_TASKS.md` 를 먼저 읽을 것. 남은 항목은 A3~A5·A9, B1~B4, C2~C5.

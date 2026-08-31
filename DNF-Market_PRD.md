@@ -1,4 +1,4 @@
-# PRD — DNF Market Analyst (던파 라이브 마켓 애널리스트)
+# PRD — DNF Market (던파 라이브 시세 분석·브리핑)
 
 | 항목 | 내용 |
 |---|---|

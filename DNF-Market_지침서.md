@@ -1,6 +1,6 @@
-# Claude Code 빌드 지침서 — DNF Market Analyst
+# Claude Code 빌드 지침서 — DNF Market
 
-> PRD(DNF-Market-Analyst_PRD.md)를 실행 단위로 변환한 작업 지침이다.
+> PRD(DNF-Market_PRD.md)를 실행 단위로 변환한 작업 지침이다.
 > 두 문서를 프로젝트 루트에 두고 각 Phase 시작 시 모두 참조할 것.
 
 ---
@@ -48,7 +48,7 @@
 ## 1. 프로젝트 구조
 
 ```
-dnf-market-analyst/
+dnf-market/
 ├── pipeline/
 │   ├── collect.py            # 스냅샷 수집 (PL-1)
 │   ├── aggregate.py          # 시계열 병합 (PL-2)

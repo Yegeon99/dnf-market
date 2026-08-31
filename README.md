@@ -1,4 +1,4 @@
-# DNF Market Analyst, 던파 라이브 마켓 애널리스트
+# DNF Market, 던파 시세 분석·브리핑
 
 > 기존 던파 시세 서비스가 "지금 얼마인지"를 보여주는 **조회 도구**라면, 본 시스템은
 > **"왜 움직였고 무엇을 주목해야 하는지"를 해석해 데일리 브리핑으로 만드는 분석 시스템**이다.
@@ -6,9 +6,9 @@
 던전앤파이터 경매장 시세를 매일 자동 수집한다.
 이상 변동을 탐지하면 AI가 공식 공지·이벤트를 교차해 원인 가설을 근거 URL·신뢰도와 함께 작성하고, 데일리 브리핑을 무인 발행한다.
 
-**Live**: https://dnf-market-analyst.vercel.app
+**Live**: https://dnf-market.vercel.app
 
-형제 프로젝트: [Arad Census](https://github.com/Yegeon99/arad-census).
+형제 프로젝트: [DNF Census](https://github.com/Yegeon99/dnf-census).
 시장에 이어 **유저**를 보는 캐릭터 표본조사 **7화면 인터랙티브 리포트**로, 두 프로젝트는 같은 디자인 언어를 공유한다.
 
 > **운영 중 시스템.** 본 대시보드는 매일 자동으로 데이터가 추가된다.
@@ -100,7 +100,7 @@ briefing.py  → 데일리 브리핑 발행 → data/briefings.json
 
 ## 디자인
 
-[Arad Census](https://github.com/Yegeon99/arad-census)와 같은 가족의 디자인 언어를 쓴다.
+[DNF Census](https://github.com/Yegeon99/dnf-census)와 같은 가족의 디자인 언어를 쓴다.
 오프화이트 종이 바탕, 잉크 네이비, 액센트 블루 1색, 보조 골드.
 색·타이포·간격은 primitive, semantic, component 3층 CSS 변수 토큰으로 관리한다 (`dashboard/src/index.css`).
 Census가 "읽는 리포트"라면 이 대시보드는 "살아있는 관제 화면"이다.

@@ -79,7 +79,7 @@ export default function App() {
       >
         <div className="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-5 gap-y-1 px-4 py-2.5 lg:px-6">
           <NavLink to="/" className="no-underline">
-            <span className="t-eyebrow" style={{ color: "var(--accent)" }}>DNF MARKET ANALYST</span>
+            <span className="t-eyebrow" style={{ color: "var(--accent)" }}>DNF MARKET</span>
           </NavLink>
           <nav className="flex items-center gap-1 text-sm" aria-label="화면 이동">
             {NAV.map((n) => (
@@ -94,7 +94,7 @@ export default function App() {
               <span className="pulse inline-block h-2 w-2 rounded-full" style={{ background: "var(--statuslight-ok)" }} aria-hidden="true" />
               <span className="text-sm" style={{ color: "var(--text-secondary)" }}>무인 운영 중</span>
             </span>
-            <a href="https://github.com/Yegeon99/dnf-market-analyst" target="_blank" rel="noreferrer"
+            <a href="https://github.com/Yegeon99/dnf-market" target="_blank" rel="noreferrer"
                title="GitHub 저장소" aria-label="GitHub 저장소" className="flex items-center">
               <svg viewBox="0 0 16 16" width="18" height="18" fill="var(--text-secondary)" aria-hidden="true">
                 <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
@@ -126,7 +126,7 @@ export default function App() {
           <p className="t-small m-0">본 서비스는 Neople 오픈 API에서 제공받은 데이터를 일부 가공하여 활용하고 있습니다.</p>
           <p className="t-small m-0 mt-0.5">
             비공식 팬메이드 포트폴리오이며 ㈜네오플·넥슨과 무관합니다. 게임 그래픽은 Neople 오픈 API가 제공하는 아이템 아이콘만 사용합니다.
-            형제 프로젝트: <a href="https://github.com/Yegeon99/arad-census" target="_blank" rel="noreferrer">Arad Census</a>
+            시리즈의 다른 프로젝트: <a href="https://dnf-census.vercel.app" target="_blank" rel="noreferrer">DNF Census · 캐릭터 표본조사</a>
           </p>
         </div>
       </footer>

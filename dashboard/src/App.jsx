@@ -73,6 +73,9 @@ export default function App() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      {/* 키보드 사용자가 페이지마다 내비를 다시 통과하지 않게 한다. 평소엔 보이지 않고
+          탭으로 포커스가 오면 나타난다 */}
+      <a href="#main" className="skip-link">본문 바로가기</a>
       <header
         className="sticky top-0 z-40"
         style={{ background: "var(--nav-bg)", backdropFilter: "blur(8px)", borderBottom: "1px solid var(--hairline)" }}
@@ -104,9 +107,9 @@ export default function App() {
         </div>
       </header>
 
-      <main className="w-full flex-1">
+      <main id="main" tabIndex={-1} className="w-full flex-1">
         {error ? (
-          <Shell><Empty>데이터를 불러오지 못했습니다: {error}</Empty></Shell>
+          <Shell><Empty>데이터를 불러오지 못했습니다: {error}. 잠시 뒤 새로고침해 주세요. 계속 같은 화면이면 수집 회차가 아직 배포되지 않은 상태입니다.</Empty></Shell>
         ) : !data ? (
           isOverview ? <OverviewSkeleton /> : <Shell><LoadingSkeleton /></Shell>
         ) : (

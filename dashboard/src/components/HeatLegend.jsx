@@ -15,7 +15,8 @@ const CELLS = [
 
 export default function HeatLegend({ width = 340 }) {
   return (
-    <div style={{ width }} aria-label="전일 대비 등락 색상 범례">
+    // 고정 폭으로 두면 좁은 화면에서 카드 밖으로 삐져나간다. 상한으로만 쓴다
+    <div style={{ width: "100%", maxWidth: width }} role="img" aria-label="전일 대비 등락 색상 범례. 왼쪽이 하락, 오른쪽이 상승입니다">
       <div className="flex items-center justify-between t-micro" style={{ color: "var(--text-muted)" }}>
         <span>← 하락</span>
         <span>전일 대비 등락률</span>

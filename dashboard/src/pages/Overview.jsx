@@ -67,12 +67,17 @@ const LEFT_GROUPS = ["큐브 조각", "제작·마법부여 재료", "증폭 재
 function Tile({ c, it, onEnter, onLeave, onClick }) {
   const noCompare = c.changePct == null;
   const { bg, fg } = heatColor(c.changePct);
+  // 마우스가 없으면 툴팁을 못 본다. 툴팁과 같은 내용을 타일 이름표에도 담는다
+  const label = `${c.name}, ${fmtGold(c.avgPrice)} 골드, `
+    + (noCompare ? "전일 비교 대기" : `전일 대비 ${fmtSignedPct(c.changePct)}`);
   return (
     <button
       onClick={onClick} onMouseEnter={onEnter} onMouseLeave={onLeave}
+      onFocus={onEnter} onBlur={onLeave}
       className="heat-tile relative w-[132px] shrink-0 cursor-pointer px-2 py-1.5 text-left"
       style={{ background: bg, color: fg }}
       title={c.name}
+      aria-label={label}
     >
       <div className="truncate t-tile font-medium leading-snug">{it?.shortName ?? c.name}</div>
       <div className="num t-micro leading-snug">{fmtGold(c.avgPrice)}</div>
@@ -87,9 +92,11 @@ function Tile({ c, it, onEnter, onLeave, onClick }) {
   );
 }
 
+const TIP_W = 216;
+
 function Heatmap({ changes, items, llBelow }) {
   const navigate = useNavigate();
-  const [tip, setTip] = useState(null); // {x, y, c}
+  const [tip, setTip] = useState(null); // {x, y, c, max}
   const byId = Object.fromEntries(items.map((it) => [it.itemId, it]));
 
   const groups = [];
@@ -105,7 +112,7 @@ function Heatmap({ changes, items, llBelow }) {
   const onEnter = (e, c) => {
     const wrap = e.currentTarget.closest("[data-heat]").getBoundingClientRect();
     const r = e.currentTarget.getBoundingClientRect();
-    setTip({ x: r.left - wrap.left + r.width / 2, y: r.top - wrap.top, c });
+    setTip({ x: r.left - wrap.left + r.width / 2, y: r.top - wrap.top, c, max: wrap.width });
   };
 
   const renderGroups = (list) => (
@@ -138,7 +145,7 @@ function Heatmap({ changes, items, llBelow }) {
 
       {tip && (
         <div className="card pointer-events-none absolute z-10 px-3 py-2 t-micro"
-             style={{ left: Math.max(0, Math.min(tip.x - 100, 1000)), top: Math.max(0, tip.y - 100), width: 216, boxShadow: "var(--card-shadow-lift)" }}>
+             style={{ left: Math.max(0, Math.min(tip.x - TIP_W / 2, tip.max - TIP_W)), top: Math.max(0, tip.y - 100), width: TIP_W, boxShadow: "var(--card-shadow-lift)" }}>
           <div className="font-semibold">{tip.c.name}</div>
           <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)} 골드</span></div>
           <div className="flex justify-between">

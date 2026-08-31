@@ -1,6 +1,7 @@
 // 매물 수 바 차트 (결손 회차는 빈 칸으로 정직 표기)
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { slotLabel } from "../lib/data";
+import { useWidth } from "../lib/use-width";
 
 const M = { top: 16, right: 12, bottom: 22, left: 66 };
 // 날짜 라벨은 가운데 정렬이라 양 끝에서 잘린다. 절반 폭만큼 안쪽으로 물린다
@@ -8,13 +9,7 @@ const TICK_HALF = 18;
 
 export default function ListingChart({ series, height = 116 }) {
   const ref = useRef(null);
-  const [width, setWidth] = useState(640);
-  useEffect(() => {
-    if (!ref.current) return;
-    const ro = new ResizeObserver((es) => setWidth(es[0].contentRect.width));
-    ro.observe(ref.current);
-    return () => ro.disconnect();
-  }, []);
+  const width = useWidth(ref);
 
   if (!series.length) return null;
   const iw = Math.max(width - M.left - M.right, 10);

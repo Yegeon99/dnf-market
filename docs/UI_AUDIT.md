@@ -55,3 +55,57 @@ components/ui.jsx - 카운트업이 `prefers-reduced-motion` 직접 확인(73행
 index.html - `lang="ko"`, viewport 확대 허용, `theme-color`가 바탕색과 일치, preconnect 있음
 index.css:134 - 전역 `:focus-visible` 링 정의됨 / :195 전환 속성 명시 열거(`transition: all` 없음)
 전 파일 - 최대 목록 31종이라 가상화 불필요, 렌더 중 레이아웃 읽기 없음, `onPaste` 차단·`user-scalable=no` 없음
+
+---
+
+# 조치 결과 (B3·B4, 2026-09-01)
+
+## 고침
+
+**Blocker 6건 전부**
+
+- App.jsx - 본문 바로가기 링크 추가(`.skip-link`), `<main id="main" tabIndex={-1}>`. Tab 첫 대상 확인 완료
+- index.css - `scroll-padding-top: 56px` + 제목·id에 `scroll-margin-top`. 고정 헤더가 포커스 대상을 덮지 않는다
+- PriceChart.jsx - 차트를 `role="group" tabIndex={0}`으로 감싸고 좌우 방향키·Home·End·Esc로 회차 이동.
+  터치(`onTouchStart`/`onTouchMove`)도 같은 지점 선택. svg는 `aria-hidden`, 선택 회차는 `aria-live`로 읽어 준다
+- PriceChart.jsx / Methodology.jsx - `role="img"` 안에 포커스 노드를 두던 충돌 해소(`role="group"`으로 교체)
+- Methodology.jsx - `outline: none` 제거, `.pipe-node:focus-visible` 링 추가
+- Overview.jsx - 히트맵 타일에 `onFocus`/`onBlur` 추가, 타일 자체에 이름·가격·등락을 담은 `aria-label`
+
+**권장 12건**
+
+- HeatLegend `role="img"` / 브리핑 날짜 목록 `<nav>` / 상태 바 스크롤 영역 `tabIndex={0}`
+- 근거 링크에 대상 품목을 넣은 `aria-label`(같은 이름 링크 중복 해소), 펼치기 버튼 `aria-controls`
+- 저유동 뱃지에 `sr-only` 설명(마우스 없이도 읽힘)
+- ItemDetail 매물 수 `toLocaleString` + 값 없을 때 문구, 히어로 아이콘 `loading="lazy"` → `fetchPriority="high"`
+- index.css `min-height: 100dvh`, `-webkit-tap-highlight-color: transparent`, `env(safe-area-inset-*)` 반영
+- index.html 폰트 스타일시트 `rel="preload" as="style"` 추가
+- App.jsx 오류 문구에 다음 조치 안내 추가
+- `.flow-dash` 무한 반복 → 3회로 제한 (설명용 연출이라 한 번 보여 주면 충분)
+
+**참고 3건**
+
+- Methodology 직선 따옴표 → 곡선 따옴표 2곳
+- 히트맵 툴팁 하드코딩 상한 `1000` → 컨테이너 실측 폭 기준
+- `useWidth` 훅을 `lib/use-width.js`로 공용화 (PriceChart·ListingChart 중복 제거)
+
+**감사에서 못 잡고 스크린샷에서 잡힌 것 1건**
+
+- HeatLegend 고정 폭(360px)이 좁은 화면에서 카드 밖으로 넘쳤다(모바일 방법론 화면 가로 넘침 3px).
+  `width` → `maxWidth`로 바꿔 해결. 재촬영 후 전 화면 가로 넘침 0px
+
+## 남긴 것 (판단 근거 포함)
+
+- **`boxShadow`·`backgroundColor` 애니메이션** (Overview·RankBoard·Briefings): 합성 친화 속성만 쓰라는 규칙에
+  어긋나지만, 고치려면 의사 요소 오버레이로 구조를 바꿔야 한다. 요소 수가 적고 실측에서 끊김이 없어
+  유지한다. 값은 `lib/motion-tokens.js` 한곳으로 모아 두었다
+- **`.pulse` 무한 반복**: "지금도 돌고 있다"를 전하는 상태등이라 반복 자체가 의미다. 크기가 6px이고
+  데이터를 가리지 않으며 동작 줄이기 설정에서 꺼진다
+- **App.jsx 헤더 상태 `title` 속성**: 눈에 보이는 문구("무인 운영 중")가 이미 있어 설명 보조로만 남긴다
+
+## 검수 증거 (B4)
+
+- `dashboard/scripts/screenshot.mjs` (`node scripts/screenshot.mjs`, 미리보기 서버 4173 기준)
+- 데스크톱 1440 / 모바일 390, 화면 4종(오버뷰·브리핑·방법론·아이템 상세) 촬영 → `dev/shots/`
+- 자동 확인: 콘솔 오류 0건, 전 화면 가로 넘침 0px, Tab 첫 대상이 본문 바로가기
+- `npm run build` 통과, `npm run audit` 14항목 전부 통과(참고 1건)

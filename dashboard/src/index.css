@@ -136,9 +136,36 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-button, a { touch-action: manipulation; }
+button, a {
+  touch-action: manipulation;
+  /* 탭 순간 회색 사각형 대신 우리 hover·focus 표시만 보이게 한다 */
+  -webkit-tap-highlight-color: transparent;
+}
 
-body { margin: 0; min-height: 100vh; }
+/* 상단 고정 헤더(약 44px)가 포커스·앵커 이동 대상을 덮지 않도록 여유를 준다 */
+html { scroll-padding-top: 56px; }
+h1, h2, h3, [id] { scroll-margin-top: 56px; }
+
+/* 본문 바로가기: 평소엔 화면 밖, 포커스되면 좌상단에 나타난다 */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 60;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--raw-white);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus-visible { top: 8px; }
+main:focus { outline: none; }
+
+/* 100dvh: 모바일 주소창이 접혔다 펴져도 화면이 잘리지 않는다 (미지원 시 100vh) */
+body { margin: 0; min-height: 100vh; min-height: 100dvh; }
 
 /* 브랜드 톤 마감: 선택 영역·포커스 링·스크롤바 */
 ::selection { background: var(--accent-soft); color: var(--accent-deep); }
@@ -260,6 +287,22 @@ p a { text-decoration: underline; }
 }
 .heat-tile:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 1px; }
 
+/* 차트 묶음: 키보드로 들어오면 테두리로 지금 여기가 조작 대상임을 알린다 */
+.chart-focus:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+/* 파이프라인 단계 노드: 포커스 링이 도형을 가리지 않게 살짝 띄운다 */
+.pipe-node:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+
+/* 보조기술 전용 문구 */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ── 대형 수치: 숫자가 주인공 ── */
 .t-numeral {
   font-variant-numeric: tabular-nums;
@@ -295,7 +338,13 @@ p a { text-decoration: underline; }
 .sec { padding-block: 32px; }
 /* 밴드 대비: bg-sunken(1.07:1)은 저품질 화면에서 경계가 사라져 masked(1.14:1)로 올림 */
 .sec-band { background: var(--raw-paper-masked); }
-.sec-inner { margin-inline: auto; width: 100%; max-width: 1280px; padding-inline: 1rem; }
+.sec-inner {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  /* 노치가 있는 기기에서 가장자리 글자가 잘리지 않게 안전 영역만큼 더 띄운다 */
+  padding-inline: max(1rem, env(safe-area-inset-left)) max(1rem, env(safe-area-inset-right));
+}
 @media (min-width: 1024px) { .sec-inner { padding-inline: 1.5rem; } }
 
 .sec-head { margin-bottom: 1rem; }
@@ -366,7 +415,8 @@ p a { text-decoration: underline; }
 @keyframes dashFlow {
   to { stroke-dashoffset: -14; }
 }
-.flow-dash { animation: dashFlow 1.6s linear infinite; }
+/* 데이터가 흐른다는 걸 한 번 보여 주면 충분하다. 계속 돌면 읽기를 방해한다 */
+.flow-dash { animation: dashFlow 1.6s linear 3; }
 
 @keyframes pulseDot {
   0%, 100% { opacity: 1; }

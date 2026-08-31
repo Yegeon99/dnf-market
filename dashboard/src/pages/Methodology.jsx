@@ -33,8 +33,10 @@ function PipelineDiagram() {
 
   return (
     <div>
-      <svg viewBox="0 0 420 476" className="mx-auto block w-full max-w-[470px]" role="img"
-           aria-label="수집 파이프라인 다이어그램: Neople API에서 수집, 병합, 탐지, 해석, 브리핑, 배포까지 자동으로 이어진다. 각 단계에 마우스를 올리면 설명이 보인다">
+      {/* role="img"를 쓰면 안쪽의 포커스 가능한 단계 노드가 보조기술에서 통째로 사라진다.
+          그래서 group으로 두고 각 노드를 버튼으로 읽히게 한다 */}
+      <svg viewBox="0 0 420 476" className="mx-auto block w-full max-w-[470px]" role="group"
+           aria-label="수집 파이프라인 다이어그램: Neople API에서 수집, 병합, 탐지, 해석, 브리핑, 배포까지 자동으로 이어진다. 각 단계에 마우스를 올리거나 키보드로 이동하면 설명이 보인다">
         <defs>
           <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0 0.5 7 4 0 7.5z" fill="var(--hairline-strong)" />
@@ -65,7 +67,7 @@ function PipelineDiagram() {
             <g key={i} tabIndex={0} role="button" aria-label={`${n.lines[0]} 단계 설명 보기`}
                onMouseEnter={() => setActive(i)} onMouseLeave={() => setActive(null)}
                onFocus={() => setActive(i)} onBlur={() => setActive(null)}
-               style={{ cursor: "help", outline: "none" }}>
+               className="pipe-node" style={{ cursor: "help" }}>
               <rect x={cx - 170} y={n.y} width="340" height={n.h} rx="5"
                     fill={fill(n.kind)} stroke={stroke(n.kind, on)} strokeWidth={on ? 1.8 : n.kind === "src" ? 1 : 1.2} />
               <text x={cx} y={n.y + (n.lines.length > 1 ? 19 : n.h / 2 + 5)} textAnchor="middle"
@@ -164,7 +166,7 @@ export default function Methodology({ data }) {
         </div>
         <ul className="m-0 mt-2.5 list-none space-y-1 p-0 t-micro" style={{ color: "var(--text-secondary)" }}>
           <li>* 이동평균 규칙은 품목별 데이터가 {ma.minDaysRequired}일 이상 쌓인 구간에서만 자동 적용됩니다. 그 전에는 전일 대비만 봅니다.</li>
-          <li>· 저유동 보정: 매물 {ll.listingCountBelow}건 미만 품목은 당일 연속 {ll.minConsecutiveSlots}회차 지속 변동일 때만 "중간" 이상으로 분류하고, 화면에 <b>저유동</b> 뱃지로 해석 주의를 안내합니다.</li>
+          <li>· 저유동 보정: 매물 {ll.listingCountBelow}건 미만 품목은 당일 연속 {ll.minConsecutiveSlots}회차 지속 변동일 때만 “중간” 이상으로 분류하고, 화면에 <b>저유동</b> 뱃지로 해석 주의를 안내합니다.</li>
           <li>· 매물 {thresholds.guards.minListingCountForPriceSignal}건 미만이 이틀 연속이면 가격 신호 자체를 채택하지 않습니다.</li>
           <li>· 이상 항목은 하루 최대 {thresholds.guards.maxAnomaliesPerDay}건까지만 목록에 싣습니다. 상한에 걸린 날은 브리핑 화면에 <b>실제 탐지 건수</b>를 함께 표시해, 목록에 실린 수를 그날의 전부로 읽지 않게 합니다.</li>
           <li>· 등록 대표가는 매물 단가의 <b>중앙값</b>입니다. 경매장에는 시세와 동떨어진 가격의 매물이 상시 섞여 있어, 매물이 몇 건뿐인 품목은 평균이 그 한 건에 끌려갑니다(실측: 매물 2건 품목의 평균가가 실거래가의 10배). 2026-08-30 이전에 수집한 회차는 중앙값 기록이 없어 평균을 그대로 씁니다.</li>
@@ -260,7 +262,7 @@ export default function Methodology({ data }) {
           거래소에서는 서로 다른 아이템으로 취급됩니다. 공개 API가 주는 이름·등급·분류·설명·세트가
           모두 같아 무엇이 다른지 구분할 근거가 없습니다. 그래서 이 화면은 <b>(동일명 1)</b>,
           <b> (동일명 2)</b>처럼 등록 순서로 번호만 붙였습니다.
-          게임에 없는 "1세대·2세대" 같은 표현은 쓰지 않습니다.
+          게임에 없는 “1세대·2세대” 같은 표현은 쓰지 않습니다.
         </p>
         <div className="scroll-x mt-3">
           <table className="plain" style={{ minWidth: 480 }}>

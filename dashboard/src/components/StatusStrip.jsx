@@ -43,7 +43,7 @@ export default function StatusStrip({ rows, briefings, collection }) {
   return (
     <div className="status-bar">
       <div className="sec-inner h-full">
-        <div className="scroll-x h-full" role="group" aria-label="무인 파이프라인 상태">
+        <div className="scroll-x h-full" role="group" tabIndex={0} aria-label="무인 파이프라인 상태">
           <div className="flex h-full min-w-[600px] items-center gap-x-4 whitespace-nowrap t-micro">
             {/* 실패가 있으면 좁은 화면에서 라벨 자리를 안내문에 내준다 */}
             <span className={`t-eyebrow shrink-0 ${notice ? "hidden sm:inline" : ""}`}

@@ -31,7 +31,7 @@ function ItemIcon({ itemId, name }) {
     <img
       src={`https://img-api.neople.co.kr/df/items/${itemId}`}
       alt={`${name} 아이콘 (Neople 오픈 API 제공)`}
-      width={56} height={56} loading="lazy"
+      width={56} height={56} fetchPriority="high"
       className="shrink-0 rounded border"
       style={{ borderColor: "var(--hairline-strong)", background: "var(--bg-sunken)", imageRendering: "pixelated" }}
       onError={() => setOk(false)}
@@ -86,7 +86,7 @@ export default function ItemDetail({ data }) {
         </div>
         {lowLiq && (
           <p className="m-0 border-t px-4 py-2 t-micro" style={{ color: "var(--warn)", borderColor: "var(--hairline)" }}>
-            저유동 품목입니다. 매물 {last?.listing}건으로 기준 {llBelow}건 미만이라,
+            저유동 품목입니다. 매물 {last?.listing != null ? `${last.listing.toLocaleString()}건` : "수 미수집"}으로 기준 {llBelow}건 미만이라,
             소수 등록·거래만으로 지표가 크게 움직일 수 있습니다. 변동 해석에 주의가 필요합니다.
           </p>
         )}

@@ -30,6 +30,9 @@ export function LowLiquidityBadge() {
       title="매물 수가 적어 소수 등록·거래만으로 지표가 크게 움직일 수 있는 품목입니다. 변동 해석에 주의하세요."
     >
       저유동
+      <span className="sr-only">
+        , 매물 수가 적어 소수 등록·거래만으로 지표가 크게 움직일 수 있는 품목입니다
+      </span>
     </span>
   );
 }

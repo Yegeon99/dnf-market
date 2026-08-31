@@ -1,23 +1,13 @@
 // 시세 차트 (SVG 직접 구현, 의존성 없음)
 // 등록가·실거래가 병기, 라인 아래 옅은 영역 그라데이션, 호버 크로스헤어와 리치 툴팁,
 // 이벤트 마커는 아이콘 칩, 결손 회차는 공백(선 미연결), 과거 소급 수집 구간은 점선으로 구분
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState } from "react";
+import { useWidth } from "../lib/use-width";
 import { slotLabel, fmtGold, fmtComma } from "../lib/data";
 
 const M = { top: 32, right: 12, bottom: 26, left: 66 };
 // 날짜 라벨("08-30")은 가운데 정렬이라 양 끝에서 잘린다. 절반 폭만큼 안쪽으로 물린다
 const TICK_HALF = 18;
-
-function useWidth(ref, fallback = 640) {
-  const [w, setW] = useState(fallback);
-  useEffect(() => {
-    if (!ref.current) return;
-    const ro = new ResizeObserver((es) => setW(es[0].contentRect.width));
-    ro.observe(ref.current);
-    return () => ro.disconnect();
-  }, [ref]);
-  return w;
-}
 
 /** 결손(null)을 사이에 둔 구간은 선을 잇지 않는다 → 공백으로 표기 */
 function segments(points) {
@@ -110,9 +100,9 @@ export default function PriceChart({ series, events = [], height = 280 }) {
   const hasBackfill = series.some((s) => s.backfill);
   const baseY = M.top + ih;
 
-  const onMove = (e) => {
+  const pick = (clientX) => {
     const rect = wrapRef.current.getBoundingClientRect();
-    const px = e.clientX - rect.left;
+    const px = clientX - rect.left;
     let best = 0, bd = Infinity;
     series.forEach((_, i) => {
       const d = Math.abs(xAt(i) - px);
@@ -120,6 +110,33 @@ export default function PriceChart({ series, events = [], height = 280 }) {
     });
     setHover({ i: best, x: xAt(best) });
   };
+
+  const onMove = (e) => pick(e.clientX);
+  // 터치: 손가락을 대거나 끌면 같은 지점을 고른다 (마우스 없는 기기 대응)
+  const onTouch = (e) => {
+    const t = e.touches[0];
+    if (t) pick(t.clientX);
+  };
+
+  // 키보드: 좌우로 회차 이동, 처음·끝으로 점프, Esc로 해제
+  const onKeyDown = (e) => {
+    const step = { ArrowLeft: -1, ArrowRight: 1 }[e.key];
+    let next = null;
+    if (step != null) next = Math.min(Math.max((hover?.i ?? 0) + step, 0), series.length - 1);
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = series.length - 1;
+    else if (e.key === "Escape") { setHover(null); return; }
+    else return;
+    e.preventDefault();
+    setHover({ i: next, x: xAt(next) });
+  };
+
+  /** 스크린 리더·포커스 안내용 한 줄 요약 */
+  const pointLabel = (s) => s == null ? "회차를 선택하지 않음"
+    : `${s.date} ${slotLabel(s.slot)}, 등록 대표가 `
+      + (s.avgPrice != null ? `${fmtComma(s.avgPrice)} 골드` : "미수집")
+      + ", 실거래 " + (s.soldAvg != null ? `${fmtComma(s.soldAvg)} 골드` : "없음")
+      + ", 매물 " + (s.listing != null ? `${s.listing.toLocaleString()}건` : "미수집");
 
   const h = hover ? series[hover.i] : null;
   const hChange = h && !h.backfill ? dailyChange[h.date] : null;
@@ -142,9 +159,20 @@ export default function PriceChart({ series, events = [], height = 280 }) {
     );
 
   return (
-    <div ref={wrapRef} className="relative">
+    <div
+      ref={wrapRef}
+      className="chart-focus relative"
+      tabIndex={0}
+      role="group"
+      aria-label="시세 추이 차트. 좌우 방향키로 회차를 옮기며 값을 읽을 수 있습니다"
+      onKeyDown={onKeyDown}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setHover(null); }}
+    >
+      {/* 지금 고른 회차를 소리로 읽어 준다. 차트 그림 자체는 보조기술에서 감춘다 */}
+      <span className="sr-only" role="status" aria-live="polite">{pointLabel(h)}</span>
       <svg width={width} height={height} onMouseMove={onMove} onMouseLeave={() => setHover(null)}
-           role="img" aria-label="시세 추이 차트: 등록 평균가와 실거래 평균가">
+           onTouchStart={onTouch} onTouchMove={onTouch}
+           aria-hidden="true" style={{ touchAction: "pan-y" }}>
         <defs>
           <linearGradient id="areaListed" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="var(--raw-blue-600)" stopOpacity="0.14" />

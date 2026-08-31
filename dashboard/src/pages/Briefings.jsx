@@ -61,6 +61,7 @@ function AnomalyRow({ a, maxAbs }) {
 function AnomalyGroupCard({ group, maxAbs }) {
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
+  const listId = `anomaly-group-${group[0].id}`;
   const first = group[0];
   const hyp = first.ai_hypothesis;
   const title = `${first.lowLiquidity ? "저유동 " : ""}${METRIC_LABEL[first.metric] ?? first.metric} 변동 ${group.length}건`;
@@ -80,15 +81,17 @@ function AnomalyGroupCard({ group, maxAbs }) {
         <p className="m-0 mt-1 t-micro" style={{ color: "var(--text-secondary)" }}>
           {hyp.text}. 최대 변동은 <b>{range[0].itemName}</b> <Change value={range[0].change_pct} />.
           {hyp.evidence_urls?.map((u) => (
-            <a key={u} href={u} target="_blank" rel="noreferrer" className="ml-2">근거 ↗</a>
+            <a key={u} href={u} target="_blank" rel="noreferrer" className="ml-2"
+               aria-label={`${title} 근거 공지 열기 (새 창)`}>근거 ↗</a>
           ))}
         </p>
       )}
-      <button type="button" className="disclose mt-2" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+      <button type="button" className="disclose mt-2" aria-expanded={open}
+              aria-controls={listId} onClick={() => setOpen((v) => !v)}>
         {open ? "품목별 목록 접기" : `품목별 목록 펼치기 (${group.length})`}
       </button>
       {open && (
-        <div className="mt-1.5 border-t pt-1.5" style={{ borderColor: "var(--hairline)" }}>
+        <div id={listId} className="mt-1.5 border-t pt-1.5" style={{ borderColor: "var(--hairline)" }}>
           {range.map((a) => <AnomalyRow key={a.id} a={a} maxAbs={maxAbs} />)}
         </div>
       )}
@@ -116,7 +119,8 @@ function AnomalySingleCard({ a, maxAbs }) {
         <p className="m-0 mt-1 t-micro" style={{ color: "var(--text-secondary)" }}>
           {a.ai_hypothesis.text}
           {a.ai_hypothesis.evidence_urls?.map((u) => (
-            <a key={u} href={u} target="_blank" rel="noreferrer" className="ml-2">근거 ↗</a>
+            <a key={u} href={u} target="_blank" rel="noreferrer" className="ml-2"
+               aria-label={`${a.itemName} 근거 공지 열기 (새 창)`}>근거 ↗</a>
           ))}
         </p>
       )}
@@ -167,7 +171,7 @@ export default function Briefings({ data }) {
       </div>
       <div className="grid gap-4 sm:grid-cols-[224px_1fr]">
         {/* 과거 브리핑 타임라인 레일: 그날의 최대 등락을 함께 보여 흐름이 보이게 */}
-        <div className="relative pl-4" aria-label="브리핑 날짜 목록">
+        <nav className="relative pl-4" aria-label="브리핑 날짜 목록">
           <span className="absolute bottom-2 left-[5px] top-2 w-px" style={{ background: "var(--hairline-strong)" }} aria-hidden="true" />
           <div className="space-y-1.5">
             {briefings.map((b) => {
@@ -202,7 +206,7 @@ export default function Briefings({ data }) {
               );
             })}
           </div>
-        </div>
+        </nav>
 
         {/* 상세: 조간 리포트 1면 */}
         {/* 날짜를 바꾸면 이전 브리핑이 사라진 뒤 새 브리핑이 올라온다 */}

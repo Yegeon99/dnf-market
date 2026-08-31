@@ -5,6 +5,7 @@ import { m } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import { fmtGold, fmtSignedPct, isLowLiquidity } from "../lib/data";
 import { CountUpPct, LowLiquidityBadge, Sparkline } from "./ui";
+import { LIFT_SHADOW, REST_SHADOW } from "../lib/motion-tokens";
 
 function Gauge({ ratio, color, height = 5 }) {
   return (
@@ -23,18 +24,18 @@ function ChampionRow({ c, dir, trend, llBelow }) {
     <m.button
       onClick={() => navigate(`/item/${c.itemId}`)}
       className="flex w-full cursor-pointer items-center gap-3 rounded px-3 py-3 text-left"
-      whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+      whileHover={{ y: -3, boxShadow: LIFT_SHADOW }}
       whileTap={{ y: -1 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      style={{ boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}
+      style={{ boxShadow: REST_SHADOW }}
     >
-      <span className="num shrink-0 text-center text-[26px] font-extrabold" style={{ width: 30, color: "var(--accent-deep)" }}>1<span className="sr-only">위</span></span>
+      <span className="num shrink-0 text-center t-stat font-extrabold" style={{ width: 30, color: "var(--accent-deep)" }}>1<span className="sr-only">위</span></span>
       <span className="min-w-0 flex-1">
-        <span className="flex items-center gap-1.5 truncate text-[18px] font-bold leading-snug" style={{ color: "var(--text-primary)" }}>
+        <span className="flex items-center gap-1.5 truncate t-figure font-bold leading-snug" style={{ color: "var(--text-primary)" }}>
           <span className="truncate">{c.name}</span>
           {thin && <LowLiquidityBadge />}
         </span>
-        <span className="num block text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>
+        <span className="num block t-micro leading-snug" style={{ color: "var(--text-secondary)" }}>
           {fmtGold(c.avgPrice)} 골드{c.listing != null && ` · 매물 ${Math.round(c.listing).toLocaleString()}건`} · 최근 7일 추이
         </span>
       </span>
@@ -59,25 +60,25 @@ function Row({ rank, c, dir, maxAbs, llBelow }) {
     <m.button
       onClick={() => navigate(`/item/${c.itemId}`)}
       className="flex w-full cursor-pointer items-center gap-3 rounded px-3 py-1.5 text-left"
-      whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+      whileHover={{ y: -3, boxShadow: LIFT_SHADOW }}
       whileTap={{ y: -1 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      style={{ boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}
+      style={{ boxShadow: REST_SHADOW }}
     >
-      <span className="num shrink-0 text-center text-[19px] font-medium" style={{ width: 30, color: "var(--text-muted)" }}>
+      <span className="num shrink-0 text-center t-rank font-medium" style={{ width: 30, color: "var(--text-muted)" }}>
         {rank}<span className="sr-only">위</span>
       </span>
       <span className="min-w-0 flex-1">
-        <span className="flex items-center gap-1.5 truncate text-[16px] font-medium leading-snug" style={{ color: "var(--text-primary)" }}>
+        <span className="flex items-center gap-1.5 truncate t-lead-sm font-medium leading-snug" style={{ color: "var(--text-primary)" }}>
           <span className="truncate">{c.name}</span>
           {thin && <LowLiquidityBadge />}
         </span>
-        <span className="num block text-[13px] leading-snug" style={{ color: "var(--text-secondary)" }}>
+        <span className="num block t-micro leading-snug" style={{ color: "var(--text-secondary)" }}>
           {fmtGold(c.avgPrice)} 골드{c.listing != null && ` · 매물 ${Math.round(c.listing).toLocaleString()}건`}
         </span>
       </span>
       <span className="flex w-[104px] shrink-0 flex-col items-end gap-1 sm:w-[152px]">
-        <span className="num text-[18px] font-bold leading-none" style={{ color }}>
+        <span className="num t-figure font-bold leading-none" style={{ color }}>
           {fmtSignedPct(c.changePct)}
         </span>
         <Gauge ratio={ratio} color={color} />
@@ -94,7 +95,7 @@ function Column({ title, list, dir, trendFor, llBelow }) {
         {title}
       </h3>
       {list.length === 0 ? (
-        <p className="m-0 px-3 py-4 text-[13px]" style={{ color: "var(--text-muted)" }}>
+        <p className="m-0 px-3 py-4 t-micro" style={{ color: "var(--text-muted)" }}>
           오늘 {dir === "up" ? "상승" : "하락"} 품목이 없습니다.
         </p>
       ) : (
@@ -114,7 +115,7 @@ export default function RankBoard({ ups, downs, trendFor, llBelow = 0 }) {
         <Column title="가장 많이 오른 품목 TOP 5" list={ups.slice(0, 5)} dir="up" trendFor={trendFor} llBelow={llBelow} />
         <Column title="가장 많이 내린 품목 TOP 5" list={downs.slice(0, 5)} dir="down" trendFor={trendFor} llBelow={llBelow} />
       </div>
-      <p className="m-0 mt-2.5 border-t px-1 pt-2 text-[13px]" style={{ color: "var(--text-muted)", borderColor: "var(--hairline)" }}>
+      <p className="m-0 mt-2.5 border-t px-1 pt-2 t-micro" style={{ color: "var(--text-muted)", borderColor: "var(--hairline)" }}>
         가격이 아닌 매물 수 변동은 여기서 제외합니다. <Link to="/briefings">브리핑의 이상 변동 목록</Link>에서 확인할 수 있습니다.
         <br />매물이 적은 품목은 등록 한두 건으로 순위가 크게 흔들립니다. <b>저유동</b> 뱃지가 붙은 항목은 시장 전체 흐름으로 읽지 마세요.
       </p>

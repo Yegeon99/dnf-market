@@ -15,6 +15,7 @@ import HeatLegend from "../components/HeatLegend";
 import HeroBand from "../components/HeroBand";
 import StatusStrip from "../components/StatusStrip";
 import RankBoard from "../components/RankBoard";
+import { FLASH_OFF, FLASH_ON, LIFT_SHADOW, REST_SHADOW } from "../lib/motion-tokens";
 
 function Section({ label, title, note, band, index = 0, children }) {
   return (
@@ -40,17 +41,17 @@ function KpiCell({ label, caption, spark, sparkColor, alert = false, children })
   return (
     <m.div
       className="min-w-0"
-      initial={flash ? { backgroundColor: "rgba(184, 79, 74, 0.18)" } : false}
-      animate={flash ? { backgroundColor: "rgba(184, 79, 74, 0)" } : undefined}
+      initial={flash ? { backgroundColor: FLASH_ON } : false}
+      animate={flash ? { backgroundColor: FLASH_OFF } : undefined}
       transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
     >
       <div className="text-sm leading-snug" style={{ color: "var(--text-secondary)" }}>{label}</div>
       <div className="mt-1 flex items-end justify-between gap-2">
-        <div className="num text-[26px] font-bold leading-tight">{children}</div>
+        <div className="num t-stat font-bold leading-tight">{children}</div>
         {/* 좁은 화면에서는 스파크라인이 품목명을 밀어내므로 접는다 */}
         {spark && <span className="hidden sm:block"><Sparkline values={spark} color={sparkColor ?? "var(--accent)"} /></span>}
       </div>
-      {caption && <div className="mt-0.5 text-[13px] leading-snug" style={{ color: "var(--text-muted)" }}>{caption}</div>}
+      {caption && <div className="mt-0.5 t-micro leading-snug" style={{ color: "var(--text-muted)" }}>{caption}</div>}
     </m.div>
   );
 }
@@ -73,9 +74,9 @@ function Tile({ c, it, onEnter, onLeave, onClick }) {
       style={{ background: bg, color: fg }}
       title={c.name}
     >
-      <div className="truncate text-[14px] font-medium leading-snug">{it?.shortName ?? c.name}</div>
-      <div className="num text-[13px] leading-snug">{fmtGold(c.avgPrice)}</div>
-      <div className="min-h-[24px] num text-[16px] font-bold leading-snug">
+      <div className="truncate t-tile font-medium leading-snug">{it?.shortName ?? c.name}</div>
+      <div className="num t-micro leading-snug">{fmtGold(c.avgPrice)}</div>
+      <div className="min-h-[24px] num t-lead-sm font-bold leading-snug">
         {noCompare ? "" : fmtSignedPct(c.changePct)}
       </div>
       {noCompare && (
@@ -113,8 +114,8 @@ function Heatmap({ changes, items, llBelow }) {
         <div key={g.name} className="rounded-[5px] border px-2 pb-2 pt-1.5"
              style={{ borderColor: "var(--hairline-faint)", background: "var(--bg-base)" }}>
           <div className="mb-1.5 flex items-baseline gap-1.5">
-            <span className="text-[13px] font-bold tracking-wide" style={{ color: "var(--text-primary)" }}>{g.name}</span>
-            <span className="num text-[13px]" style={{ color: "var(--text-muted)" }}>{g.cells.length}종</span>
+            <span className="t-micro font-bold tracking-wide" style={{ color: "var(--text-primary)" }}>{g.name}</span>
+            <span className="num t-micro" style={{ color: "var(--text-muted)" }}>{g.cells.length}종</span>
           </div>
           <div className="flex flex-wrap gap-[5px]">
             {g.cells.map((c) => (
@@ -136,7 +137,7 @@ function Heatmap({ changes, items, llBelow }) {
       </div>
 
       {tip && (
-        <div className="card pointer-events-none absolute z-10 px-3 py-2 text-[13px]"
+        <div className="card pointer-events-none absolute z-10 px-3 py-2 t-micro"
              style={{ left: Math.max(0, Math.min(tip.x - 100, 1000)), top: Math.max(0, tip.y - 100), width: 216, boxShadow: "var(--card-shadow-lift)" }}>
           <div className="font-semibold">{tip.c.name}</div>
           <div className="mt-0.5 flex justify-between"><span style={{ color: "var(--text-secondary)" }}>등록 평균가</span><span className="num">{fmtGold(tip.c.avgPrice)} 골드</span></div>
@@ -165,18 +166,18 @@ function BriefingHero({ briefing, items, topUp, trend, detected, stored }) {
     <MotionLink
       to="/briefings"
       className="card block px-4 py-3.5 no-underline"
-      whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+      whileHover={{ y: -3, boxShadow: LIFT_SHADOW }}
       whileTap={{ y: -1 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      style={{ color: "inherit", boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}
+      style={{ color: "inherit", boxShadow: REST_SHADOW }}
     >
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 t-micro" style={{ color: "var(--text-secondary)" }}>
         <span className="num whitespace-nowrap">{briefing.date}</span>
         <span>{briefing.collectionFailed ? "심야 회차 수집 실패, 전일 데이터 기준" : "심야 회차 발행 시점까지의 수집분 기준"}</span>
         <span className="ml-auto whitespace-nowrap" style={{ color: "var(--accent)" }}>아카이브 →</span>
       </div>
       {cut > 0 && (
-        <p className="m-0 mt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+        <p className="m-0 mt-1 t-micro" style={{ color: "var(--text-secondary)" }}>
           이 날 실제 탐지된 이상은 <b className="num">{detected}건</b>입니다.
           아래 본문은 표시 상한에 걸린 상위 <b className="num">{stored}건</b>만 보고 쓰였습니다.
         </p>
@@ -197,9 +198,9 @@ function BriefingHero({ briefing, items, topUp, trend, detected, stored }) {
         </div>
         {topUp && trend && (
           <div className="rounded px-3 py-2.5" style={{ background: "var(--bg-sunken)" }}>
-            <div className="text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>발행 시점 상승 1위 · 최근 7일 추이</div>
+            <div className="t-micro font-semibold" style={{ color: "var(--text-secondary)" }}>발행 시점 상승 1위 · 최근 7일 추이</div>
             <div className="mt-0.5 truncate text-sm font-bold" style={{ color: "var(--text-primary)" }}>{topUp.name}</div>
-            <div className="num mt-0.5 text-[18px] font-bold" style={{ color: "var(--up)" }}>{fmtSignedPct(topUp.changePct)}</div>
+            <div className="num mt-0.5 t-figure font-bold" style={{ color: "var(--up)" }}>{fmtSignedPct(topUp.changePct)}</div>
             <div className="mt-1.5">
               <Sparkline values={trend} width={180} height={52} color="var(--up)" strokeWidth={2} area />
             </div>
@@ -308,7 +309,7 @@ export default function Overview({ data }) {
         <div className="card kpi-strip">
           <KpiCell label="추적 품목">
             <CountUpNum value={items.length} />
-            <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>종</span>
+            <span className="ml-0.5 t-body-lg font-semibold" style={{ color: "var(--text-secondary)" }}>종</span>
           </KpiCell>
           <KpiCell label="오늘 이상 변동" alert={anomalyCount > 0}
                    caption={anomalyCount === 0
@@ -317,7 +318,7 @@ export default function Overview({ data }) {
                        ? `표시 상한으로 상위 ${todayAnomalies.length}건만 목록에 실림`
                        : "전일 대비 기준"}>
             <CountUpNum value={anomalyCount} />
-            <span className="ml-0.5 text-[15px] font-semibold" style={{ color: "var(--text-secondary)" }}>건</span>
+            <span className="ml-0.5 t-body-lg font-semibold" style={{ color: "var(--text-secondary)" }}>건</span>
           </KpiCell>
           {hasCompare ? (
             <>
@@ -325,28 +326,28 @@ export default function Overview({ data }) {
                        spark={ups[0] ? itemSpark(ups[0].itemId) : null} sparkColor="var(--up)"
                        caption={ups[0] ? moverCaption(ups[0]) : null}>
                 {ups[0]
-                  ? <span className="text-[16px]"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} countUp />{lowLiq(ups[0]) && <> <LowLiquidityBadge /></>}</span>
-                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
+                  ? <span className="t-lead-sm"><span title={byId[ups[0].itemId]?.name}>{byId[ups[0].itemId]?.shortName}</span> <Change value={ups[0].changePct} countUp />{lowLiq(ups[0]) && <> <LowLiquidityBadge /></>}</span>
+                  : <span className="t-lead-sm" style={{ color: "var(--text-muted)" }}>상승 없음</span>}
               </KpiCell>
               <KpiCell label="하락 1위"
                        spark={downs[0] ? itemSpark(downs[0].itemId) : null} sparkColor="var(--down)"
                        caption={downs[0] ? moverCaption(downs[0]) : null}>
                 {downs[0]
-                  ? <span className="text-[16px]"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} countUp />{lowLiq(downs[0]) && <> <LowLiquidityBadge /></>}</span>
-                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
+                  ? <span className="t-lead-sm"><span title={byId[downs[0].itemId]?.name}>{byId[downs[0].itemId]?.shortName}</span> <Change value={downs[0].changePct} countUp />{lowLiq(downs[0]) && <> <LowLiquidityBadge /></>}</span>
+                  : <span className="t-lead-sm" style={{ color: "var(--text-muted)" }}>하락 없음</span>}
               </KpiCell>
             </>
           ) : (
             <>
               <KpiCell label="오늘 실거래 최다 (24시간)">
                 {topSold
-                  ? <span className="text-[16px]"><span title={topSold.fullName}>{topSold.name}</span> <span className="num">{topSold.count.toLocaleString()}건</span></span>
-                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>집계 중</span>}
+                  ? <span className="t-lead-sm"><span title={topSold.fullName}>{topSold.name}</span> <span className="num">{topSold.count.toLocaleString()}건</span></span>
+                  : <span className="t-lead-sm" style={{ color: "var(--text-muted)" }}>집계 중</span>}
               </KpiCell>
               <KpiCell label="과거 실거래 소급 수집 기간">
                 {bfRange
-                  ? <span className="num text-[16px]">{bfDays}일 <span style={{ color: "var(--text-muted)" }}>({bfRange.min.slice(5)}~{bfRange.max.slice(5)})</span></span>
-                  : <span className="text-[16px]" style={{ color: "var(--text-muted)" }}>없음</span>}
+                  ? <span className="num t-lead-sm">{bfDays}일 <span style={{ color: "var(--text-muted)" }}>({bfRange.min.slice(5)}~{bfRange.max.slice(5)})</span></span>
+                  : <span className="t-lead-sm" style={{ color: "var(--text-muted)" }}>없음</span>}
               </KpiCell>
             </>
           )}

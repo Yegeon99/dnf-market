@@ -106,8 +106,19 @@
   --chart-crosshair: var(--raw-ink-300);
   --chart-event: var(--gold);
   --chart-event-text: var(--gold-text);
+  --text-on-accent-soft: rgba(255, 255, 255, 0.85);
   --tile-radius: 3px;
   --badge-radius: 3px;
+
+  /* 본문 밖 고정 크기 타이포. 화면 곳곳에 px로 흩어져 있던 값을 여기로 모았다.
+     Tailwind의 text-sm(0.875rem)은 그대로 쓰고, 그 밖의 고정 크기만 토큰화한다. */
+  --fs-micro: 13px;   /* 캡션·보조 설명·표 안 글씨 */
+  --fs-tile: 14px;    /* 히트맵 타일 품목명 */
+  --fs-body-lg: 15px; /* 카드 본문 강조 */
+  --fs-lead: 16px;    /* KPI 안 품목명 */
+  --fs-rank: 19px;    /* 순위 숫자 */
+  --fs-figure: 18px;  /* 변동률 수치 */
+  --fs-stat: 26px;    /* 카드 대표 수치 */
   --statuslight-ok: var(--gold-bright);
   --statuslight-wait: var(--raw-ink-300);
   --statuslight-fail: var(--raw-orange-700);
@@ -179,6 +190,15 @@ h1, h2, h3, p, li, td, th, figcaption, button, .t-title, .t-lead {
 .t-small { font-size: 0.85rem; line-height: 1.65; color: var(--text-muted); }
 
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+/* 고정 크기 타이포 유틸 (토큰 1:1 대응) */
+.t-micro { font-size: var(--fs-micro); }
+.t-tile { font-size: var(--fs-tile); }
+.t-body-lg { font-size: var(--fs-body-lg); }
+.t-lead-sm { font-size: var(--fs-lead); }
+.t-rank { font-size: var(--fs-rank); }
+.t-figure { font-size: var(--fs-figure); }
+.t-stat { font-size: var(--fs-stat); }
 
 a { color: var(--accent); text-underline-offset: 3px; }
 /* 본문 문장 안 링크는 색만으로 구분하지 않는다 (WCAG 1.4.1) */

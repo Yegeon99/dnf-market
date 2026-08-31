@@ -232,7 +232,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
       {/* 이벤트 툴팁: 공지 제목 + 링크 */}
       {evHover != null && evMarks[evHover] && (
         <div
-          className="card absolute z-10 px-3 py-2 text-[13px]"
+          className="card absolute z-10 px-3 py-2 t-micro"
           style={{ left: Math.min(xAt(evMarks[evHover].i) + 8, width - 246), top: 26, width: 236 }}
           onMouseEnter={() => setEvHover(evHover)} onMouseLeave={() => setEvHover(null)}
         >
@@ -246,7 +246,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
 
       {/* 데이터 툴팁: 날짜·등록가·실거래가·매물 수·전일 대비 */}
       {h && evHover == null && (
-        <div className="card pointer-events-none absolute z-10 px-3 py-2 text-[13px]"
+        <div className="card pointer-events-none absolute z-10 px-3 py-2 t-micro"
              style={{ left: Math.min(hover.x + 10, width - 232), top: 28, width: 222 }}>
           <div className="font-semibold num">{h.date} {slotLabel(h.slot)}</div>
           <div className="mt-1 space-y-0.5">
@@ -269,7 +269,7 @@ export default function PriceChart({ series, events = [], height = 280 }) {
       )}
 
       {/* 범례 */}
-      <div className="flex flex-wrap gap-x-4 gap-y-1 px-2 pt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 px-2 pt-1 t-micro" style={{ color: "var(--text-secondary)" }}>
         {LINES.map((l) => (
           <span key={l.key} className="flex items-center gap-1.5">
             <span style={{ background: l.color, width: 14, height: 3, display: "inline-block", borderRadius: 2 }} />

@@ -43,7 +43,7 @@ export default function ChangeStackBar({ cells }) {
           />
         ))}
       </div>
-      <div className="mt-1.5 flex flex-wrap items-baseline gap-x-4 gap-y-0.5 text-[13px]" aria-hidden="true">
+      <div className="mt-1.5 flex flex-wrap items-baseline gap-x-4 gap-y-0.5 t-micro" aria-hidden="true">
         {segs.map((s) => (
           <span key={s.key} style={{ color: "var(--text-secondary)" }}>
             {s.label} <b className="num" style={{ color: s.key === "up" ? "var(--up)" : s.key === "down" ? "var(--down)" : "var(--text-primary)" }}>{s.n}</b>종

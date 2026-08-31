@@ -27,8 +27,8 @@ function PipelineDiagram() {
   const cx = 210;
   const fill = (k) => (k === "out" ? "var(--accent)" : "var(--bg-surface)");
   const stroke = (k, on) => (on ? "var(--accent-deep)" : k === "out" ? "var(--accent)" : k === "src" ? "var(--hairline-strong)" : "var(--accent)");
-  const textFill = (k) => (k === "out" ? "#FFFFFF" : "var(--text-primary)");
-  const subFill = (k) => (k === "out" ? "rgba(255,255,255,0.85)" : "var(--text-muted)");
+  const textFill = (k) => (k === "out" ? "var(--raw-white)" : "var(--text-primary)");
+  const subFill = (k) => (k === "out" ? "var(--text-on-accent-soft)" : "var(--text-muted)");
   const shown = active != null ? PIPE_NODES[active] : null;
 
   return (
@@ -77,7 +77,7 @@ function PipelineDiagram() {
           );
         })}
       </svg>
-      <div className="mx-auto mt-2 max-w-[470px] rounded px-3 py-2 text-[13px]"
+      <div className="mx-auto mt-2 max-w-[470px] rounded px-3 py-2 t-micro"
            style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)", minHeight: 58 }}
            aria-live="polite">
         {shown ? (
@@ -118,7 +118,7 @@ export default function Methodology({ data }) {
           수집, 탐지, 해석, 브리핑을 사람 손 없이 이어 붙인 <b>분석 시스템</b>입니다.
           판단 기준과 한계를 아래에 그대로 공개합니다.
         </p>
-        <p className="m-0 mt-2 rounded px-3 py-2 text-[13px]" style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
+        <p className="m-0 mt-2 rounded px-3 py-2 t-micro" style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
           본 대시보드는 매일 자동으로 데이터가 쌓이는 <b>운영 중 시스템</b>입니다.
           수집 시작일은 2026-08-25이며, 하루 최대 6회(KST 02·07·11·15·19·23시) 자동 수집하고 심야 회차에 분석과 브리핑을 자동 발행합니다.
           예약 실행 지연과 게임 점검 때문에 회차가 빌 수 있어, 지금까지 <b className="num">{stat.days}일간 {stat.slots}회</b>를 실제로 수집했습니다(예약 기준 {stat.expected}회).
@@ -128,12 +128,12 @@ export default function Methodology({ data }) {
       {/* 수집 구조 다이어그램 */}
       <section className="card p-4">
         <h2 className="t-section m-0">수집·분석 구조</h2>
-        <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
+        <p className="m-0 mt-1.5 t-micro" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
           Neople 오픈 API는 시세 히스토리를 제공하지 않습니다.
           그래서 GitHub Actions 예약 실행이 하루 최대 6회 스냅샷을 수집해 저장소에 시계열을 직접 쌓습니다.
           심야 회차에서 탐지, 해석, 브리핑까지 한 번에 실행합니다.
         </p>
-        <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
+        <p className="m-0 mt-1.5 t-micro" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
           수집 시작일(2026-08-25) 이전 구간은 판매완료 내역 API(최근 100건)를 거슬러 올라가
           <b> 과거 실거래만 일 단위로 소급 수집</b>했습니다.
           등록가와 매물 수는 과거 조회가 불가능해 소급하지 않았고, 차트에서 소급 구간을 점선으로 구분해 표기합니다.
@@ -162,7 +162,7 @@ export default function Methodology({ data }) {
             </tbody>
           </table>
         </div>
-        <ul className="m-0 mt-2.5 list-none space-y-1 p-0 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+        <ul className="m-0 mt-2.5 list-none space-y-1 p-0 t-micro" style={{ color: "var(--text-secondary)" }}>
           <li>* 이동평균 규칙은 품목별 데이터가 {ma.minDaysRequired}일 이상 쌓인 구간에서만 자동 적용됩니다. 그 전에는 전일 대비만 봅니다.</li>
           <li>· 저유동 보정: 매물 {ll.listingCountBelow}건 미만 품목은 당일 연속 {ll.minConsecutiveSlots}회차 지속 변동일 때만 "중간" 이상으로 분류하고, 화면에 <b>저유동</b> 뱃지로 해석 주의를 안내합니다.</li>
           <li>· 매물 {thresholds.guards.minListingCountForPriceSignal}건 미만이 이틀 연속이면 가격 신호 자체를 채택하지 않습니다.</li>
@@ -171,7 +171,7 @@ export default function Methodology({ data }) {
           <li>· 전일 대비는 <b>두 날에 모두 수집된 회차</b>로만 비교합니다. 회차 구성이 다른 날을 그대로 비교하면 시간대 차이가 변동률로 둔갑합니다.</li>
         </ul>
         <div className="mt-3">
-          <div className="mb-1 text-[13px] font-semibold" style={{ color: "var(--text-secondary)" }}>오버뷰 히트맵 색상 스케일 (전일 대비, 보합 ±0.5% 미만)</div>
+          <div className="mb-1 t-micro font-semibold" style={{ color: "var(--text-secondary)" }}>오버뷰 히트맵 색상 스케일 (전일 대비, 보합 ±0.5% 미만)</div>
           <HeatLegend width={360} />
         </div>
       </section>
@@ -179,7 +179,7 @@ export default function Methodology({ data }) {
       {/* AI 해석 정책 */}
       <section className="card p-4">
         <h2 className="t-section m-0">AI 해석·정직성 정책</h2>
-        <ul className="m-0 mt-2.5 list-none space-y-1.5 p-0 text-[13px]" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
+        <ul className="m-0 mt-2.5 list-none space-y-1.5 p-0 t-micro" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
           <li>· LLM 호출은 <b>이상 탐지된 항목에만</b> 수행합니다. 전 품목 호출은 하지 않으며, 이상 0건인 날은 무비용 규칙 기반 브리핑을 냅니다.</li>
           <li>· 가설은 수동 큐레이션한 공식 공지·이벤트(±3일)만 근거로 삼고, 근거 URL과 신뢰도(확정/추정)를 반드시 함께 적습니다. 개별 공지 주소가 없는 이벤트는 독자가 확인할 수 없으므로 근거 후보에서 제외합니다.</li>
           <li>· 근거가 없으면 "원인 미상, 관찰 지속"으로 남깁니다. 시점이 겹친다는 이유만으로 인과를 단정하지 않습니다.</li>
@@ -210,7 +210,7 @@ export default function Methodology({ data }) {
       {/* 지표 정의 변경 이력 */}
       <section className="card p-4">
         <h2 className="t-section m-0">지표 정의 변경 이력</h2>
-        <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
+        <p className="m-0 mt-1.5 t-micro" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
           수치를 계산하는 방식이 바뀐 적이 있습니다. 언제 무엇을 왜 바꿨는지 여기에 남깁니다.
           <b> 2026-08-31 발행분부터</b> 아래 방식이 적용됐고, 그 이전 브리핑은 발행 당시 방식으로 쓰였습니다.
         </p>
@@ -236,7 +236,7 @@ export default function Methodology({ data }) {
             </tbody>
           </table>
         </div>
-        <ul className="m-0 mt-2.5 list-none space-y-1 p-0 text-[13px]" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
+        <ul className="m-0 mt-2.5 list-none space-y-1 p-0 t-micro" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
           <li>· <b>과거 발행분은 고치지 않습니다.</b> 그날 발행된 글을 나중에 손보면 아카이브가 기록이 아니게 됩니다.
               대신 해당 브리핑에 발행 당시 기준이라는 고지를 붙입니다.</li>
           <li>· 그래서 정의 변경 이전 브리핑의 일부 수치는 지금 데이터로 다시 계산해도 그대로 나오지 않습니다.
@@ -248,13 +248,13 @@ export default function Methodology({ data }) {
       {/* 품목 선정 근거 */}
       <section className="card p-4">
         <h2 className="t-section m-0">추적 품목 선정 근거 ({items.length}종)</h2>
-        <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
+        <p className="m-0 mt-1.5 t-micro" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
           전 품목이 아니라 시장 대표성이 있는 품목을 카테고리별로 골라 근거를 문서화했습니다.
           분류와 선정 사유는 Neople 오픈 API가 주는 <b>공식 아이템 설명</b>에 적힌 사용처를 기준으로 적었고,
           설명에 사용처가 없는 품목은 용도를 단정하지 않았습니다.
           API 호출 절제(품목 수 상한, 호출 간 대기, 하루 최대 6회)도 설계 원칙입니다.
         </p>
-        <p className="m-0 mt-2 rounded px-3 py-2 text-[13px]"
+        <p className="m-0 mt-2 rounded px-3 py-2 t-micro"
            style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: 680 }}>
           <b>이름이 같은 별개 아이템 안내.</b> 클론 아바타 일부는 게임 안 이름이 완전히 같은데
           거래소에서는 서로 다른 아이템으로 취급됩니다. 공개 API가 주는 이름·등급·분류·설명·세트가
@@ -271,8 +271,8 @@ export default function Methodology({ data }) {
               <tbody key={cat}>
                 <tr>
                   <td colSpan={2} className="pt-3" style={{ borderBottom: "1px solid var(--hairline-strong)" }}>
-                    <span className="text-[13px] font-bold" style={{ color: "var(--accent)" }}>{cat}</span>
-                    <span className="num ml-1.5 text-[13px]" style={{ color: "var(--text-muted)" }}>{list.length}종</span>
+                    <span className="t-micro font-bold" style={{ color: "var(--accent)" }}>{cat}</span>
+                    <span className="num ml-1.5 t-micro" style={{ color: "var(--text-muted)" }}>{list.length}종</span>
                   </td>
                 </tr>
                 {list.map((it) => (
@@ -290,7 +290,7 @@ export default function Methodology({ data }) {
       {/* 출처·한계 */}
       <section className="card p-4">
         <h2 className="t-section m-0">데이터 출처·한계 고지</h2>
-        <ul className="m-0 mt-2.5 list-none space-y-1.5 p-0 text-[13px]" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
+        <ul className="m-0 mt-2.5 list-none space-y-1.5 p-0 t-micro" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
           <li>· 시세 데이터: <a href="https://developers.neople.co.kr" target="_blank" rel="noreferrer">Neople 오픈 API</a> (경매장 등록·판매 완료). 원본 응답을 저장하지 않고 집계 수치만 쌓습니다.</li>
           <li>· 매물 수는 API 조회 상한(400건) 안에서, 실거래는 최근 100건 상한 안에서 24시간 집계합니다. 실제보다 적게 잡힐 수 있습니다.</li>
           <li>· 이벤트·패치 정보는 던전앤파이터 공식 공지에서 수동 큐레이션합니다. 자동 수집은 쓰지 않습니다.</li>

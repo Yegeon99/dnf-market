@@ -16,7 +16,7 @@ export function SeverityBadge({ severity }) {
   const bg = { high: "var(--raw-red-050)", mid: "var(--gold-soft)", low: "var(--bg-sunken)" }[severity] || "var(--bg-sunken)";
   const fg = { high: "var(--up)", mid: "var(--gold-text)", low: "var(--text-secondary)" }[severity];
   return (
-    <span className="px-1.5 py-0.5 text-[13px] font-medium" style={{ background: bg, color: fg, borderRadius: "var(--badge-radius)" }}>
+    <span className="px-1.5 py-0.5 t-micro font-medium" style={{ background: bg, color: fg, borderRadius: "var(--badge-radius)" }}>
       심각도 {SEV_LABEL[severity] || severity}
     </span>
   );
@@ -25,7 +25,7 @@ export function SeverityBadge({ severity }) {
 export function LowLiquidityBadge() {
   return (
     <span
-      className="whitespace-nowrap px-1.5 py-0.5 text-[13px] font-medium"
+      className="whitespace-nowrap px-1.5 py-0.5 t-micro font-medium"
       style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)", border: "1px solid var(--hairline)", borderRadius: "var(--badge-radius)" }}
       title="매물 수가 적어 소수 등록·거래만으로 지표가 크게 움직일 수 있는 품목입니다. 변동 해석에 주의하세요."
     >
@@ -40,7 +40,7 @@ export function ConfidenceBadge({ confidence }) {
   const strong = confidence === "확정";
   return (
     <span
-      className="px-1.5 py-0.5 text-[13px] font-medium"
+      className="px-1.5 py-0.5 t-micro font-medium"
       style={{
         background: strong ? "var(--accent-soft)" : "var(--bg-sunken)",
         color: strong ? "var(--accent)" : "var(--text-secondary)",

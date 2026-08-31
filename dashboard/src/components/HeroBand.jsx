@@ -23,7 +23,7 @@ export default function HeroBand({ cells, date, rows = [] }) {
       </div>
       <div className="min-w-0">
         <ChangeStackBar cells={cells} />
-        <p className="num m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-muted)" }}>
+        <p className="num m-0 mt-1.5 t-micro" style={{ color: "var(--text-muted)" }}>
           기준일 {date ?? "집계 전"} · 오늘 {today}회 수집 (누적 {st.slots}회 / {st.days}일)
         </p>
       </div>

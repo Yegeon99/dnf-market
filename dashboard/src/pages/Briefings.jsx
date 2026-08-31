@@ -6,6 +6,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { publishChanges, fmtSignedPct, DEFINITION_CHANGED_AT } from "../lib/data";
 import { ConfidenceBadge, Empty, SeverityBadge, Change, LowLiquidityBadge } from "../components/ui";
 import { highlight, itemNamePool } from "../components/rich";
+import { LIFT_SHADOW, REST_SHADOW, RING_OFF, RING_ON } from "../lib/motion-tokens";
 
 function BulletIcon() {
   return (
@@ -50,7 +51,7 @@ function AnomalyRow({ a, maxAbs }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 py-1">
       <Link to={`/item/${a.itemId}`} className="min-w-0 flex-1 truncate text-sm font-semibold">{a.itemName}</Link>
-      <Change value={a.change_pct} className="text-[15px]" />
+      <Change value={a.change_pct} className="t-body-lg" />
       <Gauge pct={a.change_pct} maxAbs={maxAbs} />
     </div>
   );
@@ -66,8 +67,8 @@ function AnomalyGroupCard({ group, maxAbs }) {
   const range = [...group].sort((a, b) => Math.abs(b.change_pct) - Math.abs(a.change_pct));
   return (
     <m.div className="rounded p-3" style={{ background: "var(--bg-sunken)" }}
-      initial={reduce ? false : { boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0.45)" }}
-      animate={{ boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0)" }}
+      initial={reduce ? false : { boxShadow: RING_ON }}
+      animate={{ boxShadow: RING_OFF }}
       transition={{ duration: 1.2, delay: 0.35, ease: "easeOut" }}>
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>{title}</span>
@@ -76,7 +77,7 @@ function AnomalyGroupCard({ group, maxAbs }) {
         {hyp && <ConfidenceBadge confidence={hyp.confidence} />}
       </div>
       {hyp && (
-        <p className="m-0 mt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+        <p className="m-0 mt-1 t-micro" style={{ color: "var(--text-secondary)" }}>
           {hyp.text}. 최대 변동은 <b>{range[0].itemName}</b> <Change value={range[0].change_pct} />.
           {hyp.evidence_urls?.map((u) => (
             <a key={u} href={u} target="_blank" rel="noreferrer" className="ml-2">근거 ↗</a>
@@ -99,20 +100,20 @@ function AnomalySingleCard({ a, maxAbs }) {
   const reduce = useReducedMotion();
   return (
     <m.div className="rounded p-3" style={{ background: "var(--bg-sunken)" }}
-      initial={reduce ? false : { boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0.45)" }}
-      animate={{ boxShadow: "inset 0 0 0 2px rgba(184, 79, 74, 0)" }}
+      initial={reduce ? false : { boxShadow: RING_ON }}
+      animate={{ boxShadow: RING_OFF }}
       transition={{ duration: 1.2, delay: 0.35, ease: "easeOut" }}>
       <div className="flex flex-wrap items-center gap-2">
         <Link to={`/item/${a.itemId}`} className="text-sm font-semibold">{a.itemName}</Link>
-        <span className="text-[13px]">{METRIC_LABEL[a.metric] ?? a.metric}</span>
-        <Change value={a.change_pct} className="text-[15px]" />
+        <span className="t-micro">{METRIC_LABEL[a.metric] ?? a.metric}</span>
+        <Change value={a.change_pct} className="t-body-lg" />
         <Gauge pct={a.change_pct} maxAbs={maxAbs} />
         <SeverityBadge severity={a.severity} />
         {a.lowLiquidity && <LowLiquidityBadge />}
         {a.ai_hypothesis && <ConfidenceBadge confidence={a.ai_hypothesis.confidence} />}
       </div>
       {a.ai_hypothesis && (
-        <p className="m-0 mt-1 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+        <p className="m-0 mt-1 t-micro" style={{ color: "var(--text-secondary)" }}>
           {a.ai_hypothesis.text}
           {a.ai_hypothesis.evidence_urls?.map((u) => (
             <a key={u} href={u} target="_blank" rel="noreferrer" className="ml-2">근거 ↗</a>
@@ -180,14 +181,14 @@ export default function Briefings({ data }) {
                   <m.button onClick={() => setSelected(b.date)}
                     aria-current={on ? "true" : undefined}
                     className="card block w-full cursor-pointer p-2.5 text-left"
-                    whileHover={{ y: -3, boxShadow: on ? "inset 2px 0 0 var(--accent), 0 8px 22px rgba(27, 33, 48, 0.14)" : "0 8px 22px rgba(27, 33, 48, 0.14)" }}
+                    whileHover={{ y: -3, boxShadow: on ? `inset 2px 0 0 var(--accent), ${LIFT_SHADOW}` : LIFT_SHADOW }}
                     whileTap={{ y: -1 }}
                     transition={{ duration: 0.18, ease: "easeOut" }}
                     style={on
                       ? { borderColor: "var(--accent)", boxShadow: "inset 2px 0 0 var(--accent)" }
-                      : { boxShadow: "0 0 0 rgba(27, 33, 48, 0)" }}>
+                      : { boxShadow: REST_SHADOW }}>
                     <span className="num text-sm" style={{ color: on ? "var(--accent)" : "var(--text-primary)", fontWeight: on ? 700 : 500 }}>{b.date}</span>
-                    <span className="mt-0.5 flex items-center gap-2 text-[13px]" style={{ color: "var(--text-muted)" }}>
+                    <span className="mt-0.5 flex items-center gap-2 t-micro" style={{ color: "var(--text-muted)" }}>
                       <span>이상 {anomalyTotals?.[b.date]?.detected
                         ?? anomalies.filter((a) => a.date === b.date).length}건</span>
                       {ext && (
@@ -225,7 +226,7 @@ export default function Briefings({ data }) {
               {highlight(cur.headline)}
             </h2>
             {cur.date < DEFINITION_CHANGED_AT && (
-              <p className="m-0 mt-2 rounded px-3 py-2 text-[13px]"
+              <p className="m-0 mt-2 rounded px-3 py-2 t-micro"
                  style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)" }}>
                 이 브리핑은 발행 당시 기준입니다. 이후 수치를 계산하는 방식이 바뀌어
                 지금 데이터와는 다르게 보일 수 있습니다.
@@ -234,7 +235,7 @@ export default function Briefings({ data }) {
               </p>
             )}
             <hr className="rule mt-3 mb-3" />
-            <ul className="m-0 list-none space-y-2 p-0 text-[15px]" style={{ color: "var(--text-primary)" }}>
+            <ul className="m-0 list-none space-y-2 p-0 t-body-lg" style={{ color: "var(--text-primary)" }}>
               {cur.summary_3lines.map((l, i) => (
                 <li key={i} className="flex gap-2">
                   <BulletIcon />
@@ -261,7 +262,7 @@ export default function Briefings({ data }) {
               <div className="mt-5 border-t pt-3" style={{ borderColor: "var(--hairline)" }}>
                 <h3 className="t-kicker m-0">연결된 이상 변동·가설</h3>
                 {cut > 0 && (
-                  <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)" }}>
+                  <p className="m-0 mt-1.5 t-micro" style={{ color: "var(--text-secondary)" }}>
                     이 날 실제로 탐지된 이상은 <b className="num">{totals.detected}건</b>입니다.
                     표시 상한 때문에 심각도와 변동 폭이 큰 <b className="num">{linked.length}건</b>만 아래에 싣습니다.
                     위 브리핑 본문이 건수를 다르게 말한다면 이 수치가 기준입니다.

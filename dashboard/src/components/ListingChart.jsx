@@ -69,7 +69,7 @@ export default function ListingChart({ series, height = 116 }) {
           ));
         })()}
       </svg>
-      <div className="px-2 text-[13px]" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 회차는 빈 칸)</div>
+      <div className="px-2 t-micro" style={{ color: "var(--text-secondary)" }}>매물 수 (등록 기준, 결손 회차는 빈 칸)</div>
     </div>
   );
 }

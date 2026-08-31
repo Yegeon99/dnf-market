@@ -1,5 +1,5 @@
 {
- "updatedFrom": 35,
+ "updatedFrom": 36,
  "rows": [
   {
    "itemId": "04a1c3b13441800e275ebed957adcc8e",
@@ -12569,7 +12569,7 @@
    "soldAvgUnitPrice24h": 12001772.38,
    "soldMedUnitPrice24h": 11979999.0,
    "soldCapped": true,
-   "soldWindowHours": 23.0
+   "soldWindowHours": 23.2
   },
   {
    "itemId": "0756f89fac0518d4390f3e371adf7479",
@@ -12644,7 +12644,7 @@
    "soldAvgUnitPrice24h": 3300000.0,
    "soldMedUnitPrice24h": 3200000.0,
    "soldCapped": false,
-   "soldWindowHours": 16.0
+   "soldWindowHours": 16.1
   },
   {
    "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
@@ -12659,7 +12659,7 @@
    "soldAvgUnitPrice24h": 2137998.0,
    "soldMedUnitPrice24h": 2137998.0,
    "soldCapped": false,
-   "soldWindowHours": 6.5
+   "soldWindowHours": 6.7
   },
   {
    "itemId": "30b8500c4447878005d9d1f433dac030",
@@ -12674,7 +12674,7 @@
    "soldAvgUnitPrice24h": 1979999.5,
    "soldMedUnitPrice24h": 1960000.0,
    "soldCapped": false,
-   "soldWindowHours": 16.0
+   "soldWindowHours": 16.1
   },
   {
    "itemId": "324c85d935a5e9358825380bf2065845",
@@ -12689,7 +12689,7 @@
    "soldAvgUnitPrice24h": 1800000.0,
    "soldMedUnitPrice24h": 1800000.0,
    "soldCapped": false,
-   "soldWindowHours": 7.8
+   "soldWindowHours": 7.9
   },
   {
    "itemId": "3738d8271ec853e926cd146623adf952",
@@ -12704,7 +12704,7 @@
    "soldAvgUnitPrice24h": 228.38,
    "soldMedUnitPrice24h": 227.0,
    "soldCapped": true,
-   "soldWindowHours": 10.6
+   "soldWindowHours": 10.8
   },
   {
    "itemId": "4390b9e236193bc39855cc8964d23faa",
@@ -12719,7 +12719,7 @@
    "soldAvgUnitPrice24h": 50.51,
    "soldMedUnitPrice24h": 53.0,
    "soldCapped": true,
-   "soldWindowHours": 23.1
+   "soldWindowHours": 23.2
   },
   {
    "itemId": "488c3191c2afd5b4762f978edb61f5a4",
@@ -12734,7 +12734,7 @@
    "soldAvgUnitPrice24h": 6500000.0,
    "soldMedUnitPrice24h": 6500000.0,
    "soldCapped": false,
-   "soldWindowHours": 10.2
+   "soldWindowHours": 10.4
   },
   {
    "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
@@ -12749,7 +12749,7 @@
    "soldAvgUnitPrice24h": 448286.52,
    "soldMedUnitPrice24h": 450000.0,
    "soldCapped": true,
-   "soldWindowHours": 9.6
+   "soldWindowHours": 9.8
   },
   {
    "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
@@ -12760,8 +12760,8 @@
    "medUnitPrice": 1888888.0,
    "listingCount": 4,
    "listingQty": 78,
-   "soldCount24h": 32,
-   "soldAvgUnitPrice24h": 1426478.57,
+   "soldCount24h": 31,
+   "soldAvgUnitPrice24h": 1428766.24,
    "soldMedUnitPrice24h": 1255000.0,
    "soldCapped": true,
    "soldWindowHours": 23.9
@@ -12770,16 +12770,16 @@
    "itemId": "785e56a0ed4e3efd573da1f56a45217d",
    "date": "2026-09-01",
    "slot": "h07",
-   "minUnitPrice": 22,
+   "minUnitPrice": 23,
    "avgUnitPrice": 25.59,
    "medUnitPrice": 24.0,
-   "listingCount": 140,
-   "listingQty": 106534218,
+   "listingCount": 141,
+   "listingQty": 106725108,
    "soldCount24h": 100,
-   "soldAvgUnitPrice24h": 23.58,
+   "soldAvgUnitPrice24h": 23.47,
    "soldMedUnitPrice24h": 24.0,
    "soldCapped": true,
-   "soldWindowHours": 2.4
+   "soldWindowHours": 2.6
   },
   {
    "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
@@ -12794,22 +12794,22 @@
    "soldAvgUnitPrice24h": 6246222.0,
    "soldMedUnitPrice24h": 4485000.0,
    "soldCapped": false,
-   "soldWindowHours": 11.7
+   "soldWindowHours": 11.8
   },
   {
    "itemId": "897cab594bbd04dda00619abfe885674",
    "date": "2026-09-01",
    "slot": "h07",
-   "minUnitPrice": 20000,
-   "avgUnitPrice": 25057.95,
+   "minUnitPrice": 19055,
+   "avgUnitPrice": 25028.79,
    "medUnitPrice": 27998.0,
-   "listingCount": 32,
-   "listingQty": 1240,
+   "listingCount": 34,
+   "listingQty": 1247,
    "soldCount24h": 100,
    "soldAvgUnitPrice24h": 19576.36,
    "soldMedUnitPrice24h": 19799.0,
    "soldCapped": true,
-   "soldWindowHours": 5.0
+   "soldWindowHours": 5.2
   },
   {
    "itemId": "8b998230ab012e695e9a53d67187cc3f",
@@ -12824,7 +12824,7 @@
    "soldAvgUnitPrice24h": 1433.59,
    "soldMedUnitPrice24h": 1546.0,
    "soldCapped": true,
-   "soldWindowHours": 17.4
+   "soldWindowHours": 17.6
   },
   {
    "itemId": "8e132da6f012fc61191ca68df4663b44",
@@ -12854,7 +12854,7 @@
    "soldAvgUnitPrice24h": 54.47,
    "soldMedUnitPrice24h": 54.0,
    "soldCapped": true,
-   "soldWindowHours": 23.0
+   "soldWindowHours": 23.1
   },
   {
    "itemId": "b5ccbf772a3883e3171f682679e2b421",
@@ -12869,22 +12869,22 @@
    "soldAvgUnitPrice24h": 2080000.0,
    "soldMedUnitPrice24h": 2080000.0,
    "soldCapped": false,
-   "soldWindowHours": 7.7
+   "soldWindowHours": 7.9
   },
   {
    "itemId": "b682af8902d22554c7b90386abd18762",
    "date": "2026-09-01",
    "slot": "h07",
    "minUnitPrice": 1240,
-   "avgUnitPrice": 1330.52,
-   "medUnitPrice": 1335.0,
+   "avgUnitPrice": 1332.08,
+   "medUnitPrice": 1337.0,
    "listingCount": 43,
-   "listingQty": 366569,
+   "listingQty": 360347,
    "soldCount24h": 100,
-   "soldAvgUnitPrice24h": 1221.02,
+   "soldAvgUnitPrice24h": 1222.67,
    "soldMedUnitPrice24h": 1240.0,
    "soldCapped": true,
-   "soldWindowHours": 5.9
+   "soldWindowHours": 6.1
   },
   {
    "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
@@ -12899,7 +12899,7 @@
    "soldAvgUnitPrice24h": 6077555.2,
    "soldMedUnitPrice24h": 3900000.0,
    "soldCapped": true,
-   "soldWindowHours": 11.7
+   "soldWindowHours": 11.8
   },
   {
    "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
@@ -12944,7 +12944,7 @@
    "soldAvgUnitPrice24h": 1923888.67,
    "soldMedUnitPrice24h": 1898000.0,
    "soldCapped": false,
-   "soldWindowHours": 16.0
+   "soldWindowHours": 16.1
   },
   {
    "itemId": "d584d612f09215ef0c42498e6990b61d",
@@ -12959,7 +12959,7 @@
    "soldAvgUnitPrice24h": 27.81,
    "soldMedUnitPrice24h": 28.0,
    "soldCapped": true,
-   "soldWindowHours": 22.6
+   "soldWindowHours": 22.7
   },
   {
    "itemId": "d9bc96637286b4f5449d21d36e44675d",
@@ -12974,7 +12974,7 @@
    "soldAvgUnitPrice24h": 19.14,
    "soldMedUnitPrice24h": 20.0,
    "soldCapped": true,
-   "soldWindowHours": 22.7
+   "soldWindowHours": 22.9
   },
   {
    "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
@@ -12989,7 +12989,7 @@
    "soldAvgUnitPrice24h": 2500000.0,
    "soldMedUnitPrice24h": 2500000.0,
    "soldCapped": false,
-   "soldWindowHours": 12.1
+   "soldWindowHours": 12.2
   },
   {
    "itemId": "f11f806769afaae8b05be488e20b6109",
@@ -13004,22 +13004,22 @@
    "soldAvgUnitPrice24h": 1882500.0,
    "soldMedUnitPrice24h": 1970000.0,
    "soldCapped": false,
-   "soldWindowHours": 10.2
+   "soldWindowHours": 10.4
   },
   {
    "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
    "date": "2026-09-01",
    "slot": "h07",
    "minUnitPrice": 500,
-   "avgUnitPrice": 692.5,
+   "avgUnitPrice": 694.02,
    "medUnitPrice": 740.0,
    "listingCount": 44,
-   "listingQty": 1233639,
+   "listingQty": 1223965,
    "soldCount24h": 100,
-   "soldAvgUnitPrice24h": 498.38,
+   "soldAvgUnitPrice24h": 498.39,
    "soldMedUnitPrice24h": 500.0,
    "soldCapped": true,
-   "soldWindowHours": 8.2
+   "soldWindowHours": 8.3
   }
  ]
 }

@@ -69,14 +69,14 @@
    }
   },
   "2026-09-01": {
-   "calls": 2,
-   "inputTokens": 6948,
-   "outputTokens": 2000,
-   "costUsd": 0.08474,
+   "calls": 3,
+   "inputTokens": 10419,
+   "outputTokens": 3475,
+   "costUsd": 0.13897,
    "byCaller": {
     "briefing": {
-     "calls": 2,
-     "costUsd": 0.08474
+     "calls": 3,
+     "costUsd": 0.13897
     }
    }
   }

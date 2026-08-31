@@ -32,6 +32,16 @@ function check(name, ok, detail) {
 }
 
 // ── 재계산: 원본 timeseries에서 직접 (표시 로직과 공유 코드 없음) ──────────
+// 정책은 화면·detect.py와 같게 맞춘다. 구현만 독립이다.
+//  1. 일 대표가 = 회차 대표가의 평균, 회차 대표가 = 중앙값(medUnitPrice).
+//     중앙값 기록이 없는 2026-08-30 이전 회차만 평균(avgUnitPrice)으로 대체한다
+//  2. 전일 대비는 두 날에 모두 있는 회차(공통 슬롯)로만 비교한다
+const mean = (vals) => {
+  const v = vals.filter((x) => x != null);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+};
+const repOf = (r) => r?.medUnitPrice ?? r?.avgUnitPrice ?? null;
+
 function recalcDaily(rows, itemId) {
   const byDate = new Map();
   for (const r of rows) {
@@ -40,18 +50,13 @@ function recalcDaily(rows, itemId) {
     byDate.get(r.date).push(r);
   }
   return [...byDate.entries()]
-    .map(([date, recs]) => {
-      const mean = (vals) => {
-        const v = vals.filter((x) => x != null);
-        return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
-      };
-      return {
-        date,
-        avgPrice: mean(recs.map((r) => r.avgUnitPrice)),
-        listing: mean(recs.map((r) => r.listingCount)),
-        slots: recs.map((r) => r.slot).sort(),
-      };
-    })
+    .map(([date, recs]) => ({
+      date,
+      avgPrice: mean(recs.map(repOf)),
+      listing: mean(recs.map((r) => r.listingCount)),
+      slots: recs.map((r) => r.slot).sort(),
+      recs,
+    }))
     .sort((a, b) => (a.date < b.date ? -1 : 1));
 }
 
@@ -60,18 +65,59 @@ function recalcDod(rows, itemId, date, { slotFilter = null } = {}) {
   const i = daily.findIndex((d) => d.date === date);
   if (i <= 0) return { price: null, listing: null };
   const prev = daily[i - 1];
-  let cur = daily[i];
-  if (slotFilter) {
-    const recs = rows.filter((r) => r.itemId === itemId && r.date === date && slotFilter(r.slot));
-    const mean = (vals) => {
-      const v = vals.filter((x) => x != null);
-      return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
-    };
-    cur = { avgPrice: mean(recs.map((r) => r.avgUnitPrice)), listing: mean(recs.map((r) => r.listingCount)) };
-  }
   const pct = (p, c) => (p == null || c == null || p === 0 ? null : ((c - p) / p) * 100);
-  return { price: pct(prev.avgPrice, cur.avgPrice), listing: pct(prev.listing, cur.listing) };
+
+  if (slotFilter) {
+    // 발행 시점 기준: 당일은 지정 회차만, 전일은 그날 전체 회차 (브리핑이 쓴 기준 그대로)
+    const recs = daily[i].recs.filter((r) => slotFilter(r.slot));
+    return {
+      price: pct(prev.avgPrice, mean(recs.map(repOf))),
+      listing: pct(prev.listing, mean(recs.map((r) => r.listingCount))),
+    };
+  }
+
+  // 최신 수집 기준: 두 날 공통 회차만으로 비교
+  const prevSlots = new Set(prev.recs.map((r) => r.slot));
+  const common = daily[i].recs.filter((r) => prevSlots.has(r.slot));
+  if (!common.length) return { price: null, listing: null };
+  const commonSlots = new Set(common.map((r) => r.slot));
+  const prevCommon = prev.recs.filter((r) => commonSlots.has(r.slot));
+  return {
+    price: pct(mean(prevCommon.map(repOf)), mean(common.map(repOf))),
+    listing: pct(mean(prevCommon.map((r) => r.listingCount)), mean(common.map((r) => r.listingCount))),
+  };
 }
+
+/** 브리핑이 발행 시점에 실제로 본 등락률.
+ *
+ *  브리핑은 심야 회차(h03)에서 만들어지고, 그때 그날 데이터는 그 회차 하나뿐이다.
+ *  파이프라인은 두 날 공통 회차로만 비교하므로 기준은 "당일 h03 vs 전일 h03"이 된다.
+ *  이후 회차가 그날에 더 쌓이면 일 평균이 달라져, 완성된 날짜로 사후 재계산하면
+ *  브리핑이 인용한 수치를 재현할 수 없다. 그래서 발행 시점 기준을 따로 복원한다.
+ */
+function publishBasisChanges(rows, items, date) {
+  const prevDate = prevDateOf(rows, date);
+  if (!prevDate) return [];
+  // 발행 회차는 보통 심야(h03)지만, 예약 실행이 밀려 그 회차가 통째로 빈 날도 있다
+  // (2026-08-27은 h11 하나뿐). 그날 실제로 있던 회차 중 전일에도 있는 첫 회차를 쓴다.
+  const slotsOf = (d) => [...new Set(rows.filter((r) => r.date === d).map((r) => r.slot))].sort();
+  const prevSlots = new Set(slotsOf(prevDate));
+  const slot = [briefingSlot, ...slotsOf(date)].find((sl) => prevSlots.has(sl) && rows
+    .some((r) => r.date === date && r.slot === sl));
+  if (!slot) return [];
+  const recOf = (itemId, d) => rows.find((x) => x.itemId === itemId && x.date === d && x.slot === slot);
+  const pct = (p, c) => (p == null || c == null || p === 0 ? null : ((c - p) / p) * 100);
+  // 가격과 매물 수를 모두 낸다. 브리핑은 표시 상한(하루 10건)에 잘려 anomalies.json에
+  // 남지 않은 매물 수 변동도 인용할 수 있어, 그 근거까지 복원해야 대조가 성립한다.
+  return items.flatMap((it) => {
+    const cur = recOf(it.itemId, date), prev = recOf(it.itemId, prevDate);
+    return [
+      { itemId: it.itemId, name: it.name, changePct: pct(repOf(prev), repOf(cur)) },
+      { itemId: it.itemId, name: it.name, changePct: pct(prev?.listingCount, cur?.listingCount) },
+    ];
+  });
+}
+
 
 // ── 데이터 로드 ───────────────────────────────────────────────────────────
 const FILES = ["timeseries.json", "anomalies.json", "briefings.json", "backfill.json"];
@@ -135,16 +181,18 @@ const date = latestDate(rows);
 {
   const bad = [];
   const ll = thresholds.lowLiquidity;
-  const tiersFor = (m) => thresholds.dayOverDay[m];
+  const tiersFor = (m, basis) =>
+    (basis === "ma7" ? thresholds.movingAverage : thresholds.dayOverDay)[m];
   for (const a of anomalies) {
     const recomputed = a.baseValue === 0 ? null : ((a.currentValue - a.baseValue) / a.baseValue) * 100;
     if (recomputed == null || Math.abs(recomputed - a.change_pct) > TOL) {
       bad.push(`${a.itemName}: change_pct ${a.change_pct} vs 재계산 ${recomputed?.toFixed(2)}`);
     }
     // severity 재판정 (저유동 강등은 슬롯 지속성 판단이라 여기서는 상한만 확인)
-    const t = tiersFor(a.metric);
+    // 7일 이동평균 이탈(basis: ma7)은 전일 대비와 임계표가 다르다. low 구간도 없다.
+    const t = tiersFor(a.metric, a.basis);
     const abs = Math.abs(a.change_pct);
-    const nominal = abs >= t.high ? "high" : abs >= t.mid ? "mid" : abs >= t.low ? "low" : null;
+    const nominal = abs >= t.high ? "high" : abs >= t.mid ? "mid" : (t.low != null && abs >= t.low) ? "low" : null;
     if (nominal == null) bad.push(`${a.itemName}: 임계치 미달인데 이상으로 기록됨 (${abs.toFixed(2)}%)`);
     const rank = { high: 0, mid: 1, low: 2 };
     if (nominal && rank[a.severity] < rank[nominal]) {
@@ -169,21 +217,27 @@ const date = latestDate(rows);
   const bad = [];
   for (const b of briefings) {
     const texts = [b.headline, ...b.summary_3lines, ...(b.notable || []).map((n) => n.comment)];
-    const pcts = texts.flatMap((t) => [...String(t).matchAll(/([+-]?\d+(?:\.\d+)?)%/g)].map((m) => parseFloat(m[1])));
+    const pcts = texts.flatMap((t) => [...String(t).matchAll(/([+-]?\d+(?:\.\d+)?)%/g)]
+      .map((m) => ({ value: parseFloat(m[1]), signed: /^[+-]/.test(m[1]) })));
     if (!pcts.length) continue;
     // 대조 후보: 그 브리핑이 실제로 쓴 기준의 가격 등락 + 그날 anomalies + 임계치 상수.
     // 수집 실패 브리핑은 전일 최신 수집 기준(dodChanges)을 인용한다.
     const prev = b.collectionFailed ? prevDateOf(rows, b.date) : null;
     const priceSet = (b.collectionFailed
       ? (prev ? dodChanges(rows, items, prev) : [])
-      : publishChanges(rows, items, b.date)
+      : [...publishBasisChanges(rows, items, b.date), ...publishChanges(rows, items, b.date)]
     ).map((c) => c.changePct).filter((v) => v != null);
     const anomSet = anomalies.filter((a) => a.date === b.date).map((a) => a.change_pct);
     const constSet = [thresholds.dayOverDay.avgPrice.low, thresholds.dayOverDay.avgPrice.mid,
                       thresholds.dayOverDay.avgPrice.high];
     const pool = [...priceSet, ...anomSet, ...constSet];
-    for (const p of pcts) {
-      if (!pool.some((v) => Math.abs(v - p) <= TOL)) bad.push(`${b.date}: ${p}% 근거 없음`);
+    // 본문은 방향을 말로 쓰고 수치는 부호 없이 적는다("42.11% 하락했다").
+    // 부호를 직접 적은 토큰만 부호까지 대조하고, 나머지는 절대값으로 대조한다.
+    for (const { value, signed } of pcts) {
+      const ok = pool.some((v) => signed
+        ? Math.abs(v - value) <= TOL
+        : Math.abs(Math.abs(v) - Math.abs(value)) <= TOL);
+      if (!ok) bad.push(`${b.date}: ${value}% 근거 없음`);
     }
   }
   check("브리핑 인용 수치 전수 대조", bad.length === 0,

@@ -30,6 +30,17 @@ OUT_PATH = ROOT / "data" / "briefings.json"
 SYSTEM_PROMPT = (ROOT / "pipeline" / "prompts" / "briefing_system.txt").read_text(encoding="utf-8-sig")
 
 MODEL = "claude-opus-5"
+# 한국어 JSON 응답은 1000토큰에서 잘렸다 (2026-09-01 run 33450478827, outputTokens 정확히 1000).
+# 상한을 올리되, 잘림 자체를 오류로 감지해 잘린 JSON을 파싱 시도하지 않는다.
+MAX_TOKENS = 2000
+
+
+class BriefingFormatError(ValueError):
+    """모델 응답이 형식을 어겼다. 이미 발생한 호출 비용을 함께 들고 다닌다."""
+
+    def __init__(self, message: str, cost: float = 0.0):
+        super().__init__(message)
+        self.cost = cost
 
 
 def market_summary(target_date: str) -> dict:
@@ -155,6 +166,39 @@ def stable_briefing(target_date: str, summary: dict) -> dict:
     }
 
 
+def fallback_briefing(target_date: str, summary: dict, anomalies: list,
+                     counts: dict, cost: float) -> dict:
+    """AI 브리핑이 형식을 어긴 날의 대체 브리핑.
+
+    이상이 있는 날이므로 안정 구간 템플릿을 쓰면 거짓이 된다. 탐지 결과를 그대로
+    옮기고, AI 문장 생성이 실패했다는 사실을 첫 줄에 밝힌다. 이미 나간 호출 비용도
+    숨기지 않고 그대로 기록한다.
+    """
+    n = summary["trackedItems"]
+    detected = counts.get("detected", len(anomalies))
+    top = sorted(anomalies, key=lambda a: abs(a["change_pct"]), reverse=True)
+
+    lines = [f"AI 문장 생성이 형식 오류로 실패해, 탐지 결과를 규칙 기반으로 그대로 옮긴다."]
+    if top:
+        a = top[0]
+        metric = "가격" if a["metric"] == "avgPrice" else "매물 수"
+        lines.append(f"추적 {n}종 중 이상 {detected}건이 탐지됐고, 변동 폭이 가장 큰 것은 "
+                     f"{a['itemName']} {metric} {a['change_pct']}%다.")
+    else:
+        lines.append(f"추적 {n}종 중 이상 {detected}건이 탐지됐다.")
+    lines.append("원인 가설은 각 품목 상세와 아래 이상 변동 목록에서 확인할 수 있다.")
+
+    return {
+        "date": target_date,
+        "headline": f"이상 {detected}건 탐지, AI 요약 생성 실패로 규칙 기반 대체 발행",
+        "summary_3lines": lines[:3],
+        "notable": [],
+        "anomaly_ids": [a["id"] for a in anomalies],
+        "generatedBy": "template-fallback",
+        "costUsd": round(cost, 6),
+    }
+
+
 def llm_briefing(target_date: str, summary: dict, anomalies: list,
                  counts: dict | None = None) -> dict:
     check_budget()
@@ -177,15 +221,21 @@ def llm_briefing(target_date: str, summary: dict, anomalies: list,
     }
     resp = client.messages.create(
         model=MODEL,
-        max_tokens=1000,
+        max_tokens=MAX_TOKENS,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": json.dumps(payload, ensure_ascii=False)}],
     )
     cost = record_call(MODEL, resp.usage, "briefing")
-    text = next(b.text for b in resp.content if b.type == "text")
-    out = parse_json_block(text)
+    if resp.stop_reason == "max_tokens":
+        raise BriefingFormatError(f"응답이 {MAX_TOKENS} 토큰 상한에서 잘림", cost)
+    try:
+        text = next(b.text for b in resp.content if b.type == "text")
+        out = parse_json_block(text)
+    except (StopIteration, ValueError) as err:
+        raise BriefingFormatError(f"응답 파싱 실패: {err}", cost) from err
     lines = out.get("summary_3lines") or []
-    assert isinstance(out.get("headline"), str) and len(lines) == 3, "브리핑 형식 위반"
+    if not (isinstance(out.get("headline"), str) and len(lines) == 3):
+        raise BriefingFormatError("브리핑 형식 위반 (headline 또는 3줄 요약 누락)", cost)
     return {
         "date": target_date,
         "headline": out["headline"],
@@ -223,6 +273,11 @@ def main() -> int:
     except LLMBudgetExceeded as err:
         print(str(err))
         return 1
+    except BriefingFormatError as err:
+        # 브리핑을 건너뛰면 그날 화면이 통째로 비고, 회차 전체가 실패로 남는다.
+        # 탐지 결과는 이미 있으므로 규칙 기반으로라도 발행한다.
+        print(f"AI 브리핑 실패({err}), 규칙 기반 대체 브리핑으로 발행")
+        briefing = fallback_briefing(target_date, summary, today, counts, err.cost)
     except (ValueError, AssertionError, StopIteration) as err:
         print(f"브리핑 생성 실패: {err}")
         return 1

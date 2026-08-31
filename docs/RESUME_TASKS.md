@@ -64,7 +64,11 @@
 
 > 단계마다 사용자 승인 게이트가 있다. 승인 없이 다음 단계로 넘어가지 말 것.
 
-- [ ] B1. **[1단계 감사]** `web-design-guidelines` 스킬로 `dashboard/src` 전체 UI 감사.
+- [x] B1. **[1단계 감사] 완료 (2026-09-01) — 결과는 `docs/UI_AUDIT.md`. 수정 없음, 승인 대기**
+      Blocker 6건(본문 바로가기 없음, sticky 헤더 `scroll-margin-top`, 차트 툴팁 키보드 대안,
+      `role="img"` 안 인터랙티브 노드 2곳, 히트맵 툴팁 키보드 대안),
+      권장 15건, 참고 6건. 아래는 원래 지시문:
+- [x] B1-원문. `web-design-guidelines` 스킬로 `dashboard/src` 전체 UI 감사.
       대상: `App.jsx`, `pages/`(Overview·ItemDetail·Briefings·Methodology),
       `components/`(ChangeStackBar·HeatLegend·HeroBand·ListingChart·PriceChart·
       RankBoard·StatusStrip·reveal·rich·ui), `index.css`
@@ -112,9 +116,15 @@
       - 검증: `dev/test_collect_exit.py` 4케이스 통과
         (전면 5xx→0, ConnectionError→0, 401 섞임→1, 400 섞임→1)
 - [x] C2-b. 두 워크플로 커밋 스텝에 **푸시 재시도 루프**(rebase 후 3회) 추가 완료.
-      `for attempt in 1 2 3; do git pull --rebase origin master && git push && exit 0;
-      실패 시 ::warning + git rebase --abort + sleep 10; done` → 3회 모두 실패면 `::error` + exit 1.
-      YAML 파싱·`bash -n` 문법 검사 통과
+      **1차 구현(rebase 재시도)은 실전에서 실패해 폐기했다.** 두 워크플로를 같은 초에
+      수동 실행하니 concurrency 큐가 경합을 막지 못해 같은 분(08:19) 스냅샷이 양쪽에서
+      생성됐고, `CONFLICT (add/add) data/snapshots/2026-09-01_0819.json` +
+      `CONFLICT (content) data/timeseries.json` 으로 rebase가 3회 모두 실패
+      (run `33450158710`). 재시도 루프 자체는 정상 동작했으나 rebase로는 이 충돌을 못 푼다.
+      **2차 구현 = `.github/scripts/commit_data.sh`** (두 워크플로 공용):
+      push 실패 시 원격 최신으로 `reset --hard` → 우리 회차 `data/` 파일을 `checkout <ours> -- data/`
+      로 얹기(원격에만 있는 파일은 보존) → `aggregate.py` 로 시계열 재생성 → 재커밋, 최대 3회.
+      시계열은 스냅샷 파생물이라 재생성이 항상 정답이다. YAML 파싱·`bash -n` 통과
 - [ ] C2-c. 워크플로 설정 오류 — C1 결과상 **해당 없음**
 - [x] C3. `run_daily.py` 연쇄 실패 방지 확인 완료.
       현재 STEPS 에서 수집은 `critical=False` 지만 `exit_code` 로 전파된다.

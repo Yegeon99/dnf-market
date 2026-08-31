@@ -29,6 +29,12 @@ function Gauge({ pct, maxAbs, width = 96 }) {
 
 const METRIC_LABEL = { avgPrice: "가격", listingCount: "매물 수" };
 
+// 생성 방식 표기. template-fallback은 AI 호출이 형식을 어겨 규칙 기반으로 대체 발행한 날이다
+const GEN_LABEL = {
+  template: "규칙 기반(무비용)",
+  "template-fallback": "규칙 기반 대체(AI 생성 실패)",
+};
+
 /** 같은 사유(지표·심각도·저유동·가설 문구)의 이상 변동을 그룹으로 묶는다 */
 function groupAnomalies(list) {
   const map = new Map();
@@ -211,7 +217,7 @@ export default function Briefings({ data }) {
             <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span className="t-eyebrow" style={{ color: "var(--gold-text)" }}>오늘의 조간 리포트</span>
               <span className="t-kicker num">
-                {cur.date} {cur.collectionFailed ? "심야 회차 수집 실패, 전일 데이터 기준" : "심야 회차 발행 기준"} · 생성 {cur.generatedBy === "template" ? "규칙 기반(무비용)" : cur.generatedBy}
+                {cur.date} {cur.collectionFailed ? "심야 회차 수집 실패, 전일 데이터 기준" : "심야 회차 발행 기준"} · 생성 {GEN_LABEL[cur.generatedBy] ?? cur.generatedBy}
                 {cur.costUsd > 0 && <span> · LLM 비용 ${cur.costUsd.toFixed(4)}</span>}
               </span>
             </div>

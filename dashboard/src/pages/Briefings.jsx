@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Link, useSearchParams } from "react-router-dom";
-import { publishChanges, fmtSignedPct } from "../lib/data";
+import { publishChanges, fmtSignedPct, DEFINITION_CHANGED_AT } from "../lib/data";
 import { ConfidenceBadge, Empty, SeverityBadge, Change, LowLiquidityBadge } from "../components/ui";
 import { highlight, itemNamePool } from "../components/rich";
 
@@ -224,6 +224,15 @@ export default function Briefings({ data }) {
             <h2 className="t-section headline-nums m-0 mt-2" style={{ fontSize: "clamp(1.5rem, 2.6vw, 1.9rem)", lineHeight: 1.4 }}>
               {highlight(cur.headline)}
             </h2>
+            {cur.date < DEFINITION_CHANGED_AT && (
+              <p className="m-0 mt-2 rounded px-3 py-2 text-[13px]"
+                 style={{ background: "var(--bg-sunken)", color: "var(--text-secondary)" }}>
+                이 브리핑은 발행 당시 기준입니다. 이후 수치를 계산하는 방식이 바뀌어
+                지금 데이터와는 다르게 보일 수 있습니다.
+                발행된 글은 기록이라서 고치지 않습니다.
+                무엇이 언제 바뀌었는지는 <Link to="/methodology">방법론·정책</Link>에 적어 두었습니다.
+              </p>
+            )}
             <hr className="rule mt-3 mb-3" />
             <ul className="m-0 list-none space-y-2 p-0 text-[15px]" style={{ color: "var(--text-primary)" }}>
               {cur.summary_3lines.map((l, i) => (

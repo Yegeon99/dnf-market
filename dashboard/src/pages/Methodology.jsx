@@ -207,6 +207,44 @@ export default function Methodology({ data }) {
         </ul>
       </section>
 
+      {/* 지표 정의 변경 이력 */}
+      <section className="card p-4">
+        <h2 className="t-section m-0">지표 정의 변경 이력</h2>
+        <p className="m-0 mt-1.5 text-[13px]" style={{ color: "var(--text-secondary)", maxWidth: 680, lineHeight: 1.7 }}>
+          수치를 계산하는 방식이 바뀐 적이 있습니다. 언제 무엇을 왜 바꿨는지 여기에 남깁니다.
+          <b> 2026-08-31 발행분부터</b> 아래 방식이 적용됐고, 그 이전 브리핑은 발행 당시 방식으로 쓰였습니다.
+        </p>
+        <div className="scroll-x mt-2.5">
+          <table className="plain" style={{ minWidth: 460 }}>
+            <thead>
+              <tr><th style={{ width: "17%" }}>적용</th><th style={{ width: "30%" }}>바뀐 것</th><th>바꾼 이유</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="num">2026-08-31</td>
+                <td>등록 대표가를 매물 단가의 평균에서 <b>중앙값</b>으로</td>
+                <td>경매장에는 시세와 동떨어진 가격의 매물이 상시 섞여 있습니다.
+                    매물이 몇 건뿐인 품목은 그 한 건이 평균을 통째로 끌고 갑니다.
+                    실측으로 매물 2건짜리 품목의 평균가가 실거래가의 10배였습니다.</td>
+              </tr>
+              <tr>
+                <td className="num">2026-08-31</td>
+                <td>회차 라벨을 <b>수집 시각 기준으로 다시 매김</b></td>
+                <td>하루 수집을 3회에서 6회로 늘리면서 옛 라벨과 새 라벨이 섞였습니다.
+                    같은 시간대끼리 비교되도록 저장된 수집 시각으로 라벨을 다시 계산합니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul className="m-0 mt-2.5 list-none space-y-1 p-0 text-[13px]" style={{ color: "var(--text-secondary)", lineHeight: 1.7 }}>
+          <li>· <b>과거 발행분은 고치지 않습니다.</b> 그날 발행된 글을 나중에 손보면 아카이브가 기록이 아니게 됩니다.
+              대신 해당 브리핑에 발행 당시 기준이라는 고지를 붙입니다.</li>
+          <li>· 그래서 정의 변경 이전 브리핑의 일부 수치는 지금 데이터로 다시 계산해도 그대로 나오지 않습니다.
+              자동 감사도 이 구간을 실패로 세지 않고 별도 목록으로 표시합니다.</li>
+          <li>· 차트에서도 2026-08-30 이전에 수집한 회차는 중앙값 기록이 없어 평균값을 그대로 씁니다.</li>
+        </ul>
+      </section>
+
       {/* 품목 선정 근거 */}
       <section className="card p-4">
         <h2 className="t-section m-0">추적 품목 선정 근거 ({items.length}종)</h2>

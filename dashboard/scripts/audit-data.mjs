@@ -21,6 +21,9 @@ const prevDateOf = (rows, d) => [...new Set(rows.map((r) => r.date))].sort().fil
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..", "..");
 const TOL = 0.1; // 허용 오차 (%p)
+// 지표 정의가 바뀐 날. 이 날 발행분부터 새 정의(등록 대표가 중앙값 + 재산출된 회차 라벨)로
+// 계산됐다. 그 이전 브리핑은 발행 당시 데이터로만 맞고 지금 데이터로는 재현되지 않는다.
+const DEFINITION_CHANGED_AT = "2026-08-31";
 
 const read = (p) => JSON.parse(readFileSync(p, "utf8"));
 const rootData = (n) => read(join(ROOT, "data", n));
@@ -29,6 +32,12 @@ const rootData = (n) => read(join(ROOT, "data", n));
 const results = [];
 function check(name, ok, detail) {
   results.push({ name, ok, detail });
+}
+
+// 통과·실패로 셀 수 없는 항목. 감사 결과에 항상 보이되 종료 코드에는 영향을 주지 않는다.
+const notes = [];
+function note(name, detail) {
+  notes.push({ name, detail });
 }
 
 // ── 재계산: 원본 timeseries에서 직접 (표시 로직과 공유 코드 없음) ──────────
@@ -214,7 +223,8 @@ const date = latestDate(rows);
 
 // ── 5. 브리핑 인용 수치 전수 대조 ─────────────────────────────────────────
 {
-  const bad = [];
+  const bad = [];      // 정의 변경 이후 발행분 — 하나라도 있으면 실패
+  const legacy = [];   // 정의 변경 이전 발행분 — 목록으로만 남긴다
   for (const b of briefings) {
     const texts = [b.headline, ...b.summary_3lines, ...(b.notable || []).map((n) => n.comment)];
     const pcts = texts.flatMap((t) => [...String(t).matchAll(/([+-]?\d+(?:\.\d+)?)%/g)]
@@ -237,11 +247,17 @@ const date = latestDate(rows);
       const ok = pool.some((v) => signed
         ? Math.abs(v - value) <= TOL
         : Math.abs(Math.abs(v) - Math.abs(value)) <= TOL);
-      if (!ok) bad.push(`${b.date}: ${value}% 근거 없음`);
+      if (!ok) (b.date >= DEFINITION_CHANGED_AT ? bad : legacy).push(`${b.date}: ${value}%`);
     }
   }
-  check("브리핑 인용 수치 전수 대조", bad.length === 0,
-        bad.join(" / ") || "헤드라인·요약·주목 변동의 모든 %가 데이터에 실존");
+  check(`브리핑 인용 수치 전수 대조 (${DEFINITION_CHANGED_AT} 이후 발행분)`, bad.length === 0,
+        bad.map((x) => x + " 근거 없음").join(" / ")
+        || "헤드라인·요약·주목 변동의 모든 %가 데이터에 실존");
+  // 정의 변경 이전 발행분은 재현이 원리적으로 불가능하다. 실패로 세지 않되 숨기지도 않는다.
+  note(`재현 불가 구간 (${DEFINITION_CHANGED_AT} 이전 발행분)`,
+       legacy.length
+         ? `${legacy.length}건: ${legacy.join(" / ")} (발행 당시 기준값, 화면에 고지 표시)`
+         : "없음");
 }
 
 // ── 6. 순위 보드: 정렬 정확성 + 매물 수 변동 제외 규칙 ────────────────────
@@ -407,13 +423,20 @@ const date = latestDate(rows);
 }
 
 // ── 출력 ──────────────────────────────────────────────────────────────────
-const w = Math.max(...results.map((r) => [...r.name].reduce((n, ch) => n + (ch.charCodeAt(0) > 127 ? 2 : 1), 0)));
+const w = Math.max(...[...results, ...notes].map((r) => [...r.name].reduce((n, ch) => n + (ch.charCodeAt(0) > 127 ? 2 : 1), 0)));
 const pad = (s) => {
   const len = [...s].reduce((n, ch) => n + (ch.charCodeAt(0) > 127 ? 2 : 1), 0);
   return s + " ".repeat(Math.max(0, w - len));
 };
-console.log(`\n데이터 정합성 감사 — 기준일 ${date} / 브리핑 ${briefings[0]?.date}\n`);
+console.log(`\n데이터 정합성 감사 — 기준일 ${date} / 브리핑 ${briefings[0]?.date}`);
+const legacyNote = notes.find((n) => n.name.startsWith("재현 불가 구간"));
+if (legacyNote && legacyNote.detail !== "없음") {
+  console.log(`요약: 재현 불가 구간 ${legacyNote.detail.split("건")[0]}건 (지표 정의 변경 이전 발행분, 실패로 세지 않음)`);
+}
+console.log("");
 for (const r of results) console.log(`  ${r.ok ? "통과" : "실패"}  ${pad(r.name)}  ${r.detail}`);
+for (const n of notes) console.log(`  참고  ${pad(n.name)}  ${n.detail}`);
 const failed = results.filter((r) => !r.ok).length;
-console.log(`\n${results.length}개 항목 중 통과 ${results.length - failed}, 실패 ${failed}\n`);
+console.log(`\n${results.length}개 항목 중 통과 ${results.length - failed}, 실패 ${failed}` +
+            `${notes.length ? ` (참고 ${notes.length}건)` : ""}\n`);
 process.exit(failed ? 1 : 0);

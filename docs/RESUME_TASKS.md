@@ -3,6 +3,11 @@
 > 중단 시점 2026-09-01. 다음 세션에서 이 파일부터 읽고 `[ ]` 항목만 이어서 하면 된다.
 > `dev/`는 gitignore라 이 파일을 `docs/`에 둔다.
 
+> **표기 안내.** 이 문서에는 `DNF Market Analyst`·`dnf-market-analyst` 같은 옛 이름이
+> 나온다. 전부 개명 이력을 기록한 문장이며 현재 명칭이 아니다.
+> 현재 이름은 **DNF Market**, 주소는 **https://dnf-market.vercel.app**, 저장소는
+> **github.com/Yegeon99/dnf-market** 이다.
+
 ## 현재 상태 요약
 
 - **저장소명 개명 완료**, 코드·문서 치환 완료, 커밋·푸시까지 끝냄

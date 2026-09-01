@@ -1,5 +1,10 @@
 # HANDOFF — 2026-08-25 (Phase 2 완료 시점)
 
+> **표기 안내.** 이 문서에는 `DNF Market Analyst`·`dnf-market-analyst` 같은 옛 이름이
+> 나온다. 전부 개명 이력을 기록한 문장이며 현재 명칭이 아니다.
+> 현재 이름은 **DNF Market**, 주소는 **https://dnf-market.vercel.app**, 저장소는
+> **github.com/Yegeon99/dnf-market** 이다.
+
 ## 완료된 것
 
 - [x] Phase 0·1 전체 (셋업, 품목 31종, 수집 파이프라인, snapshot.yml 가동)

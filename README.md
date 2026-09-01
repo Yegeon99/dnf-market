@@ -8,7 +8,7 @@
 
 **Live**: https://dnf-market.vercel.app
 
-형제 프로젝트: [DNF Census](https://github.com/Yegeon99/dnf-census).
+형제 프로젝트: [DNF Census](https://dnf-census.vercel.app) ([저장소](https://github.com/Yegeon99/dnf-census)).
 시장에 이어 **유저**를 보는 캐릭터 표본조사 **7화면 인터랙티브 리포트**로, 두 프로젝트는 같은 디자인 언어를 공유한다.
 
 > **운영 중 시스템.** 본 대시보드는 매일 자동으로 데이터가 추가된다.
@@ -100,7 +100,7 @@ briefing.py  → 데일리 브리핑 발행 → data/briefings.json
 
 ## 디자인
 
-[DNF Census](https://github.com/Yegeon99/dnf-census)와 같은 가족의 디자인 언어를 쓴다.
+[DNF Census](https://dnf-census.vercel.app)와 같은 가족의 디자인 언어를 쓴다.
 오프화이트 종이 바탕, 잉크 네이비, 액센트 블루 1색, 보조 골드.
 색·타이포·간격은 primitive, semantic, component 3층 CSS 변수 토큰으로 관리한다 (`dashboard/src/index.css`).
 Census가 "읽는 리포트"라면 이 대시보드는 "살아있는 관제 화면"이다.

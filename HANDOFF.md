@@ -101,9 +101,22 @@
 - **OneDrive가 `dashboard/node_modules`의 `motion` 패키지를 날린 전례 추가.**
   빌드가 `Rolldown failed to resolve import "motion/react"`로 죽으면 `npm install`
 
+## Vercel 개명 완료 (2026-09-01)
+
+**"CLI 미로그인"은 사실이 아니었다.** `npx vercel whoami` → `a990921-3933`.
+인증 파일 위치는 `~/AppData/Roaming/xdg.data/com.vercel.cli/auth.json`.
+앞으로 Vercel 작업은 CLI로 직접 하면 된다.
+
+프로젝트명만 바꿔서는 새 도메인이 뜨지 않았다. 실제로 통한 순서:
+
+1. `npx vercel project rename dnf-market-analyst dnf-market`
+2. 이 시점 `dnf-market.vercel.app` → **302** (`vercel.com/sso-api` 로 리다이렉트).
+   보호 설정이 `all_except_custom_domains` 라 새 도메인이 아직 프로덕션으로 안 잡힌 상태
+3. `vercel alias set <프로덕션 배포 URL> dnf-market.vercel.app` → 여전히 302
+4. `npx vercel redeploy <프로덕션 배포 URL> --target production` → `▲ Aliased` 후 **200**
+
+구 도메인 `dnf-market-analyst.vercel.app` 도 200 으로 살아 있다.
+
 ## 남은 것
 
-- **A3~A5 (사용자 클릭 필요)**: Vercel 프로젝트명·도메인 변경. `docs/RESUME_TASKS.md` 참조.
-  2026-09-01 실측: `dnf-market.vercel.app` 404(미선점), `dnf-market-analyst.vercel.app` 200.
-  Git 연동은 살아 있다 (푸시 후 자동 배포 반영 확인)
 - 운영 관찰: 브리핑 7일 연속 발행, 첫 실전 이상 탐지 가설 품질 확인

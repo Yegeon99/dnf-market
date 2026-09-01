@@ -16,24 +16,27 @@
 
 - [x] A1. `gh repo rename dnf-market` → https://github.com/Yegeon99/dnf-market
 - [x] A2. 로컬 remote URL 갱신 (`git ls-remote` 통과)
-- [ ] **A3. Vercel 프로젝트명 → `dnf-market`, 도메인 → `dnf-market.vercel.app`**
-      `vercel` CLI 미설치·미로그인(`npx vercel whoami` → `Logged out.`)이라 CLI 불가.
-      클릭 경로:
-      1. https://vercel.com/dashboard → 해당 프로젝트(`dnf-market-analyst`) 진입
-      2. Settings → General → **Project Name** 을 `dnf-market` 으로 변경 후 Save
-         (Vercel은 프로젝트명 변경 시 `<name>.vercel.app` 기본 도메인을 자동 재발급한다)
-      3. Settings → Domains 에서 `dnf-market.vercel.app` 이 Production 에 붙었는지 확인
-      4. 구 도메인 `dnf-market-analyst.vercel.app` 은 남겨두면 그대로 살아있다.
-         정리하려면 Domains 목록에서 Remove
-      - 참고 실측 2026-09-01: `dnf-market.vercel.app` → **404 (미선점, 사용 가능)**,
-        `dnf-market-analyst.vercel.app` → 200, `dnf-census.vercel.app` → 200
-      - 대안(CLI로 하려면): `npx vercel login` 후 `npx vercel link` → `npx vercel project ...`
-- [ ] A4. 변경 후 `curl -s -o /dev/null -w "%{http_code}" https://dnf-market.vercel.app/` → 200 확인
-- [ ] A5. **Git 연동 유지 확인** — Settings → Git 에서 연결 저장소가
-      `Yegeon99/dnf-market` 로 따라왔는지 점검.
-      GitHub 저장소명이 바뀌었으므로 Vercel 쪽 연결이 끊겼을 가능성 있음.
-      끊겼으면 Connect Git Repository 재연결.
-      그 뒤 Actions가 `data/` 커밋 → 자동 재배포되는지 실제 회차로 확인
+- [x] **A3. Vercel 프로젝트명 → `dnf-market` 완료 (2026-09-01).**
+      이전 기록의 "CLI 미로그인"은 사실이 아니었다. `npx vercel whoami` → `a990921-3933`.
+      인증 파일은 `~/AppData/Roaming/xdg.data/com.vercel.cli/auth.json` 에 있다.
+      실행: `npx vercel project rename dnf-market-analyst dnf-market`
+- [x] A4. 새 도메인 200 확인 (`https://dnf-market.vercel.app/` → 200, 최신 번들 서빙).
+      **이름만 바꾸면 새 도메인이 바로 뜨지 않는다.** 정확한 순서는 아래 A3-1 참조
+- [x] **A3-1. 도메인이 붙기까지 실제로 필요했던 단계** (다음에 같은 작업을 할 때 이 순서로)
+      1. `vercel project rename <old> <new>` — 프로젝트명만 바뀐다
+      2. 이 시점에 `<new>.vercel.app` 은 **302** 를 낸다. `vercel.com/sso-api` 로 넘어간다.
+         프로젝트 보호 설정이 `ssoProtection.deploymentType = all_except_custom_domains` 라
+         새 도메인이 아직 "프로덕션 도메인"으로 인정되지 않아 SSO 게이트에 걸린 것이다
+         (`vercel project protection <name>` 으로 확인)
+      3. `vercel alias set <프로덕션 배포 URL> <new>.vercel.app` 만으로는 부족했다. 여전히 302
+      4. **`vercel redeploy <프로덕션 배포 URL> --target production`** 을 돌리자
+         `▲ Aliased https://dnf-market.vercel.app` 가 찍히고 200 이 됐다.
+         새 이름 기준으로 프로덕션 별칭이 다시 매겨져야 한다
+      - 구 도메인 `dnf-market-analyst.vercel.app` 은 그대로 200 으로 살아 있다 (정리하지 않음)
+      - 로컬 링크 `.vercel/project.json` 의 `projectName` 도 `dnf-market` 으로 갱신
+- [x] A5. **Git 연동 유지 확인 완료.** 저장소명이 바뀐 뒤에도 연동이 살아 있다.
+      이번 세션에 푸시할 때마다 자동 재배포가 돌았고, 라이브에서 새 번들 해시를 확인했다
+      (`index-CgL05rwY.js` 에 새 차트 컨트롤 문자열 포함)
 - [x] A6. 전수 치환 완료 (아래 전부 반영, 잔존 검사 `analyst|애널리스트|arad` 0건)
       - [x] README.md (H1 → `# DNF Market, 던파 시세 분석·브리핑`, Live URL)
       - [x] `DNF-Market-Analyst_PRD.md` → **`DNF-Market_PRD.md`** (H1 포함)
@@ -50,9 +53,9 @@
 - [x] A8. 푸터 형제 프로젝트 링크 →
       `시리즈의 다른 프로젝트: DNF Census · 캐릭터 표본조사` → `https://dnf-census.vercel.app`
       (형제 저장소도 `arad-census` → `dnf-census` 로 이미 개명돼 있어 README 링크도 함께 갱신)
-- [~] A9. 부분 완료: 콘솔 0건 확인, `npm run audit` 14항목 전부 통과(참고 1건),
-      `npm run build` 통과. **새 도메인 200 확인만 A3 대기** (2026-09-01 실측
-      `dnf-market.vercel.app` 404 = 아직 미선점, `dnf-market-analyst.vercel.app` 200)
+- [x] A9. **최종 검증 완료 (2026-09-01).** 새 도메인 `https://dnf-market.vercel.app/` 200,
+      콘솔 오류 0건(1440·390 전 화면), `npm run audit` 14항목 전부 통과(참고 1건),
+      `npm run build` 통과, 전 화면 가로 넘침 0px
 
 ### A 단계 치환 시 내린 판단 (다음 세션이 되돌리지 말 것)
 

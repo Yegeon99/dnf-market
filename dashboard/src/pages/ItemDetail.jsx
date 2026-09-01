@@ -39,8 +39,23 @@ function ItemIcon({ itemId, name }) {
   );
 }
 
+const RANGES = [
+  { days: 14, label: "최근 14일" },
+  { days: 30, label: "최근 30일" },
+  { days: 0, label: "전체" },
+];
+
+const ctrlStyle = (on) => ({
+  background: on ? "var(--accent-soft)" : "transparent",
+  color: on ? "var(--accent)" : "var(--text-secondary)",
+  borderColor: on ? "var(--accent)" : "var(--hairline-strong)",
+});
+
 export default function ItemDetail({ data }) {
   const { id } = useParams();
+  const [mode, setMode] = useState("day");       // day | slot
+  const [rangeDays, setRangeDays] = useState(14);
+  const [tableOpen, setTableOpen] = useState(false);
   const { rows, anomalies, items, events, thresholds } = data;
   const item = items.find((it) => it.itemId === id);
   if (!item) return <Empty>품목을 찾을 수 없습니다. <Link to="/">오버뷰로</Link></Empty>;
@@ -102,13 +117,37 @@ export default function ItemDetail({ data }) {
       {/* 히어로 차트 */}
       <div className="card rise rise-2 p-3">
         <h2 className="t-section m-0 px-2">시세 추이</h2>
-        <p className="m-0 mb-1 px-2 t-micro" style={{ color: "var(--text-muted)" }}>
+        <p className="m-0 mb-2 px-2 t-micro" style={{ color: "var(--text-muted)" }}>
           하루 최대 6회 수집(KST 02·07·11·15·19·23시 회차)이며, 예약 실행이 밀리거나 점검과 겹치면 회차가 빕니다. 결손 회차는 공백으로 표기합니다.
           {hasBackfill && " 수집 시작 전 실거래는 과거 판매완료 내역을 일 단위로 소급 수집했습니다."}
         </p>
-        <PriceChart series={series} events={inRange} height={340} />
+        {/* 보기 조절은 두 차트를 함께 바꾼다. 그래서 차트 안이 아니라 위에 한 줄로 둔다 */}
+        <div className="mb-2 flex flex-wrap items-center gap-x-4 gap-y-1.5 px-2">
+          <div className="flex items-center gap-1" role="group" aria-label="표시 기간">
+            {RANGES.map((r) => (
+              <button key={r.days} type="button" className="chart-ctrl" style={ctrlStyle(rangeDays === r.days)}
+                      aria-pressed={rangeDays === r.days} onClick={() => setRangeDays(r.days)}>
+                {r.label}
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-1" role="group" aria-label="표시 단위">
+            {[["day", "일 단위"], ["slot", "회차별"]].map(([k, label]) => (
+              <button key={k} type="button" className="chart-ctrl" style={ctrlStyle(mode === k)}
+                      aria-pressed={mode === k} onClick={() => setMode(k)}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <button type="button" className="disclose ml-auto" aria-expanded={tableOpen}
+                  onClick={() => setTableOpen((v) => !v)}>
+            {tableOpen ? "표 닫기" : "표로 보기"}
+          </button>
+        </div>
+        <PriceChart series={series} events={inRange} height={340}
+                    mode={mode} rangeDays={rangeDays} tableOpen={tableOpen} />
         <div className="mt-2 border-t pt-1.5" style={{ borderColor: "var(--hairline)" }}>
-          <ListingChart series={series} />
+          <ListingChart series={series} mode={mode} rangeDays={rangeDays} />
         </div>
       </div>
 

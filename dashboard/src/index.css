@@ -30,6 +30,9 @@
   --raw-gold-500: #B0813C;
   --raw-gold-700: #8A6224;
   --raw-gold-050: #F4EDE0;
+  /* 차트 전용 앰버: 등록 블루·실거래 그린과 색각 이상에서도 구분된다
+     (validate_palette.js 통과: 최소 델타E 8.9 deutan) */
+  --raw-amber-700: #9A5B1E;
   /* 등락 레드 (상승 — 국내 금융 관례), Census 채도 톤 */
   --raw-red-050: #F7E5E3;
   --raw-red-100: #EEC5C1;
@@ -45,7 +48,8 @@
   --raw-cool-700: #30549B;
   --raw-cool-600: #3A62AE;
   /* 실거래 그린 (차트 보조 라인) */
-  --raw-green-600: #4A8271;
+  /* 실거래 라인. 예전 #4A8271은 채도가 낮아 회색으로 읽혔다 (채도 기준 미달) */
+  --raw-green-600: #2F8F6B;
   /* 수집 실패 주황 (상태등·안내문 전용, 등락색·골드와 구분).
      흰 바탕 5.32:1, 밴드 바탕 4.47:1 — 13px 본문에서도 WCAG AA 통과 */
   --raw-orange-700: #A85416;
@@ -104,8 +108,8 @@
   --chart-line-listed: var(--accent);
   --chart-line-sold: var(--raw-green-600);
   --chart-crosshair: var(--raw-ink-300);
-  --chart-event: var(--gold);
-  --chart-event-text: var(--gold-text);
+  --chart-event: var(--raw-amber-700);
+  --chart-event-text: var(--raw-amber-700);
   --text-on-accent-soft: rgba(255, 255, 255, 0.85);
   --tile-radius: 3px;
   --badge-radius: 3px;
@@ -247,6 +251,19 @@ p a { text-decoration: underline; }
   background: var(--accent);
   font-weight: 600;
 }
+
+/* ── 차트 보기 조절 버튼 ── */
+.chart-ctrl {
+  border: 1px solid;
+  border-radius: 9999px;
+  padding: 0.16rem 0.62rem;
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.chart-ctrl:hover { background: var(--bg-sunken); }
 
 /* ── 헤어라인 ── */
 .rule { height: 1px; background: var(--hairline); border: 0; }

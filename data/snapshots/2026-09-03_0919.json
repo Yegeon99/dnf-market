@@ -1,0 +1,883 @@
+{
+ "collectedAt": "2026-09-03 09:19:03",
+ "date": "2026-09-03",
+ "slot": "h11",
+ "itemCount": 31,
+ "apiCalls": 0,
+ "outage": true,
+ "failureKinds": {
+  "outage": 62
+ },
+ "items": [
+  {
+   "itemId": "785e56a0ed4e3efd573da1f56a45217d",
+   "name": "무색 큐브 조각",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "name": "흑색 큐브 조각",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "name": "흰색 큐브 조각",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
+   "name": "황금 큐브 조각",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "3738d8271ec853e926cd146623adf952",
+   "name": "하급 원소결정",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "b682af8902d22554c7b90386abd18762",
+   "name": "상급 원소결정",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "897cab594bbd04dda00619abfe885674",
+   "name": "농밀한 이계의 정수",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "04a1c3b13441800e275ebed957adcc8e",
+   "name": "순수한 증폭서",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
+   "name": "응축된 순수의 잔해",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "name": "시간의 결정",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "name": "균열의 단편",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "name": "무결점 골든 베릴",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "name": "봉인된 자물쇠",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "name": "기억의 도서관지기 카드",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "name": "기억의 도서관지기 보주",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "name": "피터 더 파이퍼 카드",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "name": "황금의 플라타니 카드",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "name": "레어 모자 클론 아바타 (동일명 1)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "name": "레어 머리 클론 아바타 (동일명 1)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "name": "레어 얼굴 클론 아바타",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "name": "레어 목가슴 클론 아바타",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "name": "레어 상의 클론 아바타 (동일명 1)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "name": "레어 하의 클론 아바타 (동일명 1)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "name": "레어 허리 클론 아바타",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "name": "레어 신발 클론 아바타",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "name": "레어 모자 클론 아바타 (동일명 2)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "name": "레어 머리 클론 아바타 (동일명 2)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "name": "레어 상의 클론 아바타 (동일명 2)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "name": "레어 하의 클론 아바타 (동일명 2)",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "name": "얼굴 클론 아바타",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  },
+  {
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "name": "목가슴 클론 아바타",
+   "minUnitPrice": null,
+   "avgUnitPrice": null,
+   "medUnitPrice": null,
+   "listingCount": null,
+   "listingQty": null,
+   "soldCount24h": null,
+   "soldAvgUnitPrice24h": null,
+   "soldMedUnitPrice24h": null,
+   "soldCapped": false,
+   "soldWindowHours": null
+  }
+ ],
+ "failures": [
+  {
+   "itemId": "785e56a0ed4e3efd573da1f56a45217d",
+   "name": "무색 큐브 조각",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "785e56a0ed4e3efd573da1f56a45217d",
+   "name": "무색 큐브 조각",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "name": "흑색 큐브 조각",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "name": "흑색 큐브 조각",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "name": "흰색 큐브 조각",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "4390b9e236193bc39855cc8964d23faa",
+   "name": "흰색 큐브 조각",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
+   "name": "황금 큐브 조각",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "fbdf88559ec0414339d1b4d089b6bd62",
+   "name": "황금 큐브 조각",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "3738d8271ec853e926cd146623adf952",
+   "name": "하급 원소결정",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "3738d8271ec853e926cd146623adf952",
+   "name": "하급 원소결정",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "b682af8902d22554c7b90386abd18762",
+   "name": "상급 원소결정",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "b682af8902d22554c7b90386abd18762",
+   "name": "상급 원소결정",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "897cab594bbd04dda00619abfe885674",
+   "name": "농밀한 이계의 정수",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "897cab594bbd04dda00619abfe885674",
+   "name": "농밀한 이계의 정수",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "04a1c3b13441800e275ebed957adcc8e",
+   "name": "순수한 증폭서",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "04a1c3b13441800e275ebed957adcc8e",
+   "name": "순수한 증폭서",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
+   "name": "응축된 순수의 잔해",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "5c71a5ff182c5d031844e3f3d36360a0",
+   "name": "응축된 순수의 잔해",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "name": "시간의 결정",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "0ecd816e640341e04fc5c9a0715d91a8",
+   "name": "시간의 결정",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "name": "균열의 단편",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "8b998230ab012e695e9a53d67187cc3f",
+   "name": "균열의 단편",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "name": "무결점 골든 베릴",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "a072ded7b41743a22cccb74cd73bc24d",
+   "name": "무결점 골든 베릴",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "name": "봉인된 자물쇠",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "d584d612f09215ef0c42498e6990b61d",
+   "name": "봉인된 자물쇠",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "name": "기억의 도서관지기 카드",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "5f5d0a2e9dd8050b6e3c4655a09cf296",
+   "name": "기억의 도서관지기 카드",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "name": "기억의 도서관지기 보주",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "2e4d6eb8d65040b928264d972a5b03e6",
+   "name": "기억의 도서관지기 보주",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "name": "피터 더 파이퍼 카드",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "12972068f1423ceb4991d42e3719f214",
+   "name": "피터 더 파이퍼 카드",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "name": "황금의 플라타니 카드",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "name": "황금의 플라타니 카드",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "name": "레어 모자 클론 아바타 (동일명 1)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "name": "레어 모자 클론 아바타 (동일명 1)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "name": "레어 머리 클론 아바타 (동일명 1)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "f11f806769afaae8b05be488e20b6109",
+   "name": "레어 머리 클론 아바타 (동일명 1)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "name": "레어 얼굴 클론 아바타",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "name": "레어 얼굴 클론 아바타",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "name": "레어 목가슴 클론 아바타",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "b5ccbf772a3883e3171f682679e2b421",
+   "name": "레어 목가슴 클론 아바타",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "name": "레어 상의 클론 아바타 (동일명 1)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "name": "레어 상의 클론 아바타 (동일명 1)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "name": "레어 하의 클론 아바타 (동일명 1)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "name": "레어 하의 클론 아바타 (동일명 1)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "name": "레어 허리 클론 아바타",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "c81e24d23286a4897987547c5236edf1",
+   "name": "레어 허리 클론 아바타",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "name": "레어 신발 클론 아바타",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "30b8500c4447878005d9d1f433dac030",
+   "name": "레어 신발 클론 아바타",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "name": "레어 모자 클론 아바타 (동일명 2)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "e7bc96f07229bf743d9262d0ab7f3bd8",
+   "name": "레어 모자 클론 아바타 (동일명 2)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "name": "레어 머리 클론 아바타 (동일명 2)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "0756f89fac0518d4390f3e371adf7479",
+   "name": "레어 머리 클론 아바타 (동일명 2)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "name": "레어 상의 클론 아바타 (동일명 2)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "488c3191c2afd5b4762f978edb61f5a4",
+   "name": "레어 상의 클론 아바타 (동일명 2)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "name": "레어 하의 클론 아바타 (동일명 2)",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "c37bf84cf16964557b577497404268c8",
+   "name": "레어 하의 클론 아바타 (동일명 2)",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "name": "얼굴 클론 아바타",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "8e132da6f012fc61191ca68df4663b44",
+   "name": "얼굴 클론 아바타",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "name": "목가슴 클론 아바타",
+   "endpoint": "auction",
+   "error": "HTTP 503",
+   "kind": "outage"
+  },
+  {
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "name": "목가슴 클론 아바타",
+   "endpoint": "auction-sold",
+   "error": "HTTP 503",
+   "kind": "outage"
+  }
+ ]
+}

@@ -43,6 +43,10 @@
   "2026-09-04": {
    "detected": 41,
    "stored": 10
+  },
+  "2026-09-05": {
+   "detected": 37,
+   "stored": 10
   }
  },
  "anomalies": [
@@ -2156,6 +2160,216 @@
    "lowLiquidity": false,
    "detectedTotal": 41,
    "truncated": 31,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_18c129fd3182476ec5e8110e0034672c_listingCount_dod",
+   "date": "2026-09-05",
+   "itemId": "18c129fd3182476ec5e8110e0034672c",
+   "itemName": "황금의 플라타니 카드",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 3.0,
+   "currentValue": 1.0,
+   "change_pct": -66.67,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_20d6374d6ab02076f7c32153568431c9_listingCount_dod",
+   "date": "2026-09-05",
+   "itemId": "20d6374d6ab02076f7c32153568431c9",
+   "itemName": "레어 모자 클론 아바타 (동일명 1)",
+   "metric": "listingCount",
+   "basis": "dod",
+   "baseValue": 2.0,
+   "currentValue": 6.0,
+   "change_pct": 200.0,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_324c85d935a5e9358825380bf2065845_avgPrice_dod",
+   "date": "2026-09-05",
+   "itemId": "324c85d935a5e9358825380bf2065845",
+   "itemName": "레어 얼굴 클론 아바타",
+   "metric": "avgPrice",
+   "basis": "dod",
+   "baseValue": 2262500.0,
+   "currentValue": 5000000.0,
+   "change_pct": 120.99,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_785e56a0ed4e3efd573da1f56a45217d_listingCount_ma7",
+   "date": "2026-09-05",
+   "itemId": "785e56a0ed4e3efd573da1f56a45217d",
+   "itemName": "무색 큐브 조각",
+   "metric": "listingCount",
+   "basis": "ma7",
+   "baseValue": 184.4,
+   "currentValue": 98.0,
+   "change_pct": -46.85,
+   "direction": "down",
+   "severity": "mid",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_7f0d6a2522910c3c60c72e8be71641ae_listingCount_ma7",
+   "date": "2026-09-05",
+   "itemId": "7f0d6a2522910c3c60c72e8be71641ae",
+   "itemName": "레어 하의 클론 아바타 (동일명 1)",
+   "metric": "listingCount",
+   "basis": "ma7",
+   "baseValue": 25.3,
+   "currentValue": 36.0,
+   "change_pct": 42.29,
+   "direction": "up",
+   "severity": "mid",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_897cab594bbd04dda00619abfe885674_listingCount_ma7",
+   "date": "2026-09-05",
+   "itemId": "897cab594bbd04dda00619abfe885674",
+   "itemName": "농밀한 이계의 정수",
+   "metric": "listingCount",
+   "basis": "ma7",
+   "baseValue": 129.3,
+   "currentValue": 25.0,
+   "change_pct": -80.67,
+   "direction": "down",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_b9f2f716a09d0ed96d115ed5776aa5db_avgPrice_ma7",
+   "date": "2026-09-05",
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "itemName": "레어 상의 클론 아바타 (동일명 1)",
+   "metric": "avgPrice",
+   "basis": "ma7",
+   "baseValue": 5613491.48,
+   "currentValue": 3999999.0,
+   "change_pct": -28.74,
+   "direction": "down",
+   "severity": "high",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_b9f2f716a09d0ed96d115ed5776aa5db_listingCount_ma7",
+   "date": "2026-09-05",
+   "itemId": "b9f2f716a09d0ed96d115ed5776aa5db",
+   "itemName": "레어 상의 클론 아바타 (동일명 1)",
+   "metric": "listingCount",
+   "basis": "ma7",
+   "baseValue": 27.1,
+   "currentValue": 51.0,
+   "change_pct": 88.19,
+   "direction": "up",
+   "severity": "high",
+   "lowLiquidity": false,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_c1028cbc6efae2eee570cbc8e2906a8f_listingCount_ma7",
+   "date": "2026-09-05",
+   "itemId": "c1028cbc6efae2eee570cbc8e2906a8f",
+   "itemName": "목가슴 클론 아바타",
+   "metric": "listingCount",
+   "basis": "ma7",
+   "baseValue": 2.4,
+   "currentValue": 4.0,
+   "change_pct": 66.67,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
+   "ai_hypothesis": {
+    "text": "원인 미상, 관찰 지속",
+    "evidence_urls": [],
+    "confidence": null
+   }
+  },
+  {
+   "id": "2026-09-05_d9bc96637286b4f5449d21d36e44675d_listingCount_ma7",
+   "date": "2026-09-05",
+   "itemId": "d9bc96637286b4f5449d21d36e44675d",
+   "itemName": "흑색 큐브 조각",
+   "metric": "listingCount",
+   "basis": "ma7",
+   "baseValue": 4.6,
+   "currentValue": 8.0,
+   "change_pct": 73.91,
+   "direction": "up",
+   "severity": "low",
+   "lowLiquidity": true,
+   "detectedTotal": 37,
+   "truncated": 27,
    "ai_hypothesis": {
     "text": "원인 미상, 관찰 지속",
     "evidence_urls": [],
